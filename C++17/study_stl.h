@@ -16,6 +16,10 @@
 #include <exception>
 #include <utility>
 #include <tuple>
+#include <vector>
+
+
+
 
 using std::cout;
 using std::endl;
@@ -125,12 +129,12 @@ std::pair<t, t>& solve_equation(t a, t b, t c)
 void test_pairs();
 
 
-//---------------------------------------------тестирование кортежей std::tuple<T1,T2,...Tn> t-------------------------------------
+//---------------------------------------------тестирование кортежей std::tuple<T1,T2,...Tn> t-----------------------------
 void test_tuples();
 
 
-
-
+//---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
+void test_vector();
 
 
 

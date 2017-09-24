@@ -251,8 +251,14 @@ void test_tuples()
 
 	cout << endl << "internal pairs " << std::get<0>(complex_t) << "     " << std::get<1>(complex_t) << endl;
 
+}
 
 
+//---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
+void test_vector()
+{
+	//создание контейнера std::vector<>
+	std::vector<int> vec;
 
 
 
