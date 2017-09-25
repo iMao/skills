@@ -115,13 +115,13 @@ std::pair<t, t>& solve_equation(t a, t b, t c)
 {
 	t D = b*b - 4 * a*c;
 	if (D < 0)
-		return std::make_pair(static_cast<t>(0), static_cast<t>(0));
+		return std::move(std::make_pair(static_cast<t>(0), static_cast<t>(0)));
 	else
 	{
 		t x1 = (-b - sqrt(D)) / 2 * a;
 		t x2 = (-b + sqrt(D)) / 2 * a;
 
-		return std::make_pair( x1, x2 );
+		return std::move(std::make_pair( x1, x2 ));
 	}
 }
 
@@ -134,6 +134,8 @@ void test_tuples();
 
 
 //---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
+void print_vector_info(std::vector<int>& vec);
+
 void test_vector();
 
 

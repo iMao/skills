@@ -28,8 +28,8 @@ int main()
 	//----------------------тесты STL--------------------------------------------------------------
 	//test_array();
 	//test_pairs();
-	test_tuples();
-	
+	//test_tuples();
+	test_vector();
 	
 	return 0;
 }
