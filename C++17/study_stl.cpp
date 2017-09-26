@@ -419,6 +419,7 @@ void test_vector()
 	print_vector(iv);
 
 	iv.clear();
+	iv.shrink_to_fit();
 	print_vector_info(iv);
 
 
