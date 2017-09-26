@@ -134,7 +134,86 @@ void test_tuples();
 
 
 //---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
-void print_vector_info(std::vector<int>& vec);
+template<typename t>
+void print_vector_info(std::vector<t>& vec)
+{
+	cout << endl;
+	cout << "vec.size()     = " << vec.size() << endl;		//текущее количество элементов
+	cout << "vec.max_size() = " << vec.max_size() << endl;	//максимальное количество элементов
+	cout << "vec.capacity() = " << vec.capacity() << endl;	//количество элементов которое возможно разместить без дополнительного выделения памяти
+}
+
+
+template<typename t>
+void vector_empty_info(std::vector<t>& v)
+{
+	cout << endl;
+	if (v.empty())
+		cout << "v - empty" << endl;
+	else
+		cout << "v - full" << endl;
+}
+
+template <typename t>
+void print_vector(std::vector<t>& v)
+{
+	cout << endl;
+	for (auto & e : v)
+		cout << "e = " << e << endl;
+}
+
+
+
+template <typename t>
+void test_iterators(std::vector<t>& vec)
+{
+	cout << endl;
+	std::vector<t>::const_iterator j;
+	for (j = vec.cbegin(); j != vec.cend(); ++j)
+		cout << "e = " << (*j) << endl;
+
+	cout << endl;
+	std::vector<t>::iterator i;
+	for (i = vec.begin(); i != vec.end(); ++i)
+	{
+		(*i) *= 5;
+		cout << "e = " << (*i) << endl;
+	}
+
+	cout << endl;
+	std::vector<t>::reverse_iterator k;
+	for (k = vec.rbegin(); k != vec.rend(); ++k)
+	{
+		(*k) *= -1;
+		cout << "e = " << (*k) << endl;
+	}
+
+	cout << endl;
+	std::vector<t>::const_reverse_iterator l;
+	for(l = vec.crbegin(); l != vec.crend(); ++l)
+		cout << "e = " << (*l) << endl;
+}
+
+
+
+class Some
+{
+private:
+	int a;
+	string s;
+
+public:
+	Some() {}
+	Some(int a, string s) : a(a), s(s) {}
+	~Some() {}
+
+	int getA() { return a; }
+	string& getS() { return s; }
+};
+
+
+
+std::ostream & operator<<(std::ostream & ostr, Some& s);
 
 void test_vector();
 

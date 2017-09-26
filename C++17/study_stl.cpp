@@ -253,13 +253,22 @@ void test_tuples()
 
 }
 
-
-void print_vector_info(std::vector<int>& vec)
+std::ostream & operator<<(std::ostream & ostr, Some& s)
 {
-	cout << "vec.size()     = " << vec.size() << endl;		//текущее количество элементов
-	cout << "vec.max_size() = " << vec.max_size() << endl;	//максимальное количество элементов
-	cout << "vec.capacity() = " << vec.capacity() << endl;	//количество элементов которое возможно разместить без дополнительного выделения памяти
+	return ostr << "Some { " << s.getA() << ", " << s.getS() << " }" << endl;
 }
+
+
+//частичная специализация шаблона для типа bool
+template<>
+void print_vector<bool>(std::vector<bool>& v)
+{
+	cout << endl;
+	for (auto & e : v)
+		cout << "bit = " << std::boolalpha << e << endl;
+}
+
+
 
 //---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
 void test_vector()
@@ -283,11 +292,6 @@ void test_vector()
 
 
 	//вывод статистики о векторе
-	if (vec0.empty())
-		cout << "vec0 - empty" << endl;
-	else
-		cout << "vec0 - full" << endl;
-
 	print_vector_info(vec5);
 
 	vec5.reserve(10);											//увеличиваем размер памяти для вектора для хранения 10 элементов
@@ -298,4 +302,162 @@ void test_vector()
 
 	print_vector_info(vec5);
 
+	vector_empty_info(vec3);									//применение конструктора перемещения оставило вектор vec3 - пустым
+
+	//присваивание элементов
+	std::vector<int> vec10 = initList;
+	print_vector(vec10);
+
+	vec10.assign({ 0,0,0 });									//assign - это просто присвоение, при этом удаляются все прежние элементы вектора	
+	print_vector(vec10);
+
+	vec10.assign(5, 7);
+	print_vector(vec10);
+
+	vec10.assign(vec2.begin(), vec2.end());
+	print_vector(vec10);
+
+	std::initializer_list<int> ilist{ 9,8,7,6,5,4,3,2,1 };
+	vec10.assign(ilist);
+	print_vector(vec10);
+
+
+	//доступ к элементам вектора
+	vec10[0] = 0;												//доступ к элементу при помощи [i]		
+	vec10[8] = 0;
+	print_vector(vec10);
+
+	vec10.at(0) = -1;											//доступ к элементу при помощи функции at(i)	
+	
+	try {
+		vec10.at(9) = -1;										//выход за границы диапазона
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "EXCEPTION " << e.what() << endl;
+	}
+	print_vector(vec10);
+
+	cout << endl << "front e = " << vec10.front() << " back e = " << vec10.back() << endl;
+
+	//тестирование итераторов
+	std::vector<int> ivec{7,5,3};
+	test_iterators(ivec);
+
+
+	//операции вставки и удаления элементов вектора
+	std::vector<int> int_vec;
+	for (int i = 0; i < 5; ++i)
+		int_vec.push_back(i);									//добавляем в конец вектора элементы
+
+	print_vector(int_vec);
+	
+	int_vec.pop_back();											//удаляем с конца вектора элемент
+	int_vec.pop_back();											//еще
+
+	print_vector(int_vec);
+
+	std::vector<int>::iterator i = int_vec.begin();
+	++i;
+	int_vec.insert(i, 100);										//вставляем один элемент	
+	print_vector(int_vec);
+
+	i = int_vec.begin();
+	++i;
+	int_vec.insert(i, 2, 90);									//вставляем 2 элемента 90
+	print_vector(int_vec);
+
+	int_vec.insert(int_vec.begin(), ivec.begin(), ivec.end());	//вставляем диапазон значений из другого вектора
+	print_vector(int_vec);
+
+	i = int_vec.begin();
+	int_vec.insert(i, {0,1,0,1});
+	print_vector(int_vec);
+
+
+	//операция emplace()
+	std::vector<Some> vec_some;
+	vec_some.push_back(Some(3,"Hello "));
+	vec_some.push_back(Some(5,"Jack "));
+
+	vec_some.emplace_back(5, "Nico ");
+	vec_some.emplace(vec_some.begin() + 1, 0, "Pico");
+
+	cout << endl;
+	print_vector(vec_some);
+
+	//операция erase()
+	vec_some.emplace_back(9, "Hero");
+	vec_some.emplace_back(10, "Niger");
+	vec_some.emplace_back(12, "Bigger");
+
+	cout << endl;
+	print_vector(vec_some);
+
+	vec_some.erase(vec_some.end() - 1);
+	
+	cout << endl;
+	print_vector(vec_some);
+
+	vec_some.erase(vec_some.begin() + 1, vec_some.end());
+	print_vector_info(vec_some);
+	
+	cout << endl;
+	print_vector(vec_some);
+
+	//операция resize()
+	std::vector<int> iv{ 9,9,9,9,9,9,9 };
+	print_vector(iv);
+
+	iv.resize(4);
+	print_vector(iv);
+
+	iv.resize(8);
+	print_vector(iv);
+
+	iv.resize(10, 5);
+	print_vector(iv);
+
+	iv.clear();
+	print_vector_info(iv);
+
+
+	//специализация контейнера std::vector<bool>
+	std::vector<bool> flags;
+	flags.push_back(true);
+	flags.push_back(true);
+	flags.push_back(false);
+	flags.push_back(false);
+
+	print_vector(flags);
+
+	flags.flip();
+
+	print_vector(flags);
+	print_vector_info(flags);
+
+	flags[0].flip();
+	flags[1] = true;
+	print_vector(flags);
+
+	flags.pop_back();
+	flags.insert(flags.begin(), 5, true);
+
+	print_vector(flags);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
