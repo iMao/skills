@@ -17,7 +17,7 @@
 #include <utility>
 #include <tuple>
 #include <vector>
-
+#include <deque>
 
 
 
@@ -158,8 +158,13 @@ template <typename t>
 void print_vector(std::vector<t>& v)
 {
 	cout << endl;
-	for (auto & e : v)
-		cout << "e = " << e << endl;
+	if (v.empty())
+		cout << "vector is empty" << endl;
+	else
+	{
+		for (auto & e : v)
+			cout << "e = " << e << endl;
+	}
 }
 
 
@@ -217,7 +222,33 @@ std::ostream & operator<<(std::ostream & ostr, Some& s);
 
 void test_vector();
 
+//-------------------------------------тестирование контейнера std::deque<>------------------------------------------------
 
+template<typename t>
+void print_deque_info(std::deque<t>& dq)
+{
+	cout << endl;
+	cout << "size - " << dq.size() << endl;
+	cout << "max_size - " << dq.max_size() << endl;
+}
+
+
+template<typename t>
+void print_deque(std::deque<t>& dq)
+{
+	cout << endl;
+	if (dq.empty())
+		cout << "deque is empty" << endl;
+	else
+	{
+		for (auto & s : dq)
+			cout << "dq - " << s << endl;
+	}
+}
+
+
+
+void test_deque();
 
 
 

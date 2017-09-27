@@ -29,8 +29,11 @@ int main()
 	//test_array();
 	//test_pairs();
 	//test_tuples();
-	test_vector();
-	
+	//test_vector();
+	test_deque();
+
+
+
 	return 0;
 }
 

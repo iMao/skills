@@ -448,6 +448,116 @@ void test_vector()
 
 }
 
+//-------------------------------------тестирование контейнера std::deque<>------------------------------------------------
+void test_deque()
+{
+
+	//методы создания контейнера std::deque<>
+	std::deque<string> dq0;									//пустой контейнер
+	std::deque<string> dq1(3);								//контейнер на 3 элемента инициализированных своими конструкторами по умолчанию
+	std::deque<string> dq2(3, string("simple"));			//контейнер на 3 элемента типа string инициализированных значением "simple"
+	std::deque<string> dq3{"Hello", "world", "!!!", "OK"};	//контейнер на основе списка инициализации {}
+
+	std::deque<string> dq4(dq2);							//создание контейнера с помощью конструктора копирования
+	std::deque<string> dq5(std::move(dq3));					//создание контейнера при помощи перемещающего конструктора
+
+	std::deque<string> dq6((++dq5.cbegin()), dq5.cend());	//создание контейнера на основе диапазоне значений другого контейнера
+
+
+	std::initializer_list<string> text{"BMW","Audi","Opel","Toyota","Volvo","Mercedes","Porshe"};
+	std::deque<string> dq7 = text;							//создание контейнера на основе присвоения списка инициализации	{}
+
+	std::deque<string> dq8 = dq2;							//создание контейнера на основе оператора копирующего присваивания
+	std::deque<string> dq9 = std::move(dq5);				//создание контейнера на оснопе оператора перемещающего присваивания
+
+
+	//запрос информации о контейнере
+	print_deque_info(dq7);
+	print_deque(dq7);
+
+
+	//модифицирование контейнера std::deque<>
+	dq7.push_back(string("Pegot"));
+	dq7.push_front(string("Citroen"));
+	
+	dq7.emplace_back("AlfaRomeo");
+	dq7.emplace_front("Shevrole");
+
+	dq7.insert(++dq7.cbegin(), string("Mustang"));
+	dq7.emplace(++dq7.cbegin(), "Volga");
+
+	print_deque(dq7);
+	
+	dq7.pop_back();
+	dq7.pop_front();
+	
+	print_deque(dq7);
+
+	dq7.assign(10, string("Bently"));
+
+	print_deque(dq7);
+
+	dq7.assign(text.begin(), text.end());
+
+	print_deque(dq7);
+
+	dq7.erase(--dq7.end());
+	
+	print_deque(dq7);
+	
+	dq7.erase(++dq7.begin(), --dq7.end());
+
+	print_deque(dq7);
+
+	dq7.insert(++dq7.begin(), { "Audi","Opel","Toyota","Volvo" } );
+	
+	print_deque(dq7);
+
+	dq7.clear();
+
+	print_deque(dq7);
+
+	dq7.resize(5, string("some string"));
+	print_deque(dq7);
+
+	dq7.resize(7, string("something else"));
+	print_deque(dq7);
+
+	dq7.resize(3);
+	print_deque(dq7);
+
+
+	//итераторы для обхода контейнера std::deque<>
+	std::deque<string>::const_iterator ci          = dq7.begin();
+	std::deque<string>::iterator it                = dq7.begin();
+	std::deque<string>::const_reverse_iterator cri = dq7.crbegin();
+	std::deque<string>::reverse_iterator ri        = dq7.rbegin();
+
+	cout << endl;
+	for (; ci != dq7.end(); ++ci)
+		cout << "e - " << (*ci) << endl;
+
+	cout << endl;
+	for (; it != dq7.end(); ++it) 
+		cout << "e - " << (*it).append("-") << endl;
+
+	cout << endl;
+	for (; cri != dq7.crend(); ++cri)
+		cout << "e <- " << (*cri) << endl;
+
+	cout << endl;
+	for (; ri != dq7.rend(); ++ri)
+	{
+		(*ri).at((*ri).size() - 1) = '+';
+		cout << "e <- " << (*ri) << endl;
+	}
+
+}
+
+
+
+
+
 
 
 
