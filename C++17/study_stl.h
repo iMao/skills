@@ -18,7 +18,7 @@
 #include <tuple>
 #include <vector>
 #include <deque>
-
+#include <list>
 
 
 using std::cout;
@@ -100,15 +100,12 @@ public:
 
 void test_array();
 
-
 //---------------------------------------------тестирование std::pair<T1,T2>p------------------------------------------------------
 template<typename t1, typename t2>
 std::ostream& operator<<(std::ostream & ostr, std::pair<t1, t2> & p)
 {
 	return ostr << "[" << p.first << "," << p.second << "]";
 }
-
-
 
 template<typename t>
 std::pair<t, t>& solve_equation(t a, t b, t c)
@@ -125,13 +122,10 @@ std::pair<t, t>& solve_equation(t a, t b, t c)
 	}
 }
 
-
 void test_pairs();
-
 
 //---------------------------------------------тестирование кортежей std::tuple<T1,T2,...Tn> t-----------------------------
 void test_tuples();
-
 
 //---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
 template<typename t>
@@ -142,7 +136,6 @@ void print_vector_info(std::vector<t>& vec)
 	cout << "vec.max_size() = " << vec.max_size() << endl;	//максимальное количество элементов
 	cout << "vec.capacity() = " << vec.capacity() << endl;	//количество элементов которое возможно разместить без дополнительного выделения памяти
 }
-
 
 template<typename t>
 void vector_empty_info(std::vector<t>& v)
@@ -166,8 +159,6 @@ void print_vector(std::vector<t>& v)
 			cout << "e = " << e << endl;
 	}
 }
-
-
 
 template <typename t>
 void test_iterators(std::vector<t>& vec)
@@ -199,8 +190,6 @@ void test_iterators(std::vector<t>& vec)
 		cout << "e = " << (*l) << endl;
 }
 
-
-
 class Some
 {
 private:
@@ -216,14 +205,11 @@ public:
 	string& getS() { return s; }
 };
 
-
-
 std::ostream & operator<<(std::ostream & ostr, Some& s);
 
 void test_vector();
 
 //-------------------------------------тестирование контейнера std::deque<>------------------------------------------------
-
 template<typename t>
 void print_deque_info(std::deque<t>& dq)
 {
@@ -231,7 +217,6 @@ void print_deque_info(std::deque<t>& dq)
 	cout << "size - " << dq.size() << endl;
 	cout << "max_size - " << dq.max_size() << endl;
 }
-
 
 template<typename t>
 void print_deque(std::deque<t>& dq)
@@ -246,15 +231,46 @@ void print_deque(std::deque<t>& dq)
 	}
 }
 
-
-
 void test_deque();
 
+//-------------------------------------тестирование контейнера std::list<>-------------------------------------------------
+template<typename t>
+void print_list(std::list<t> & lst)
+{
+	cout << endl;
+	if (!lst.empty())
+	{
+		for (t x : lst)
+			cout << "x = " << x << endl;
+	}
+	else
+		cout << "List is empty" << endl;
+}
 
+template<typename t>
+void print_list_info(std::list<t> & lst)
+{
+	cout << endl;
+	cout << "list.size()     = " << lst.size() << endl;
+	cout << "list.max_size() = " << lst.max_size() << endl;
+}
 
+class Rm
+{
+public:
+	Rm() {};
 
+	bool operator()(int a)
+	{
+		return ((a % 2) == 0);
+	}
+};
 
+bool rmbig(int a);
 
+void test_list();
+
+void test_list_special();
 
 
 

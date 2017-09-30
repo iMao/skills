@@ -30,8 +30,8 @@ int main()
 	//test_pairs();
 	//test_tuples();
 	//test_vector();
-	test_deque();
-
+	//test_deque();
+	test_list();
 
 
 	return 0;

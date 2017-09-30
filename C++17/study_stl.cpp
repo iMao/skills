@@ -258,7 +258,6 @@ std::ostream & operator<<(std::ostream & ostr, Some& s)
 	return ostr << "Some { " << s.getA() << ", " << s.getS() << " }" << endl;
 }
 
-
 //частичная специализация шаблона для типа bool
 template<>
 void print_vector<bool>(std::vector<bool>& v)
@@ -267,8 +266,6 @@ void print_vector<bool>(std::vector<bool>& v)
 	for (auto & e : v)
 		cout << "bit = " << std::boolalpha << e << endl;
 }
-
-
 
 //---------------------------------------------тестирование контейнера std::vector<>---------------------------------------
 void test_vector()
@@ -551,6 +548,175 @@ void test_deque()
 		(*ri).at((*ri).size() - 1) = '+';
 		cout << "e <- " << (*ri) << endl;
 	}
+
+}
+
+
+bool rmbig(int a)
+{
+	return (a > 1000 ? true:false);
+}
+
+//-------------------------------------тестирование контейнера std::list<>-------------------------------------------------
+void test_list()
+{
+	//методы создание контейнера std::list<>
+	std::list<int> lst0;							//пустой список
+	std::list<int> lst1(5);							//список из 5-ти элементов созданных конструктором их типа по умолчанию
+	std::list<int> lst2(5, 5);						//список из 5-ти элементов 5
+	std::list<int> lst3{ 1,9,3,7,0,10,24,12 };		//список на основе списка инициализации
+	std::list<int> lst4({ 2,4,5,6,1,0 });			//
+
+	std::list<int> lst5(lst3);						//список создан путем вызова конструктора копирования
+	std::list<int> lst6(std::move(lst2));			//список создан путем вызова конструктора перемещения
+	std::list<int> lst7(lst3.begin(), lst3.end());	//список создан на основе интервала заданного итераторами (begin, end)
+
+	std::initializer_list<int> ini_list{ 9,8,7,6,5,4,3,2,1,0 };
+	std::list<int> lst8 = ini_list;					//список создан на основе списка инициализации
+	std::list<int> lst9 = lst8;						//неявный вызов конструктора копирования		
+	std::list<int> lst10 = std::move(lst9);			//неявный вызов конструктора перемещения
+
+
+	print_list(lst0);
+	print_list(lst8);
+	print_list_info(lst8);
+
+	//операции присваивания
+	lst0.assign(ini_list);
+	lst1.assign(4, 9990);
+	lst2.assign(++lst3.begin(), --lst3.end());
+
+	print_list(lst0);
+	print_list(lst1);
+	print_list(lst2);
+
+	lst9.assign(ini_list);
+	lst1.swap(lst9);
+
+	print_list(lst9);
+	print_list(lst1);
+
+
+	//доступ к элементам
+	cout << "first element - " << lst1.front() << endl;
+	cout << "last  element - " << lst1.back()  << endl;
+
+	//доступ спомощью итераторов
+	std::list<int>::const_iterator ci;
+	std::list<int>::iterator i;
+	std::list<int>::reverse_iterator ri;
+	std::list<int>::const_reverse_iterator cri;
+
+	for (ci = lst9.cbegin(); ci != lst9.cend(); ++ci)
+		cout << (*ci) << " ";
+
+	cout << endl;
+	for (i = lst9.begin(); i != lst9.end(); ++i)
+		cout << ((*i) /= 2)<<" ";
+
+	cout << endl;
+	for (ri = lst1.rbegin(); ri != lst1.rend(); ++ri)
+		cout << ((*ri) *= 2) << " ";
+
+	cout << endl;
+	for (cri = lst1.crbegin(); cri != lst1.crend(); ++cri)
+		cout << (*cri) << " ";
+
+	cout << endl;
+
+	//модификация списка
+	std::initializer_list<int> numbers{ 7,7,7,5,5,5 };
+	std::initializer_list<int> big_numbers{ 1000,2000,3000 };
+	
+	std::list<int> l = numbers;
+
+	l.push_back(10);
+	l.push_front(10);
+	l.emplace_back(9);
+	l.emplace_front(9);
+
+	auto pos = l.begin();
+	
+	size_t k = l.size();
+	size_t half = l.size() / 2;
+	while (k > half)
+	{
+		--k;
+		++pos;
+	}
+
+	l.insert(pos, 5000);				//вставка элемента в середину списка
+	print_list(l);
+
+	l.insert(l.begin(), big_numbers);
+	l.insert(l.end(), big_numbers.begin(), big_numbers.end() );
+	print_list(l);
+
+
+	cout << endl << "remove all numbers 9 " << endl;
+	l.remove(9);						//удаляем все числа 9
+	print_list(l);						
+
+	cout << endl << "remove all numbers >1000 " << endl;
+	l.remove_if(rmbig);
+	print_list(l);
+
+	cout << endl << "remove all even numbers " << endl;
+	l.remove_if(Rm());
+	print_list(l);
+
+	cout << endl << " remove all numbers that can be divided / 5 " << endl;
+	l.remove_if([](int a)->bool {
+		if ((a % 5) == 0)
+			return true;
+		else
+			return false;
+	});
+	
+	print_list(l);
+
+	cout << endl << "resize to 10 elements" << endl;
+	l.resize(10, 3);
+	print_list(l);
+
+	cout << endl << "reverse list" << endl;
+	l.reverse();
+	print_list(l);
+
+	cout << endl << "erase core" << endl;
+	l.erase(++l.begin(), --l.end());
+	print_list(l);
+
+
+	cout << endl << "erase first element" << endl;
+	l.erase(l.begin());
+	print_list(l);
+
+	l.clear();
+
+}
+
+void test_list_special()
+{
+	//специальные модифицирующие операции над списками
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
