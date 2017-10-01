@@ -241,7 +241,7 @@ void print_list(std::list<t> & lst)
 	if (!lst.empty())
 	{
 		for (t x : lst)
-			cout << "x = " << x << endl;
+			cout << "x = " << x <<endl;
 	}
 	else
 		cout << "List is empty" << endl;
@@ -269,6 +269,25 @@ public:
 bool rmbig(int a);
 
 void test_list();
+
+
+bool same_integral_part(double & first, double & second);
+
+
+class Near
+{
+public:
+	bool operator()(double & a, double & b)
+	{
+		return (fabs(a - b) < 0.5);
+	}
+};
+
+
+bool compare_pairs(std::pair<int, int>& p1, std::pair<int, int>& p2);
+
+
+
 
 void test_list_special();
 

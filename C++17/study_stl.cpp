@@ -554,7 +554,7 @@ void test_deque()
 
 bool rmbig(int a)
 {
-	return (a > 1000 ? true:false);
+	return (a > 1000 ? true : false);
 }
 
 //-------------------------------------тестирование контейнера std::list<>-------------------------------------------------
@@ -638,7 +638,7 @@ void test_list()
 	auto pos = l.begin();
 	
 	size_t k = l.size();
-	size_t half = l.size() / 2;
+	size_t half = k / 2;
 	while (k > half)
 	{
 		--k;
@@ -696,28 +696,92 @@ void test_list()
 
 }
 
+//функци€ предикат дл€ вы€влени€ одинаковой целой части вещественных чисел
+bool same_integral_part(double & first, double & second)
+{
+	return (static_cast<int>(first) == static_cast<int>(second));
+}
+
+bool compare_pairs(std::pair<int, int>& p1, std::pair<int, int>& p2)
+{
+	return (p1.second < p2.second);
+}
+
 void test_list_special()
 {
 	//специальные модифицирующие операции над списками
+	std::list<int> l{ 9,9,4,2,1,3,3,0,4,6,5,0,0 };
+	print_list(l);
+	
+	l.unique();												//удал€ет дубликаты последовательных элементов
+	print_list(l);
+
+	std::list<double>ld{ 9.3, 9.1, 4.9, 5.0, 6.1, 5.95, 6.0, 6.5, 7.2, 8.11, 8.21, 9.25 };
+	print_list(ld);
+
+	ld.unique(same_integral_part);							//удаление элементов у которых равные целые части (предикат-функци€)
+	print_list(ld);
+
+	ld.unique(Near());										//удаление элементов дл€ которых /разность/ < 0.5 (предикат-функтор)
+	print_list(ld);
+
+	ld.unique([](const double a, const double b)->bool {    //удаление элементов у которых дробна€ часть отличаетс€ менее чем на 0.1
+	
+		double a_ = a - static_cast<int>(a);
+		double b_ = b - static_cast<int>(b);
+
+		return (fabs(a_ - b_) < 0.1);
+	});
 
 
+	print_list(ld);
 
+	//модификаци€ списков с1 и с2
+	std::list<int> a{ 9, 8, 7, 6, 5 };
+	std::list<int> b{ 5, 5, 6, 6 };
 
+	cout << endl << "lists modifications" << endl;
+	print_list(a);
+	print_list(b);
 
+	a.splice(a.begin(), b);									//перемещаем список b все элементы в список a
+	print_list(a);
+	print_list(b);
 
+	b.splice(b.begin(), a, a.begin());						//в список b вставл€ем один элемент	из списка а
+	print_list(b);
 
+	b.splice(++b.begin(), a, ++a.begin(), a.end());			//перемещаем все элементы кроме первого из списка а в список b
+	print_list(a);
+	print_list(b);
 
+	b.sort();												//сортировка списка с помощью оператора <
+	print_list(b);
 
+	std::list<std::pair<int, int>> lp;						//создаем список пар std::pair<int,int>
+	std::list<std::pair<int, int>> lp2;
+	for (int i = 0; i < 5; i++)
+	{
+		lp.push_back(std::make_pair(5-i, i));
+		lp2.push_back(std::make_pair(i, 7 - i));
+	}
 
+	lp.push_back(std::make_pair(4, 4));
+	lp.push_back(std::make_pair(4, 4));
 
+	print_list(lp);
 
+	lp.sort();
+	print_list(lp);
 
+	lp.sort(compare_pairs);									//сортируем при помощи предиката
+	print_list(lp);
 
+	lp2.sort(compare_pairs);								
+	print_list(lp2);										
 
-
-
-
-
+	lp.merge(lp2, compare_pairs);							//объедин€ю два отсортированных списка на основе функции-предиката
+	print_list(lp);
 }
 
 

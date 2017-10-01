@@ -31,8 +31,8 @@ int main()
 	//test_tuples();
 	//test_vector();
 	//test_deque();
-	test_list();
-
+	//test_list();
+	test_list_special();
 
 	return 0;
 }
