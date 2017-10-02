@@ -811,6 +811,74 @@ void test_forward_list()
 	print_forward_list(frwd11);
 
 
+	//немодифицирующие операци 
+	print_forward_list_info(frwd6);
+	print_forward_list_info(frwd11);
+
+
+	//операции присваивания
+	std::initializer_list<string> str_list{"Ivan", "Lena", "Ksenia"};
+
+	std::forward_list<string> frwds0{ "Maria", "Nico", "Pico" };
+	std::forward_list<string> frwds1 = frwds0;
+
+	std::forward_list<string> frwds2 = std::move(frwds1);
+	std::forward_list<string> frwds3 = { "Jack", "Bruce", "Andrew" };
+
+	print_forward_list(frwds2);
+	print_forward_list(frwds3);
+
+
+	frwds2.assign(5, "jambo");
+	frwds3.assign(++frwds0.begin(), frwds0.end());
+	frwds0.assign(str_list);
+
+	print_forward_list(frwds2);
+	print_forward_list(frwds3);
+	print_forward_list(frwds0);
+
+	//вставка и удаление элементов
+	std::forward_list<double> fd0{ 9.1,9.6, 9.8, 9.9, 2.3, 2.4 };
+	fd0.push_front(0.3);
+	fd0.emplace_front(0.5);
+
+	print_forward_list(fd0);
+
+	std::forward_list<double>fd1{ 5.5, 6.6, 7.7 };
+
+	fd0.insert_after(fd0.before_begin(), 100.01);
+	fd0.insert_after(fd0.before_begin(), fd1.begin(), fd1.end());
+	fd0.insert_after(fd0.before_begin(), 3, 500.05);
+
+	fd0.emplace_after(fd0.before_begin(), 99.9);
+
+	print_forward_list(fd0);
+
+	//нахождение позиции итератора
+	auto pos_before = fd0.before_begin();
+	for (auto pos = fd0.begin(); pos != fd0.end(); ++pos, ++pos_before)
+	{
+		if ((*pos) < 3.0)		//находим первое число, которое меньше 3
+			break;
+	}
+
+	fd0.erase_after(pos_before);						//удаляем элемент стоящий после позиции на которую указывает pos_before
+
+	print_forward_list(fd0);
+
+	fd0.remove_if([](double & a)->bool {
+					return (a - static_cast<int>(a) > 0.4);
+	});
+
+	print_forward_list(fd0);
+
+	fd0.erase_after(fd0.begin(), fd0.end());			//удаляем все элементы из интервала (beg, end) не включая границы
+
+	print_forward_list(fd0);
+
+
+
+
 }
 
 

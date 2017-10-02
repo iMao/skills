@@ -309,6 +309,20 @@ void print_forward_list(std::forward_list<t>& frwd)
 	}
 }
 
+
+template<typename t>
+void print_forward_list_info(std::forward_list<t>& frwd)
+{
+	cout << endl;
+	cout << "frwd.empty()    " << std::boolalpha << frwd.empty() << endl;
+	cout << "frwd.max_size() " << frwd.max_size() << endl;
+	cout << "frwd.size()     " << std::distance(frwd.begin(), frwd.end()) << endl;
+}
+
+
+
+
+
 void test_forward_list();
 
 
