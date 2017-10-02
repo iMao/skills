@@ -11,14 +11,18 @@
 #include <algorithm>
 #include <functional>
 #include <numeric>
-#include <array>
 #include <initializer_list>
 #include <exception>
 #include <utility>
+
+#include <array>
 #include <tuple>
 #include <vector>
 #include <deque>
 #include <list>
+#include <forward_list>
+
+
 
 
 using std::cout;
@@ -286,11 +290,26 @@ public:
 
 bool compare_pairs(std::pair<int, int>& p1, std::pair<int, int>& p2);
 
-
-
-
 void test_list_special();
 
+//------------------------------------------тестирование контейнера std::forward_list<>----------------------------------------------
+
+template<typename t>
+void print_forward_list(std::forward_list<t>& frwd)
+{
+	cout << endl;
+	if (!frwd.empty())
+	{
+		for (t x : frwd)
+			cout << "x = " << x << endl;
+	}
+	else
+	{
+		cout << endl << "forward_list is empty" << endl;
+	}
+}
+
+void test_forward_list();
 
 
 

@@ -32,7 +32,11 @@ int main()
 	//test_vector();
 	//test_deque();
 	//test_list();
-	test_list_special();
+	//test_list_special();
+	test_forward_list();
+
+
+
 
 	return 0;
 }

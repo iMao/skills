@@ -786,6 +786,35 @@ void test_list_special()
 
 
 
+//------------------------------------------тестирование контейнера std::forward_list<>----------------------------------------------
+void test_forward_list()
+{
+	//методы создания контейнера std::forward_list<>
+	std::forward_list<int> frwd0;
+	std::forward_list<int> frwd1(5);
+	std::forward_list<int> frwd2(5, 5);
+	std::forward_list<int> frwd3{ 5,6,7,8,9 };
+	std::forward_list<int> frwd4(frwd3);
+	std::forward_list<int> frwd5(std::move(frwd3));
+	
+	std::initializer_list<int> init_list{ 1,1,2,2,3,3,4,4,5,5 };
+	std::forward_list<int> frwd6(init_list);
+	std::forward_list<int> frwd7({ 55,66,77,88,99 });
+
+	std::forward_list<int> frwd8 = frwd2;
+	std::forward_list<int> frwd9 = std::move(frwd7);
+	std::forward_list<int> frwd10 = init_list;
+
+	std::forward_list<int> frwd11(frwd9.begin(), frwd9.end());
+
+	print_forward_list(frwd6);
+	print_forward_list(frwd11);
+
+
+}
+
+
+
 
 
 
