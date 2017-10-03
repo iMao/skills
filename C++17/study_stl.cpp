@@ -877,7 +877,31 @@ void test_forward_list()
 	print_forward_list(fd0);
 
 
+	//нахождение позиции итератора при помощи функции next()
+	std::forward_list<int>f{1,3,5,6,7,8,9,10 };
+	print_forward_list(f);
 
+	auto posBefore = f.before_begin();
+	for (; next(posBefore) != f.end(); ++posBefore)
+	{
+		if ((*next(posBefore)) % 2 == 0)
+			break;
+	}
+
+	f.erase_after(posBefore);							//хотим удалить первый четный элемент
+
+	print_forward_list(f);
+
+
+	auto position = findBefore(f.begin(), f.end(), 8);	//ищем итератор указывающий на позицию элемента предшествующего искомому 
+	f.erase_after(position);
+
+	print_forward_list(f);
+
+	auto pos_insertion = findBefore_if(f.begin(), f.end(), [](int a)->bool { return ((a % 2) == 0); });
+	f.insert_after(pos_insertion, 1000);
+
+	print_forward_list(f);
 
 }
 

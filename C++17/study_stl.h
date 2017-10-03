@@ -321,6 +321,47 @@ void print_forward_list_info(std::forward_list<t>& frwd)
 
 
 
+template<typename InputIterator, typename t>
+inline InputIterator findBefore(InputIterator first, InputIterator last, const t & val)
+{
+	if (first == last)
+		return first;
+
+	InputIterator next(first);
+	++next;
+	while ((next != last) && !(*next == val))
+	{
+		++next;
+		++first;
+	}
+	return first;
+}
+
+
+template <typename InputIterator, typename Pred>
+inline InputIterator findBefore_if(InputIterator first, InputIterator last, Pred pred)
+{
+	if (first == last)
+		return first;
+
+	InputIterator next(first);
+	++next;
+	while ((next != last) && !pred(*next))
+	{
+		++next;
+		++first;
+	}
+	return first;
+}
+
+
+
+
+
+
+
+
+
 
 
 void test_forward_list();
