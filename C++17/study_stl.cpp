@@ -787,6 +787,24 @@ void test_list_special()
 
 
 //------------------------------------------тестирование контейнера std::forward_list<>----------------------------------------------
+bool compare_strings_lower(string s1, string s2)
+{
+	std::transform(s1.begin(), s1.end(), s1.begin(), tolower);
+	std::transform(s2.begin(), s2.end(), s2.begin(), tolower);
+
+	if (0 == s1.compare(s2))
+		return true;
+	else
+		return false;
+}
+
+bool cmp_abs(int a, int b)
+{
+	return (abs(a) < abs(b));
+}
+
+
+
 void test_forward_list()
 {
 	//методы создания контейнера std::forward_list<>
@@ -902,6 +920,52 @@ void test_forward_list()
 	f.insert_after(pos_insertion, 1000);
 
 	print_forward_list(f);
+
+
+	//модификация списков
+	std::forward_list<string> strlist{ "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING" };
+	print_forward_list(strlist);
+
+	cout << endl << "unique(op)" << endl;
+	strlist.unique(compare_strings_lower);
+	print_forward_list(strlist);
+
+	std::forward_list<string> strlist2{ "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING" };
+	print_forward_list(strlist2);
+
+	strlist2.unique(CompUpper());
+	print_forward_list(strlist2);
+
+	std::forward_list<string> additional{ "1234","9876" };
+
+	strlist.splice_after(strlist.before_begin(), additional);
+	print_forward_list(strlist);
+
+	strlist.splice_after(strlist.before_begin(), strlist2, strlist2.before_begin());
+	print_forward_list(strlist);
+	
+	cout << endl << "Payment cards" << endl;
+	std::forward_list<string> cards{ "Visa", "Mastercard" };
+	std::forward_list<string> vip_cards{ "Visa Gold","Visa Classic", "Visa Platinum", "Mastercard Black" };
+
+	cards.splice_after(findBefore(cards.begin(), cards.end(), "Mastercard"), vip_cards, vip_cards.before_begin(), findIterator(vip_cards.begin(), vip_cards.end(), "Mastercard Black") );
+	print_forward_list(cards);
+
+
+	cout << endl << "sort() with abs() " << endl;
+	std::forward_list<int> digits{ 5, 6,-4, -5, -6, 3, 0, -1, 2, 1, 10, -9 };
+	digits.sort(cmp_abs);
+	print_forward_list(digits);
+
+	std::forward_list<int> digits_{ 2, 3, 1, -2, -7, -11, -34, 23, -6, 8 };
+	digits_.sort(cmp_abs);
+	print_forward_list(digits_);
+
+	cout << endl << "merge forward_lists" << endl;
+	digits.merge(digits_, cmp_abs);
+	digits.reverse();            
+	
+	print_forward_list(digits);
 
 }
 

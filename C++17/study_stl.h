@@ -1,7 +1,7 @@
 #ifndef _STUDY_STL_
 #define _STUDY_STL_
 
-
+#include <stdlib.h>
 #include <iostream>
 
 #include <math.h>
@@ -354,14 +354,42 @@ inline InputIterator findBefore_if(InputIterator first, InputIterator last, Pred
 	return first;
 }
 
+template <typename InputIterator, typename t>
+inline InputIterator findIterator(InputIterator first, InputIterator last, const t & value)
+{
+	if (first == last)
+		return first;
+	
+	while ( (first != last) && (*first != value) )
+		++first;
+
+	return first;
+}
 
 
 
 
 
 
+//сравнение строк вне зависимости от регистра
+bool compare_strings_lower(string  s1, string  s2);
 
+class CompUpper
+{
+public:
+	bool operator()(string  s1, string  s2)
+	{
+		std::transform(s1.begin(), s1.end(), s1.begin(), toupper);
+		std::transform(s2.begin(), s2.end(), s2.begin(), toupper);
+	
+		if (0 == s1.compare(s2))
+			return true;
+		else
+			return false;
+	}
+};
 
+bool cmp_abs(int a, int b);
 
 
 void test_forward_list();
