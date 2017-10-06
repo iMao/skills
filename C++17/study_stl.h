@@ -21,7 +21,7 @@
 #include <deque>
 #include <list>
 #include <forward_list>
-
+#include <set>
 
 
 
@@ -394,8 +394,55 @@ bool cmp_abs(int a, int b);
 
 void test_forward_list();
 
+//--------------------------------тестирование множеств std::set<>-----------------------------------------------------------------
+template<typename t, typename cmp>
+void print_set(std::set<t,cmp> & st)
+{
+	cout << endl;
+	if (!st.empty())
+	{
+		for (t x : st)
+			cout << "x = " << x << endl;
+	}
+	else
+	{
+		cout << "set is empty" << endl;
+	}
+}
 
 
+template<typename t, typename cmp>
+void print_set_info(std::set<t, cmp> & st)
+{
+	cout << endl;
+	cout << "set.size()      = " << st.size() << endl;
+	cout << "set.max_size()  = " << st.max_size() << endl;
+	cout << "set.empty()     = " << std::boolalpha << st.empty() << endl;
+}
+
+template<typename t, typename cmp>
+void print_cmp_criteria(std::set<t, cmp> & st)
+{
+	cout << "set.key_comp()   = " << st.key_comp() << endl;
+	cout << "set.value_comp() = " << st.value_comp() << endl;
+}
+
+
+template<typename _Ty>
+std::ostream & operator<<(std::ostream & ostr, std::less<_Ty> & ls )
+{
+	return ostr << "Compare criteria less<t> means that [ (x0 < x1) == true ]";
+}
+
+template<typename _Ty>
+std::ostream & operator<<(std::ostream & ostr, std::greater<_Ty> & gr)
+{
+	return ostr << "Compare criteria greater<t> means that [ (x0 > x1) == true ]";
+}
+
+
+
+void test_sets();
 
 
 

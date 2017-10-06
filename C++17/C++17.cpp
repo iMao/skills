@@ -33,8 +33,8 @@ int main()
 	//test_deque();
 	//test_list();
 	//test_list_special();
-	test_forward_list();
-
+	//test_forward_list();
+	test_sets();
 
 
 
