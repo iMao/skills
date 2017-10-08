@@ -411,6 +411,32 @@ void print_set(std::set<t,cmp> & st)
 }
 
 
+template<typename InputIterator, typename t, typename cmp>
+void print_set_beg_end(InputIterator beg, InputIterator end, std::set<t,cmp> & st)
+{
+	if (end != st.end())
+		++end;
+
+	for (auto i = beg; i != end; ++i)
+		cout << "x = " << (*i) << endl;
+}
+
+
+template<typename t, typename cmp>
+void bounds(std::set<t, cmp> & st, t val)
+{
+	cout << endl;
+	cout << "value = " << val << endl;
+	cout << "lower_bound() " << *st.lower_bound(val) << endl;
+	cout << "upper_bound() " << *st.upper_bound(val) << endl;
+	cout << "equal_range()  (" << *st.equal_range(val).first << ") - (" << *st.equal_range(val).second <<")"<< endl;
+}
+
+
+
+
+
+
 template<typename t, typename cmp>
 void print_set_info(std::set<t, cmp> & st)
 {
@@ -439,6 +465,38 @@ std::ostream & operator<<(std::ostream & ostr, std::greater<_Ty> & gr)
 {
 	return ostr << "Compare criteria greater<t> means that [ (x0 > x1) == true ]";
 }
+
+
+
+class Num
+{
+private:
+	int a;
+
+public:
+	Num(int a) : a(a) {}
+	~Num() {}
+
+	int get_a() { return a; }
+
+	bool operator< (Num b)
+	{
+		return this->a < b.get_a();
+	}
+
+};
+
+template<typename t>
+struct NumLess
+{
+	bool operator()( t  a,  t  b) const
+	{
+		 return a < b;
+	}
+};
+
+
+std::ostream & operator<<(std::ostream & os, Num & num);
 
 
 

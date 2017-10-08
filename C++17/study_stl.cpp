@@ -973,6 +973,13 @@ void test_forward_list()
 
 
 //--------------------------------тестирование множеств std::set<>-----------------------------------------------------------------
+
+std::ostream & operator<<(std::ostream & os, Num & num)
+{
+	return os << "[ 0x" <<std::hex << num.get_a() << " ]";
+}
+
+
 void test_sets()
 {
 	//методы создания и инициализации
@@ -1011,8 +1018,55 @@ void test_sets()
 	print_cmp_criteria(set9);
 
 	//специальные операции поиска элемента во множестве std::set<>
+	std::set<int, std::less<int>> set01{ 3,5,7,0,1,10,8,6 };
+	cout << endl << "set.count(7) = " << set01.count(7) << endl;
+	
+	std::set<int,std::less<int>>::const_iterator pos1 = set01.find(7);
+	std::set<int, std::less<int>>::const_iterator pos2 = set01.find(8);
+	
+	print_set_beg_end(pos1, pos2, set01);
+
+	print_set(set01);
+	bounds(set01, 4);
+	bounds(set01, 7);
 
 
+	//вставка и удаление элементов
+	auto result = set01.insert(9);
+	if (result.second)
+		print_set(set01);
+
+	auto result2 = set01.insert( set01.find(10) ,11);
+	print_set(set01);
+
+	std::list<int> l{ -5,2,15,25 };
+	std::initializer_list<int>intlist{ -6, -7 ,-8, -9};
+
+	set01.insert(l.begin(), l.end());
+	set01.insert(intlist);
+	print_set(set01);
+
+	
+	
+	std::set<Num, NumLess<Num>> numbers{ Num(8), Num(10), Num(11), Num(7) };
+	print_set(numbers);
+
+
+	numbers.emplace(15);
+	numbers.emplace_hint(numbers.find(Num(7)), 3);
+	print_set(numbers);
+
+	numbers.erase(Num(7));
+	print_set(numbers);
+
+	numbers.erase(numbers.find(Num(0xF)));
+	print_set(numbers);
+
+	numbers.erase(++numbers.begin(), --numbers.end());
+	print_set(numbers);
+
+	numbers.clear();
+	print_set_info(numbers);
 }
 
 
