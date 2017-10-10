@@ -1072,9 +1072,131 @@ void test_sets()
 
 
 
+//-----------------------------------тестирование мультимножеств std::multiset<>-----------------------------------------------
+void test_multisets()
+{
+	//методы создания
+	std::multiset<int> mset0;
+	std::multiset<int, std::greater<int>> mset1;
+	//std::multiset<int, std::greater<int>> mset3(std::greater<int>);
+	std::multiset<int> mset4{ 5,6,1,0,2,5 };
+
+	std::initializer_list<int> ls{ 9,2,1,7,5,3,4,7 };
+	std::multiset<int, std::greater<int>> mset5(ls);
+	std::multiset<int, std::greater<int>> mset6(mset5);
+	std::multiset<int> mset7(std::move(mset4));
+	
+	std::vector<int> vec{ 0,5,3,2,7,8,8,9,9 };
+	std::multiset<int> mset8(vec.begin(), vec.end());
+	std::multiset<int, std::greater<int>> mset9(vec.begin(), vec.end(), std::greater<int>());
+
+	//методы присваивания
+	std::multiset<int> mset10{ 9,3,3,3,4,4,4,5,5,5 };
+
+	std::multiset<int> mset11 = mset10;
+	std::multiset<int> mset12 = std::move(mset11);
+	std::multiset<int> mset13 = ls;
+	std::multiset<int> mset14 = { 4,3,1,8,7,7,7,8,8,8 };
+
+	//поиск элементов
+	cout << endl << "number 7    - " << mset14.count(7) <<" times"<< endl;
+	cout << endl << "number 1    - " << *mset14.find(1) << endl;
+	cout << endl << "lower_bound(7) - " << *mset14.lower_bound(7) << endl;
+	cout << endl << "upper_bound(7) - " << *mset14.upper_bound(7) << endl;
+	cout << endl << "equal_range(7) - " << *mset14.equal_range(7).first << " - " << *mset14.equal_range(7).second << endl;
+
+
+	//методы модификации множества
+	mset14.insert(1);
+	cout <<endl<< "insert 1 " << endl;
+	print_multiset(mset14);
+
+	mset14.insert(mset14.find(4), 5);
+	cout << endl << "insert 5 " << endl;
+	print_multiset(mset14);
+
+	mset14.insert(mset12.begin(), mset12.end());
+	cout << endl << "insert [beg, end) " << endl;
+	print_multiset(mset14);
+
+	mset14.insert(ls);
+	cout << endl << "insert (initlist) " << endl;
+	print_multiset(mset14);
+
+	mset14.emplace(-1);
+	mset14.emplace_hint(mset14.find(-1), 0);
+	print_multiset(mset14);
+
+
+	cout << endl << "erase all numbers 7 " << endl;
+	mset14.erase(7);
+	print_multiset(mset14);
+
+	mset14.erase(mset14.find(8));
+	print_multiset(mset14);
+
+	mset14.erase(++mset14.begin(), --mset14.end());
+	print_multiset(mset14);
+}
 
 
 
+//------------------------------------------тестирование отображений std::map<>------------------------------------------------
+void test_maps()
+{
+	//методы создания
+	std::map<int, string> mp0;										//пустое отображение с элементами std::pair<int, string> и критерием упорядочивания по умолчанию std::less<>
+	std::map<int, string, std::greater<int>> mp1;
+
+	std::map<int, string> mp2{ std::make_pair(5,"Tom"), std::make_pair(8,"Jack"), std::make_pair(1,"Kate"), std::make_pair(7,"Tim") };
+	std::map<int, string> mp02{ {22,"Pico"},{55, "Sergo"},{90,"Siri"} };
+	std::map<int, string> mp3(mp2);
+	std::map<int, string> mp4(std::move(mp2));
+
+
+	std::initializer_list<std::pair<const int, string>> ilp{ std::make_pair(4,string("Andrew")), std::make_pair(9,string("Timur")), std::make_pair(2,string("Nico")), std::make_pair(6,string("Peter")) };
+	std::initializer_list<std::pair<const int, string> > ls{ { 77,"Valio" },{ 97, "Julio" } };
+
+	std::map<int, string> mp7(ls);
+	std::map<int, string> mp8(ilp);
+
+
+	std::deque<std::pair<int, string>> dq{ std::make_pair(0,"Andrew"), std::make_pair(10,"Timur"), std::make_pair(3,"Nico"), std::make_pair(11,"Peter") };
+
+	std::map<int, string> mp5(dq.begin(), dq.end());
+	std::map<int, string, std::greater<int>> mp6(dq.begin(), dq.end(), std::greater<int>());
+	
+
+	print_map(mp3);
+	print_map(mp02);
+	print_map(mp4);
+
+	print_map(mp7);
+	print_map(mp8);
+	print_map(mp5);
+	print_map(mp6);
+
+	//операции присваивания
+	std::map<int, string> mp9 = mp5;
+	std::map<int, string> mp10 = std::move(mp7);
+	std::map<int, string> mp11 = ls;
+	std::map<int, string> mp12 = { {3,"Hello"},{9,"Bay"},{5,"Afternoon"} };
+
+
+	cout << endl << "maps after operation = " << endl;
+	print_map(mp9);
+	print_map(mp10);
+	print_map(mp11);
+	print_map(mp12);
+
+
+
+
+
+
+
+
+}
 
 
 

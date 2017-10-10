@@ -22,7 +22,7 @@
 #include <list>
 #include <forward_list>
 #include <set>
-
+#include <map>
 
 
 using std::cout;
@@ -501,6 +501,75 @@ std::ostream & operator<<(std::ostream & os, Num & num);
 
 
 void test_sets();
+
+//-----------------------------------тестирование мультимножеств std::multiset<>-----------------------------------------------
+
+template<typename t, typename cmp>
+void print_multiset(std::multiset<t, cmp> & mset)
+{
+	cout << endl;
+	if (!mset.empty())
+	{
+		for (t x : mset)
+			cout << "x = " << x << endl;
+	}
+	else
+		cout << "Multiset is empty" << endl;
+}
+
+void test_multisets();
+
+
+//------------------------------------------тестирование отображений std::map<>------------------------------------------------
+template <typename Key, typename Val, typename Cmp>
+void print_map(std::map<Key, Val, Cmp> & mp)
+{
+	cout << endl;
+	if (!mp.empty())
+	{
+		for (auto x : mp)
+			cout << x << endl;
+	}
+	else
+		cout << "Map is empty" << endl;
+}
+
+
+
+
+
+void test_maps();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

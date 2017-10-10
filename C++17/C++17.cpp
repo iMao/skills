@@ -34,8 +34,9 @@ int main()
 	//test_list();
 	//test_list_special();
 	//test_forward_list();
-	test_sets();
-
+	//test_sets();
+	//test_multisets();
+	test_maps();
 
 
 	return 0;
