@@ -1189,7 +1189,17 @@ void test_maps()
 	print_map(mp11);
 	print_map(mp12);
 
+	//операции поиска 
+	mapbounds(mp12, 5);
 
+	cout << endl << "Number elements with key 3 = " << mp12.count(3) << endl;
+	cout << endl << "Find element wih key 3, val = " << (*mp12.find(3)).second << endl;
+
+
+
+
+
+	//модифицирующие операции 
 
 
 

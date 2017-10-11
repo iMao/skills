@@ -536,6 +536,27 @@ void print_map(std::map<Key, Val, Cmp> & mp)
 
 
 
+template<typename Key, typename Val, typename Cmp>
+void mapbounds(std::map<Key, Val, Cmp>& mp, Key val)
+{
+	cout << "Map bounds for " << "Val = " << val << endl;
+
+	std::pair<Key, Val> lower_element, upper_element;
+
+	lower_element = *mp.lower_bound(val);
+	cout << "map.lower_bound() key1 = " << lower_element.first << endl;
+
+	upper_element = *mp.upper_bound(val);
+	cout << "map.upper_bound() key2 = " << upper_element.first  << endl;
+
+	std::pair<std::map<Key,Val,Cmp>::iterator, std::map<Key, Val, Cmp>::iterator> para_its  = mp.equal_range(val);		//функция возвращает пару итераторов std::pair<it1,it2>
+	lower_element = *para_its.first;
+	upper_element = *para_its.second;
+
+	cout << "map.equal_range() = " <<"[ key1 = "<< lower_element.first << ", key2 = " << upper_element.first <<"]"<< endl;
+}
+
+
 
 
 void test_maps();
