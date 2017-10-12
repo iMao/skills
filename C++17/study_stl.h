@@ -23,7 +23,7 @@
 #include <forward_list>
 #include <set>
 #include <map>
-
+#include <cctype>
 
 using std::cout;
 using std::endl;
@@ -555,6 +555,49 @@ void mapbounds(std::map<Key, Val, Cmp>& mp, Key val)
 
 	cout << "map.equal_range() = " <<"[ key1 = "<< lower_element.first << ", key2 = " << upper_element.first <<"]"<< endl;
 }
+
+//функция для замены ключа у элемента
+template<typename Container>
+inline bool replace_key(Container & c, typename Container::key_type & old_key, typename Container::key_type & new_key)
+{
+	typename Container::iterator pos;
+
+	pos = c.find(old_key);										//ищем элемент со старым ключом	
+	if (pos != c.end())
+	{
+		c.insert(std::make_pair(new_key, pos->second));			//вставляем пару из нового ключа и старого значения
+		c.erase(pos);											//удаляем старый элемент
+		return true;
+	}
+	else
+		return false;
+}
+
+
+class RealTimeCmp
+{
+public:
+	enum cmp_mode { normal, nocase };
+	RealTimeCmp(cmp_mode m = normal) : mode(m) {}
+
+	static bool nocase_compare(char c1, char c2)
+	{
+		return toupper(c1) < toupper(c2);
+	}
+
+
+	bool operator()(const string & s1, const string & s2)const
+	{
+		if (mode == normal)
+			return s1 < s2;
+		else
+			return std::lexicographical_compare(s1.begin(), s1.end(), s2.begin(), s2.end(), nocase_compare);
+	}
+
+private:
+	cmp_mode mode;
+
+};
 
 
 

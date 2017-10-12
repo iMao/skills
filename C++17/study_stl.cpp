@@ -1195,14 +1195,159 @@ void test_maps()
 	cout << endl << "Number elements with key 3 = " << mp12.count(3) << endl;
 	cout << endl << "Find element wih key 3, val = " << (*mp12.find(3)).second << endl;
 
+	//итераторы
+	std::map<int, string>::iterator i;
+	std::map<int, string>::const_iterator ci;
+	std::map<int, string>::reverse_iterator ri;
+	std::map<int, string>::const_reverse_iterator cri;
+
+	for (i = mp12.begin(); i != mp12.end(); ++i)
+		i->second = i->second.append(" word");
+
+	print_map(mp12);
+
+	cout << endl;
+	for (ci = mp12.cbegin(); ci != mp12.cend(); ++ci)
+		cout << (*ci).first<<" , "<<(*ci).second<<endl;
+
+
+	for (ri = mp12.rbegin(); ri != mp12.rend(); ++ri)
+		 ri->second.insert(ri->second.begin(), '-');
+
+	print_map(mp12);
+
+
+	for (cri = mp12.crbegin(); cri != mp12.crend(); ++cri)
+		cout << (*cri).first << endl;
+
+
+	//модифицирующие операции
+	std::map<string, string> dictionary{ {"black","черный"},{"white","белый"} };
+	
+	dictionary.insert(std::make_pair("red", "красный"));
+	
+	dictionary.insert(std::map<string, string>::value_type("blue", "синий"));
+	
+	dictionary.insert(std::pair<string, string>("green", "зеленый"));
+	
+	dictionary.insert(std::pair<const string, string>("green", "зеленый"));
+	
+	print_map(dictionary);
+
+
+	dictionary.insert(dictionary.find("black"), std::make_pair("be", "быть"));
+
+
+	std::vector<std::pair<string, string> > vec{ {"do","делать"},{"make","производить"},{"get","получить"},{"go","идти"} };
+	std::initializer_list<std::pair<const string, string>> words{ {"word","слово"},{"world","мир"},{"hello","привет"} };
+
+
+	dictionary.insert(vec.begin(), vec.end());
+	dictionary.insert(words);
+
+	print_map(dictionary);
+
+
+	dictionary.emplace("house", "дом");
+	dictionary.emplace_hint(dictionary.find("green"),  "good","хороший" );
+	
+	print_map(dictionary);
+
+	dictionary.erase("hello");
+	print_map(dictionary);
+
+	//dictionary.erase(dictionary.find("green"));
+	//print_map(dictionary);
+
+	//dictionary.erase(dictionary.find("get"), dictionary.find("word"));
+	//print_map(dictionary);
+
+
+	//использование отображений как ассоциативных массивов
+
+	dictionary["name"] = "имя";
+	dictionary["sex"] = "пол";
+	dictionary["family"] = "семья";
+
+	print_map(dictionary);
+
+	cout << endl << dictionary.at("sex") << endl;
+	cout << endl << dictionary.at("name") << endl;
+	cout << endl << dictionary.at("family") << endl;
+
+
+	replace_key(dictionary, string("make"), string("produce") );
+	print_map(dictionary);
+
+	//применение алгоритмов
+
+	std::map<string, float> pp;
+	pp["BASF"]  = 70.3;
+	pp["TSL"]   = 90.9;
+	pp["NVDIA"] = 100.0;
+	pp["UBS"]   = 78.2;
+	pp["VW"] = 45.7;
+
+
+	std::for_each(pp.begin(), pp.end(), [](std::map<string, float>::value_type & e) { e.second *= 2.0; });
+
+	cout << endl;
+	std::for_each(pp.begin(), pp.end(), [](const std::map<string,float>::value_type & e) { cout <<"("<< e.first <<","<<e.second<<")"<<endl; });
+
+	pp["Volkswagen"] = pp["VW"];
+	pp.erase("VW");
+
+	cout << endl;
+	std::for_each(pp.begin(), pp.end(), [](const std::map<string, float>::value_type & e) { cout << "(" << e.first << "," << e.second << ")" << endl; });
+
+
+	//поиск по значению
+
+	cout << endl;
+	auto pos = std::find_if(pp.begin(), pp.end(), [](std::pair<const string, float> & p) { return abs(p.second - (90.9 * 2)) < 0.1; });
+
+	if (pos != pp.end())
+		cout << "(" << pos->first << " , " << pos->second << ")" << endl;
 
 
 
 
-	//модифицирующие операции 
+	//динамическое изменение критерия сравнения
+	std::map<string, int, RealTimeCmp> currencies;
+	currencies["DOL"] = 100;
+	currencies["EUR"] = 50;
+	currencies["CHF"] = 150;
+	currencies["RUB"] = 20;
+	currencies["YUP"] = 100;
+	currencies["BPS"] = 150;
+	currencies["UAN"] = 20;
+	currencies["dollar"] = 100;
+	currencies["euro"] = 50;
+	currencies["swichss"] = 150;
+	currencies["rubles"] = 20;
 
 
 
+
+	print_map(currencies);
+
+	RealTimeCmp nocase_cmp(RealTimeCmp::nocase);
+	
+	std::map<string, int, RealTimeCmp> dng(nocase_cmp);				//создание контейнера с тем же типом но другим критерием сравнения
+	dng["DOL"] = 100;
+	dng["EUR"] = 50;
+	dng["CHF"] = 150;
+	dng["RUB"] = 20;
+	dng["YUP"] = 100;
+	dng["BPS"] = 150;
+	dng["UAN"] = 20;
+	dng["dollar"] = 100;
+	dng["euro"] = 50;
+	dng["swichss"] = 150;
+	dng["rubles"] = 20;
+
+
+	print_map(dng);
 
 
 
