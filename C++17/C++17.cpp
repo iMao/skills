@@ -36,7 +36,8 @@ int main()
 	//test_forward_list();
 	//test_sets();
 	//test_multisets();
-	test_maps();
+	//test_maps();
+	test_unordered_sets();
 
 
 	return 0;

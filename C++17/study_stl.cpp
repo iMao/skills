@@ -1282,11 +1282,11 @@ void test_maps()
 	//применение алгоритмов
 
 	std::map<string, float> pp;
-	pp["BASF"]  = 70.3;
-	pp["TSL"]   = 90.9;
-	pp["NVDIA"] = 100.0;
-	pp["UBS"]   = 78.2;
-	pp["VW"] = 45.7;
+	pp["BASF"]  = 70.3f;
+	pp["TSL"]   = 90.9f;
+	pp["NVDIA"] = 100.0f;
+	pp["UBS"]   = 78.2f;
+	pp["VW"] = 45.7f;
 
 
 	std::for_each(pp.begin(), pp.end(), [](std::map<string, float>::value_type & e) { e.second *= 2.0; });
@@ -1351,6 +1351,127 @@ void test_maps()
 
 
 
+}
+
+
+
+//---------------тестирование неупор€доченных множеств и мультимножеств std::unordered_set<> and std::unordered_multiset<>--------
+std::ostream & operator<<(std::ostream & ostr, const Customer & c)
+{
+	return ostr << "Customer: [" <<std::setw(10)<<std::left<< c.get_name() << " - " << c.get_check_sum()<<"]";
+}
+
+
+
+
+void test_unordered_sets()
+{
+	//методы создани€ и инициализации
+	std::unordered_set<int> uset0;										//создание пустой hash таблицы дл€ элементов типа int, с hash функцией std::hash() и критерием эквивалентности equal_to()
+	std::unordered_set<int> uset1(10);									//создание пустой hash таблицы дл€ элементов типа int, и с заданным количеством сегментов
+	std::unordered_set<int, std::size_t(*)(int)> uset01 (10, hashf<int>);
+
+	std::initializer_list<int> intlist{ 9,3,1,7,5,4,2,8 };
+
+	std::unordered_set<int> uset2{ 7,4,1,8,9 };			//создание неупор€доченного контейнера на основе списка инициализации
+	std::unordered_set<int> uset3(intlist);				//
+	
+	std::unordered_set<int> uset4(uset2);				//с помощью конструктора копировани€
+	std::unordered_set<int> uset5(std::move(uset2));	//использование конструктора перемещени€
+
+	std::unordered_set<int, std::hash<int>, std::equal_to<int>> uset6{ 8,12,4,5 };	//€вное указание функции хешировани€ и проверки на эквивалентность
+
+	std::forward_list<int> flist{ 89,34,12,35,56,78,87 };
+
+	std::unordered_set<int> uset7( flist.begin(), flist.end() );
+	std::unordered_set<int> uset8(flist.begin(), flist.end(), 10);
+
+	print_unordered_set(uset4);
+	print_unordered_set_info(uset4);
+
+	print_unordered_set(uset8);
+	print_unordered_set_info(uset8);
+
+	std::unordered_set<int, std::size_t(*)(int)> uset9( flist.begin(), flist.end(), 10, hashf<int>);
+	print_unordered_set(uset9);
+	print_unordered_set_info(uset9);
+
+
+	std::unordered_set<Customer, CustomerHash, CustomerEqual> restoran{ Customer("Jack", 50), Customer("Jon",70), Customer("Tim", 89), Customer() };
+	print_unordered_set(restoran);
+	print_unordered_set_info(restoran);
+
+	std::unordered_set<Customer, CustomerHash> bar{ Customer("Nico", 50), Customer("Linda",70), Customer("Jim", 89), Customer("Silver",90) };
+	print_unordered_set(bar);
+
+
+	//операторы присваивани€
+	uset0 = uset3;
+	uset1 = std::move(uset3);
+
+	std::unordered_set<int> uset10 = intlist;
+	std::unordered_set<int> uset11 = {45,12,46};
+
+
+	//специальные операции поиска
+	print_unordered_set(uset1);
+	cout << endl << "—колько элементов со значением " << 8 << "  " << uset1.count(8) << endl;
+	cout << endl << "Ёлемент 8 " << *(uset1.find(8)) << endl;
+	cout << endl << "Ќаходим интервал дл€ элемента 1 " << *(uset1.equal_range(1).first) << " - " << *(uset1.equal_range(1).second) << endl;
+	
+	std::unordered_set<int> uset12(intlist);
+	
+	std::unordered_set<int>::const_iterator pos1, pos2;
+
+	std::tie(pos1, pos2) = uset12.equal_range(8);
+
+	if (pos1 == uset12.end())
+		cout << "pos1 is bad" << endl;
+
+	if (pos2 == uset12.end())
+		cout << "pos2 is bad" << endl;
+
+	//итераторы существуют только однонаправленные, модифицировать значени€ Ќ≈Ћ№«я
+	std::unordered_set<int>::const_iterator ci;
+	std::unordered_set<int>::iterator i;
+	
+	for (i = uset12.begin(); i != uset12.end(); ++i)
+		cout << (*i) << " ";
+
+
+	//модифицирующие операции
+	uset12.insert(100);
+	print_unordered_set(uset12);
+
+	uset12.insert(uset12.find(100), 101);
+	print_unordered_set(uset12);
+
+	uset12.insert(uset11.begin(), uset11.end());
+	print_unordered_set(uset12);
+
+	uset12.insert({ 200,230 });
+	print_unordered_set(uset12);
+
+
+
+	bar.emplace("Edvard", 345);
+	print_unordered_set(bar);
+
+	bar.emplace_hint(bar.find(Customer("Edvard", 345)), "Donn Diego", 300);
+	print_unordered_set(bar);
+
+
+	bar.erase(Customer("Edvard", 345));
+	print_unordered_set(bar);
+
+	bar.erase(bar.find(Customer("Nico", 50)));
+	print_unordered_set(bar);
+
+	bar.erase(++bar.begin(), bar.end());
+	print_unordered_set(bar);
+
+	bar.clear();
+	print_unordered_set(bar);
 }
 
 

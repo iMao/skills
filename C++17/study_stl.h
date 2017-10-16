@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <iomanip>
+
 
 #include <math.h>
 #include <string.h>
@@ -24,6 +26,10 @@
 #include <set>
 #include <map>
 #include <cctype>
+#include <unordered_set>
+
+
+
 
 using std::cout;
 using std::endl;
@@ -606,8 +612,89 @@ void test_maps();
 
 
 
+//---------------тестирование неупорядоченных множеств и мультимножеств std::unorderd_set<> and std::unordered_multiset<>--------
+
+template<typename t, typename hf, typename cmp>
+void print_unordered_set(std::unordered_set<t, hf, cmp> & uset)
+{
+	cout << endl;
+	if (!uset.empty())
+	{
+		for (t x : uset)
+			cout << "x = " << x << endl;
+	}
+	else
+		cout << "Unordered_set<t,hf,cmp> is empty" << endl;
+}
 
 
+template<typename t, typename hf, typename cmp>
+void print_unordered_set_info(std::unordered_set<t, hf, cmp> & uset)
+{
+	cout << endl;
+	cout << "Количество сегментов                       - " << uset.bucket_count() << endl;
+	cout << "Максимальное количество сегментов          - " << uset.max_bucket_count() << endl;
+	cout << "Количество элементов                       - " << uset.size() << endl;
+	cout << "Максимально возможное количество элементов - " << uset.max_size() << endl;
+	cout << "Текущий коэффициент заполнения             - " << uset.load_factor() << endl;
+	cout << "Максимальный коэффициент заполнения        - " << uset.max_load_factor() << endl;
+}
+
+
+template <typename t>
+std::size_t hashf(t val)
+{
+	return (std::hash<t>()(val) + 0x9E3779B9);
+}
+
+class Customer
+{
+private:
+	string name;
+	unsigned int check_sum;
+
+public:
+	Customer(string name = "Tom", unsigned int check_sum = 55) :name(name), check_sum(check_sum) {}
+	string get_name()const { return name; }
+	unsigned int get_check_sum()const { return check_sum; }
+
+
+	bool operator==(const Customer & c1)const 
+	{
+		return ( this->check_sum == c1.get_check_sum()) && (this->name.compare(c1.get_name()) == 0 );
+	}
+
+};
+
+
+std::ostream & operator<<(std::ostream & ostr, const Customer & c);
+
+
+
+
+class CustomerHash
+{
+public:
+	std::size_t operator()(const Customer & c)const
+	{
+		return std::hash<unsigned int>()(c.get_check_sum()) + std::hash<string>()(c.get_name());
+	}
+};
+
+
+
+class CustomerEqual
+{
+public:
+	bool operator()(const Customer & c1, const Customer & c2)const
+	{
+		return (c1.get_name().compare(c2.get_name()) == 0);
+	}
+};
+
+
+
+void test_unordered_sets();
 
 
 
