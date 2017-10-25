@@ -29,13 +29,24 @@
 #include <unordered_set>
 
 
+#include <iosfwd>
+#include <istream>
+#include <ostream>
+
+
 
 
 using std::cout;
-using std::endl;
-using std::cin;
-using std::string;
+using std::wcout;
 
+using std::cin;
+using std::wcin;
+
+using std::endl;
+
+
+using std::string;
+using std::wstring;
 
 //----------------------------------------------тестирование массива array<>------------------------------------------------------
 template<typename t, int n>
@@ -696,7 +707,20 @@ public:
 
 void test_unordered_sets();
 
+//-------------------------------------тестирование потоков ввода вывода------------------------------------------------------------
 
+void cin_properties(std::istream & cinth);
+
+
+
+
+
+
+
+
+
+
+void test_ithreads();
 
 
 

@@ -1478,6 +1478,158 @@ void test_unordered_sets()
 
 
 
+//-------------------------------------тестирование потоков ввода вывода------------------------------------------------------------
+
+void cin_properties(std::istream & cin_)
+{
+	std::ios::iostate cin_state = cin_.rdstate();						//запрос флагов состояния потока
+
+	cout << "-------------------------------------------------------";
+	cout <<endl << "прверка битов состояния потока cin " << endl;
+
+	//проверка отдельных флагов
+	if (cin_state & std::ios::goodbit)
+		cout << "cin has \'goodbit\' " << endl;
+	else
+		cout << "cin does not has  \'goodbit\' " << endl;
+
+	if (cin_state & std::ios::eofbit)
+		cout << "cin has \'eofbit\' " << endl;
+	else
+		cout << "cin does not has  \'eofbit\' " << endl;
+
+	if(cin_state & std::ios::failbit)
+		cout << "cin has \'failbit\' " << endl;
+	else
+		cout << "cin does not has  \'failbit\' " << endl;
+
+	if(cin_state & std::ios::badbit)
+		cout << "cin has \'badbit\' " << endl;
+	else
+		cout << "cin does not has  \'badbit\' " << endl;
+
+
+	cout <<endl<< "проверка битов состояния с помощью функций good(), eof(), fail(), bad() " << endl;
+	
+
+	//проверка отдельных битов с помощью функций
+	if(cin_.good())
+		cout << "cin has \'goodbit\' " << endl;
+	else
+		cout << "cin does not has  \'goodbit\' " << endl;
+
+	if(cin_.eof())
+		cout << "cin has \'eofbit\' " << endl;
+	else
+		cout << "cin does not has  \'eofbit\' " << endl;
+
+	if(cin_.fail())
+		cout << "cin has \'failbit\' " << endl;
+	else
+		cout << "cin does not has  \'failbit\' " << endl;
+
+	if(cin_.bad())
+		cout << "cin has \'badbit\' " << endl;
+	else
+		cout << "cin does not has  \'badbit\' " << endl;
+
+
+	//проверка битов состояний которые генерируют исключения
+	cout << endl << "Проверка битов состояний которые генерируют исключения" << endl;
+
+	int flags = cin_.exceptions();									//получаем флаги установка которых вызывает исключения
+
+	if (flags & std::ios::goodbit)
+		cout << "cin не генерирует исключений" << endl;
+
+	if (flags & std::ios::eofbit)
+		cout << "cin генерирует исключения при достижении конца файла EOF" << endl;
+
+	if (flags & std::ios::failbit)
+		cout << "cin генерирует исключения при ошибке ввода failbit" << endl;
+
+	if (flags & std::ios::badbit)
+		cout << "cin генерирует исключения при ошибке ввода badbit" << endl;
+}
+
+
+void test_ithreads()
+{
+	//проверка свойств потока ввода std:cin 
+	//cin_properties(cin);
+	//cin.exceptions(std::ios::badbit | std::ios::failbit | std::ios::eofbit);					//установка бит состояний в которых будут генерироваться исключения
+
+	//cin_properties(cin);
+	//cin.exceptions(std::ios::goodbit);															//сброс всех флагов		
+
+	//cin_properties(cin);
+
+	//ввод данных с консоли
+	char c;
+	wchar_t wc;
+
+	//cout << "input char - ";
+	//cin.get(c);																					//функция istream & istream::get(char & c) срабатывает по событию ввода <Enter>
+	//cout <<endl<< "You input " << c << endl;
+
+	//cout << "input char - ";
+	//c = cin.get();																				//функция int istream::get() просто возвращает следующий символ из потока ввода								
+	//cout << "char - " << c << endl;
+
+
+	//нужно использовать либо cin либо wcin
+
+	//wcout << "input wchar_t - ";
+	//wcin.get(wc);																					//
+	//wcout <<endl <<"You input " << wc << endl;
+
+	//wcout << "input wchar_t - ";
+	//wc = wcin.get();																				//
+	//wcout << "wchar - " << wc << endl;													
+
+	const int N{ 10 };
+	char buffer[N]{'\0'};
+
+	//cout << endl << "input string - ";
+	//cin.get(buffer, 10);												//функция istream & istream::get(char*, streamsize n) считывает n-1 символов, \n - оставляет в потоке
+	//cout << endl << "You input: " << buffer << endl;
+
+	//cout << endl << "input string - ";
+	//cin.get(buffer, 9, '-');											//функция istream & istream::get(char*, streamsize n, char delim)
+	//cout << endl << "You input: " << buffer << endl;
+
+
+	//memset(buffer, '\0', N);
+	//cout << endl << "Input string - ";
+	//cin.getline(buffer, 6);												//функция istream& istream::getline(char*, streamsize n) символ \n - извлекается из потока но не вставляется в буфер			
+	//cout << endl << "You input: " << buffer << endl;
+
+	//memset(buffer, '\0', N);
+	//cout << endl << "Input string - ";
+	//cin.getline(buffer, 6, '\\');										//функция istream& istream::getline(char*, streamsize n, char delim)
+	//cout << endl << "You input: " << buffer << endl;
+
+	//memset(buffer, '\0', N);
+	//cout << endl << "Input string - ";
+	//cin.read(buffer, 9);												//считывает указанное колличество не добавляя \0 в конце		
+	//cout << "You input: " << buffer << endl;
+	
+	//memset(buffer, '\0', N);
+	//cout << endl << "Input string - ";
+	//cin.get(c);
+	//int countchar = cin.readsome(buffer, 5);							//считывает указанное колличество не добавляя \0 в конце, возвращает количество прочитанных символов	
+	//cout << "You input: " <<countchar<<" chars "<< buffer << endl;
+	//
+	//int gc = cin.gcount();												//возвращает количество символов считанных в последнии раз		
+	//cout << "gcount() = " << gc << endl;
+
+
+}
+
+
+
+
+
 
 
 

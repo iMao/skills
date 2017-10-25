@@ -37,7 +37,13 @@ int main()
 	//test_sets();
 	//test_multisets();
 	//test_maps();
-	test_unordered_sets();
+	//test_unordered_sets();
+
+	//---------------------тесты потоков ввода вывода----------------------------------------------
+	test_ithreads();
+
+
+
 
 
 	return 0;
