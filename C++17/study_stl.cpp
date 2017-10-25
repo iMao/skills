@@ -1589,6 +1589,12 @@ void test_ithreads()
 
 	const int N{ 10 };
 	char buffer[N]{'\0'};
+	char buffer2[N]{ '\0' };
+	char buffer3[N]{ '\0' };
+	char buffer4[N]{ '\0' };
+
+
+
 
 	//cout << endl << "input string - ";
 	//cin.get(buffer, 10);												//функция istream & istream::get(char*, streamsize n) считывает n-1 символов, \n - оставляет в потоке
@@ -1622,6 +1628,103 @@ void test_ithreads()
 	//
 	//int gc = cin.gcount();												//возвращает количество символов считанных в последнии раз		
 	//cout << "gcount() = " << gc << endl;
+
+
+	//игнорирование символов с извлечением из потока cin.ignore()
+	//123456789123*5678
+	//memset(buffer, '\0', N);
+	//cin.get(buffer, 4);														//считываем 123	
+	//cin.ignore();															//игнорируем 4
+	//cin.ignore(6);															//игнорируем 567891	
+	//cin.ignore(4, '*');														//игнорируем 4 пока не встретится '*'		
+	//cin.get(c);																//потом считываем один символ			
+	//char next_char = cin.peek();											//возвращаем следующий символ без его извлечения	
+
+	//cout << "You input: " << buffer << " " << c << " nextchar - "<<next_char<<endl;
+
+	//cin.unget();
+	//cin.get(c);
+	//cout << "Last readed char: " << c << endl;
+	//
+	//cin_properties(cin.putback('9'));										//пытаемся вернуть назад в поток символ, который не считывали	
+	//
+	//cin.get(c);
+	//cout << "Last returned char: " << c << endl;
+
+
+
+	//манипуляторы ввода-вывода
+	//memset(buffer, '\0', N);
+	//
+	//cout << "Input char chain with \' \'" << std::ends;						//добавляем символ \0 в конец вывода
+	//cin >> std::noskipws;													//отключаем игнорирование пробельных символов при вводе >>123 234 356 ->123 234 356 
+	//cin.get(buffer, 10);
+	//cout << "You input: " << buffer << std::endl;
+
+	//cout << "Input char chain with \' \'" << std::ends;						//добавляем символ \0 в конец вывода
+	//cin >> std::ws;															//включаем игнорирование пробельных символов
+	//cin.get(buffer2, 10);
+	//cout << "You input: " << buffer2 << std::endl;
+
+
+	//манипуляторы для вывода вещественных чисел
+	double num = 90.34567;
+	cout << '|' << std::setw(15) << std::showpos << std::left << num 
+		 << '|' <<std::setw(15) << std::noshowpos << std::left << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::right << num 
+		 << '|' << std::setw(15) << std::noshowpos << std::right << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::internal << num
+ 		 << '|' << std::setw(15) << std::noshowpos << std::right << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::right << std::setfill('_') << num
+		 << '|' << std::setw(15) << std::showpos << std::right << std::setfill('*') << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::right << std::setfill(' ') << num
+		 << '|' << std::setw(15) << std::showpos << std::right << std::setfill(' ') << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::right << std::scientific << num
+ 		 << '|' << std::setw(15) << std::showpos << std::right << std::scientific << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::right << std::defaultfloat << num
+		 << '|' << std::setw(15) << std::showpos << std::right << std::defaultfloat << num << '|' << endl;
+
+	cout << '|' << std::setw(15) << std::showpos << std::right << std::hexfloat << num
+ 		 << '|' << std::setw(15) << std::showpos << std::right << std::hexfloat << num << '|' << endl;
+
+	//std::setprecision(n) совместно с std::defaultfloat задает общее количество знаков числа
+	cout << '|' << std::setw(15) <<std::setprecision(3) << std::defaultfloat << std::showpos << std::right << num
+		<< '|' << std::setw(15) << std::setprecision(4) << std::defaultfloat << std::showpos << std::right  << num << '|' << endl;
+
+
+	//std::setprecision(n) совместно с std::fixed задает количество знаков после запятой
+	cout << '|' << std::setw(15) << std::setprecision(6) << std::fixed << std::showpos << std::right << num
+		<< '|' << std::setw(15) << std::setprecision(7) << std::fixed << std::showpos << std::right << num << '|' << endl;
+
+
+	//манипуляторы для вывода целых чисел
+	int intnum = 255;
+	cout << endl;
+	cout << '|' << std::setw(17) << std::dec << std::showpos << std::right << intnum << '|' << endl;
+	cout << '|' << std::setw(17) << std::hex << std::showpos << std::right << intnum << '|' << endl;
+	cout << '|' << std::setw(17) << std::uppercase<< std::hex << std::showpos << std::right << intnum << '|' << endl;
+	cout << '|' << std::setw(17) << std::oct << std::showpos << std::right << intnum << '|' << endl;
+	cout << '|' << std::setw(17) << std::dec <<std::showbase<< std::showpos << std::right << intnum << '|' << endl;
+
+
+
+	//манипуляторы для вывода денежных единиц (получена ошибка при выводе денежных единиц)
+	//long double money = 100500.567;
+
+	//cout << endl;
+	//cout.imbue(std::locale("ru_RU.utf8"));							//en_US.utf8			ru_RU.utf8
+	//cout << std::showbase << std::put_money(money,true) << endl;
+
+
+	cout << myendl;
+	cout << "Hello ostream" << myendl << "I am glad to see You again" << myendl << "I am happy" << myendl;
+	cout << RUB << 90.12 << myendl;
 
 
 }

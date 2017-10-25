@@ -712,10 +712,32 @@ void test_unordered_sets();
 void cin_properties(std::istream & cinth);
 
 
+template<typename charT, typename traits>
+inline std::basic_ostream<charT, traits>&  myendl(std::basic_ostream<charT, traits> & ostr)
+{
+	ostr.put('\n');
+	ostr.flush();
+
+	return ostr;
+}
 
 
+template<typename charT, typename traits>
+std::basic_ostream<charT, traits>& myfformat(std::basic_ostream<charT, traits>& ostr)
+{
+	ostr << std::setw(10) << std::setprecision(7) << std::fixed << std::showpos << std::right;
+	
+	return ostr;
+}
 
+template<typename charT, typename traits>
+std::basic_ostream<charT, traits>& RUB(std::basic_ostream<charT, traits>& ostr)
+{
+	ostr.put(0x20BD);
+	ostr << std::setw(10) << std::setprecision(7) << std::fixed << std::showpos << std::right;
 
+	return ostr;
+}
 
 
 

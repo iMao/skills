@@ -5,6 +5,7 @@
 int main()
 {
 	setlocale(LC_ALL, "Russian");
+	//setlocale(LC_ALL, "en_US.UTF-8");
 
 	//----------------------тесты многопоточности, синхронизации и пр.----------------------------
 	//test_number_1();
