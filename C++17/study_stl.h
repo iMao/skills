@@ -32,7 +32,7 @@
 #include <iosfwd>
 #include <istream>
 #include <ostream>
-
+#include <locale>
 
 
 
@@ -733,11 +733,40 @@ std::basic_ostream<charT, traits>& myfformat(std::basic_ostream<charT, traits>& 
 template<typename charT, typename traits>
 std::basic_ostream<charT, traits>& RUB(std::basic_ostream<charT, traits>& ostr)
 {
-	ostr.put(0x20BD);
+	ostr.put(0xE282BD);
 	ostr << std::setw(10) << std::setprecision(7) << std::fixed << std::showpos << std::right;
 
 	return ostr;
 }
+
+
+enum LANG {C, RUS, RUS_UTF8, ENG, ENG_UTF8,DE, DE_UTF8, FR};
+
+void set_locale(LANG lang);
+
+
+
+//пользовательский модификатор для игнорирования n-строк
+class ignoreLine
+{
+private:
+	int num;
+public:
+	explicit ignoreLine(int n = 1) :num(n) {}
+
+	template<typename _char, typename _traits>
+	friend std::basic_istream<_char, _traits>& operator >>(std::basic_istream<_char, _traits>& istr, const ignoreLine& ign)
+	{
+		for (int i = 0; i < ign.num; i++)
+		{
+			istr.ignore(std::numeric_limits<std::streamsize>::max(), istr.widen('\n'));
+		}
+		return istr;
+	}
+};
+
+
+
 
 
 

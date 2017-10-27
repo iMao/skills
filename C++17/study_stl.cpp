@@ -1553,6 +1553,35 @@ void cin_properties(std::istream & cin_)
 }
 
 
+void set_locale(LANG lang)
+{
+	switch (lang)
+	{
+		case C:			setlocale(LC_ALL, "C");
+			break;
+		case ENG:		setlocale(LC_ALL, "en-US");
+			break;
+		case ENG_UTF8:	setlocale(LC_ALL, "en_US.UTF-8");
+			break;
+		case RUS:		setlocale(LC_ALL, "Russian");
+			break;
+		case RUS_UTF8:	setlocale(LC_ALL, "ru_RU.utf8");
+			break;
+		case DE:		setlocale(LC_ALL, "de_DE");
+			break;
+		case DE_UTF8:	setlocale(LC_ALL, "de_DE.utf8");
+			break;
+		case FR:		setlocale(LC_ALL, "fr-FR");
+			break;
+		default: cout << "You chosed wrong language. Reset locale." << endl;
+			break;
+	}
+
+	std::cout << "User preffered local:" << std::locale().name() << endl;					
+}
+
+
+
 void test_ithreads()
 {
 	//проверка свойств потока ввода std:cin 
@@ -1669,64 +1698,64 @@ void test_ithreads()
 
 	//манипуляторы для вывода вещественных чисел
 	double num = 90.34567;
-	cout << '|' << std::setw(15) << std::showpos << std::left << num 
-		 << '|' <<std::setw(15) << std::noshowpos << std::left << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::left << num 
+	//	 << '|' <<std::setw(15) << std::noshowpos << std::left << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::right << num 
-		 << '|' << std::setw(15) << std::noshowpos << std::right << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::right << num 
+	//	 << '|' << std::setw(15) << std::noshowpos << std::right << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::internal << num
- 		 << '|' << std::setw(15) << std::noshowpos << std::right << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::internal << num
+ //		 << '|' << std::setw(15) << std::noshowpos << std::right << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::right << std::setfill('_') << num
-		 << '|' << std::setw(15) << std::showpos << std::right << std::setfill('*') << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::right << std::setfill('_') << num
+	//	 << '|' << std::setw(15) << std::showpos << std::right << std::setfill('*') << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::right << std::setfill(' ') << num
-		 << '|' << std::setw(15) << std::showpos << std::right << std::setfill(' ') << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::right << std::setfill(' ') << num
+	//	 << '|' << std::setw(15) << std::showpos << std::right << std::setfill(' ') << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::right << std::scientific << num
- 		 << '|' << std::setw(15) << std::showpos << std::right << std::scientific << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::right << std::scientific << num
+ //		 << '|' << std::setw(15) << std::showpos << std::right << std::scientific << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::right << std::defaultfloat << num
-		 << '|' << std::setw(15) << std::showpos << std::right << std::defaultfloat << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::right << std::defaultfloat << num
+	//	 << '|' << std::setw(15) << std::showpos << std::right << std::defaultfloat << num << '|' << endl;
 
-	cout << '|' << std::setw(15) << std::showpos << std::right << std::hexfloat << num
- 		 << '|' << std::setw(15) << std::showpos << std::right << std::hexfloat << num << '|' << endl;
+	//cout << '|' << std::setw(15) << std::showpos << std::right << std::hexfloat << num
+ //		 << '|' << std::setw(15) << std::showpos << std::right << std::hexfloat << num << '|' << endl;
 
-	//std::setprecision(n) совместно с std::defaultfloat задает общее количество знаков числа
-	cout << '|' << std::setw(15) <<std::setprecision(3) << std::defaultfloat << std::showpos << std::right << num
-		<< '|' << std::setw(15) << std::setprecision(4) << std::defaultfloat << std::showpos << std::right  << num << '|' << endl;
+	////std::setprecision(n) совместно с std::defaultfloat задает общее количество знаков числа
+	//cout << '|' << std::setw(15) <<std::setprecision(3) << std::defaultfloat << std::showpos << std::right << num
+	//	<< '|' << std::setw(15) << std::setprecision(4) << std::defaultfloat << std::showpos << std::right  << num << '|' << endl;
 
 
-	//std::setprecision(n) совместно с std::fixed задает количество знаков после запятой
-	cout << '|' << std::setw(15) << std::setprecision(6) << std::fixed << std::showpos << std::right << num
-		<< '|' << std::setw(15) << std::setprecision(7) << std::fixed << std::showpos << std::right << num << '|' << endl;
+	////std::setprecision(n) совместно с std::fixed задает количество знаков после запятой
+	//cout << '|' << std::setw(15) << std::setprecision(6) << std::fixed << std::showpos << std::right << num
+	//	<< '|' << std::setw(15) << std::setprecision(7) << std::fixed << std::showpos << std::right << num << '|' << endl;
 
 
 	//манипуляторы для вывода целых чисел
 	int intnum = 255;
-	cout << endl;
-	cout << '|' << std::setw(17) << std::dec << std::showpos << std::right << intnum << '|' << endl;
-	cout << '|' << std::setw(17) << std::hex << std::showpos << std::right << intnum << '|' << endl;
-	cout << '|' << std::setw(17) << std::uppercase<< std::hex << std::showpos << std::right << intnum << '|' << endl;
-	cout << '|' << std::setw(17) << std::oct << std::showpos << std::right << intnum << '|' << endl;
-	cout << '|' << std::setw(17) << std::dec <<std::showbase<< std::showpos << std::right << intnum << '|' << endl;
-
-
-
-	//манипуляторы для вывода денежных единиц (получена ошибка при выводе денежных единиц)
-	//long double money = 100500.567;
-
 	//cout << endl;
-	//cout.imbue(std::locale("ru_RU.utf8"));							//en_US.utf8			ru_RU.utf8
-	//cout << std::showbase << std::put_money(money,true) << endl;
+	//cout << '|' << std::setw(17) << std::dec << std::showpos << std::right << intnum << '|' << endl;
+	//cout << '|' << std::setw(17) << std::hex << std::showpos << std::right << intnum << '|' << endl;
+	//cout << '|' << std::setw(17) << std::uppercase<< std::hex << std::showpos << std::right << intnum << '|' << endl;
+	//cout << '|' << std::setw(17) << std::oct << std::showpos << std::right << intnum << '|' << endl;
+	//cout << '|' << std::setw(17) << std::dec <<std::showbase<< std::showpos << std::right << intnum << '|' << endl;
 
+
+	//установка кодировки символов
+	set_locale(RUS);
 
 	cout << myendl;
 	cout << "Hello ostream" << myendl << "I am glad to see You again" << myendl << "I am happy" << myendl;
-	cout << RUB << 90.12 << myendl;
+	cout << "Привет ostream" << myendl << "Я рад видеть тебя снова" << myendl << "Я счастлив" << myendl;
+	
+	//игнорирование строк при вводе
+	string instr;
 
-
+	cout << "Input n - strings:" << endl;
+	cin >> ignoreLine(3) >> instr;
+	cout << "You have input: " << instr << endl;
+	
 }
 
 
