@@ -1,0 +1,3 @@
+hello C++11,
+ I am glad to see new C++ standart 
+ I hope that I can find new excelent job

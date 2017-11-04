@@ -1755,7 +1755,74 @@ void test_ithreads()
 	cout << "Input n - strings:" << endl;
 	cin >> ignoreLine(3) >> instr;
 	cout << "You have input: " << instr << endl;
+
 	
+}
+
+
+//--------------------------------------тестирование файловых потоков---------------------------------------------------
+void test_fstreams()
+{
+	set_locale(RUS);
+
+	cout << "Работа с файловыми потоками вывода" << endl;
+
+	//тестирование простого вывода ASCI кодов в файл
+	cout << "вывод таблицы кодов ASCI" << endl;
+
+	std::ofstream ofs;
+	ofs.open("asci.txt", std::ios::out | std::ios::trunc);
+	
+	for (int i = 0; i < 256; i++)
+	{
+		ofs << static_cast<char>(i);
+	}
+	ofs.close();
+
+	//вывод текста в файл
+	cout << "вывод текста в файл" << endl;
+
+	char text[]{"hello C++11,\n I am glad to see new C++ standart \n I hope that I can find new excelent job\0"};
+
+	ofs.open("text.txt", std::ios::out | std::ios::trunc);
+	ofs <<text;
+	ofs.close();
+
+	//вывод чисел в файл
+	ofs.open("numbers.txt", std::ios::out | std::ios::trunc);
+	
+	for (int i = 0; i < 16; i++)
+	{
+		ofs.width(5);
+		ofs.setf(std::ios::uppercase | std::ios::showpos | std::ios::showbase);
+		ofs.setf(std::ios::hex, std::ios::basefield);
+		ofs.fill('_');
+		ofs << i <<endl;
+	}
+	
+	for (int j = 0; j < 10; j++)
+	{
+		ofs << "|" << std::setw(10) << std::setprecision(5) << static_cast<double>(j)*3.14 << "|" << std::setw(10) << j << "|" << endl;
+	}
+	ofs.close();
+
+
+	//комбинированный вывод
+	std::ofstream cmb_ofs("cmb.txt", std::ios::out | std::ios::trunc);
+	cmb_ofs.write(text, strlen(text));
+	cmb_ofs.put('\n');
+	
+	std::array<int, 10> M{34,12,45,67,14,59,23,18,13,90};
+
+	for (auto i = M.begin(); i != M.end(); ++i)
+	{
+		cmb_ofs.width(4);
+		cmb_ofs.setf(std::ios::showpos);
+		cmb_ofs.setf(std::ios::internal, std::ios::adjustfield);
+		cmb_ofs << (*i) << "<-"<<endl;
+	}
+
+	cmb_ofs.close();
 }
 
 

@@ -38,8 +38,8 @@ int main()
 	//test_unordered_sets();
 
 	//---------------------тесты потоков ввода вывода----------------------------------------------
-	test_ithreads();
-
+	//test_ithreads();
+	test_fstreams();
 
 
 

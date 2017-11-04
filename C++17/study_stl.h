@@ -33,7 +33,7 @@
 #include <istream>
 #include <ostream>
 #include <locale>
-
+#include <fstream>
 
 
 using std::cout;
@@ -766,14 +766,10 @@ public:
 };
 
 
-
-
-
-
-
 void test_ithreads();
 
-
+//--------------------------------------тестирование файловых потоков--------------------------------------------------------
+void test_fstreams();
 
 
 
