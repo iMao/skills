@@ -1,13 +1,14 @@
-hello C++11,
- I am glad to see new C++ standart 
- I hope that I can find new excelent job
+hello C++11, 
+ I am glad to see new C++ standart* - 
+ I hope that 
+ + I can find new excelent job with big salary, 
 + 34<-
-+ 12<-
+- 12<-
 + 45<-
 + 67<-
-+ 14<-
+- 14<-
 + 59<-
 + 23<-
-+ 18<-
+- 18<-
 + 13<-
 + 90<-

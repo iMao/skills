@@ -1782,7 +1782,7 @@ void test_fstreams()
 	//вывод текста в файл
 	cout << "вывод текста в файл" << endl;
 
-	char text[]{"hello C++11,\n I am glad to see new C++ standart \n I hope that I can find new excelent job\0"};
+	char text[]{"hello C++11, \n I am glad to see new C++ standart* - \n I hope that \n + I can find new excelent job with big salary, "};
 
 	ofs.open("text.txt", std::ios::out | std::ios::trunc);
 	ofs <<text;
@@ -1812,7 +1812,7 @@ void test_fstreams()
 	cmb_ofs.write(text, strlen(text));
 	cmb_ofs.put('\n');
 	
-	std::array<int, 10> M{34,12,45,67,14,59,23,18,13,90};
+	std::array<int, 10> M{34,-12,45,67,-14,59,23,-18,13,90};
 
 	for (auto i = M.begin(); i != M.end(); ++i)
 	{
@@ -1823,6 +1823,161 @@ void test_fstreams()
 	}
 
 	cmb_ofs.close();
+
+
+
+	//тестирование файлового ввода посимвольное чтение
+	cout << endl << "Чтение данных из файла" << endl;
+	
+	std::ifstream ifs("cmb.txt", std::ios::in);
+	
+	while (!ifs.eof())
+	{
+		char c = ifs.get();
+		cout << c;
+	}
+	ifs.close();
+
+
+	//чтение из файла с помощью разных функций ввода
+	char strbuffer[512];
+	memset(strbuffer, '\0', 512);
+	int len = strlen(text);
+
+	cout << endl << "length of text: " << len <<endl;
+
+	std::ifstream strm("cmb.txt", std::ios::in);
+	strm.get(strbuffer, len);											//читаем (len-1) символов до символа '\n'		
+	cout << endl << "Прочитано из файла: " << strbuffer;
+
+	memset(strbuffer, '\0', 512);
+	strm.get(strbuffer, len, '*');										//читаем (len-1) символов до символа '*'	
+	cout << endl << "Прочитано из файла: " << strbuffer;
+	
+	strm.getline(strbuffer, len);
+	cout << endl << "Прочитано из файла: " << strbuffer;
+
+	strm.getline(strbuffer, len, '+');
+	cout << endl << "Прочитано из файла: " << strbuffer;
+
+	memset(strbuffer, '\0', 512);
+	strm.read(strbuffer, 11);
+	cout << endl << "Прочитано из файла функцией read(): " << strbuffer;
+
+	memset(strbuffer, '\0', 512);
+	std::streamsize s = strm.readsome(strbuffer, 35);
+	cout << endl << "Прочитано из файла функцией readsome(): "<<s<<" символов:" << strbuffer;
+
+	strm.close();
+	
+
+	//работа с позициями
+	std::ifstream ifstrm("numbers.txt", std::ios::in);
+	ifstrm.seekg(0, std::ios::beg);
+	
+	char num[3];
+	do {
+		switch (ifstrm.peek())
+		{
+			case '_':
+			case '0':
+			case 'X':
+				ifstrm.ignore();
+				break;
+			default: 
+			{
+				ifstrm.getline(num, 3);
+				int a = atoi(num);
+				cout << endl << "a = " << a;
+			}
+				 break;
+		}
+	} while (ifstrm.peek() != '|');
+
+
+
+	ifstrm.seekg(-25, std::ios::end);
+	ifstrm.getline(strbuffer, 25);
+
+	cout << endl << "Last row: " << strbuffer;
+
+	ifstrm.close();
+
+
+
+	//создание потока для чтения и записи в файл
+	cout << endl;
+	cout << endl << "work with std::fstream class" << endl;
+	
+	std::fstream fs("text.txt", std::ios::in | std::ios::out);
+	fs.seekp(0, std::ios::end);
+	
+	fs << "I like big salary CHF 5000-10000 or US dollar $";
+	
+	fs.seekg(0, std::ios::beg);
+	fs.getline(strbuffer, 512, '$');
+	
+	cout << "Text from file text.txt: " << strbuffer<<endl;
+	fs.close();
+
+}
+
+
+
+
+//--------------------------------------тестирование строковыых потоков------------------------------------------------------
+void test_string_streams()
+{
+	//вывод в строковой поток
+	std::ostringstream oss;
+	oss << std::setw(5) << std::right << std::showpos << 53;
+	oss << std::setw(5) << std::right << std::showpos << 7 << '\n';
+
+	cout << endl;
+	cout <<"String from std::ostringstream: " <<oss.str();
+
+	//форматированый вывод чисел в строковый поток
+	std::ostringstream os;
+	int i = 10;
+	while (--i)
+	{
+		os.width(7);
+		os.fill('_');
+		os.setf(std::ios::hex, std::ios::basefield);
+		os.setf(std::ios::uppercase | std::ios::showbase);
+		os << i << " ";
+	}
+
+	cout << endl <<"String from string stream: "<< os.str();
+
+
+	//ввод данных из строкового потока
+	string s("6   7 8 9.2");
+	int a, b, c;
+	float d;
+
+	std::istringstream ist;
+	ist.str(s);
+	ist >> a >> b >> c >> d;
+
+	cout << endl << "a = " << a << " b = " << b << " c = " << c <<" d = " << d << endl;
+
+	//ввод данных в кортеж
+	string str{"Hello 5 6.5 $"};
+
+	string hello;
+	int num;
+	float f;
+	char ch;
+
+	std::istringstream is(str);
+	is >> hello >> num >> f >> ch;
+
+	std::tuple<string &, int&, float&, char&> tp = std::tie(hello, num, f, ch);
+
+	cout << endl;
+	cout <<"Tuple<>: "<< std::get<0>(tp) << " " << std::get<1>(tp) << " " << std::get<2>(tp)<<" " << std::get<3>(tp) <<endl;
+
 }
 
 

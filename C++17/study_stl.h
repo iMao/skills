@@ -34,7 +34,7 @@
 #include <ostream>
 #include <locale>
 #include <fstream>
-
+#include <sstream>
 
 using std::cout;
 using std::wcout;
@@ -772,7 +772,8 @@ void test_ithreads();
 void test_fstreams();
 
 
-
+//--------------------------------------тестирование строковыых потоков------------------------------------------------------
+void test_string_streams();
 
 
 

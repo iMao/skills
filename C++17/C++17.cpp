@@ -39,8 +39,8 @@ int main()
 
 	//---------------------тесты потоков ввода вывода----------------------------------------------
 	//test_ithreads();
-	test_fstreams();
-
+	//test_fstreams();
+	test_string_streams();
 
 
 
