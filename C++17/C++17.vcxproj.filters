@@ -24,6 +24,9 @@
     <ClInclude Include="study_stl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="oop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++17.cpp">
@@ -33,6 +36,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="study_stl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="oop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

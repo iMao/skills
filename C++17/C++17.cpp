@@ -1,6 +1,8 @@
 
-#include "tools.h"
-#include "study_stl.h"
+//#include "tools.h"
+//#include "study_stl.h"
+#include "oop.h"
+
 
 int main()
 {
@@ -40,8 +42,10 @@ int main()
 	//---------------------тесты потоков ввода вывода----------------------------------------------
 	//test_ithreads();
 	//test_fstreams();
-	test_string_streams();
+	//test_string_streams();
 
+	//---------------------тесты ООП---------------------------------------------------------------
+	test_class();
 
 
 	return 0;
