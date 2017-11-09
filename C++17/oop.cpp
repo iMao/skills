@@ -4,10 +4,12 @@
 
 
 //-----------------------тест ООП---------------------------------------------
+int Stock::counter;			//определение статического поля класса
+
 
 Stock::Stock()
 {
-	std::cout << "Constructor Stock(){}" << std::endl;
+	std::cout << "Constructor Stock(){}" << ++counter << std::endl;
 
 	company = "no name";
 	shares = 0;
@@ -17,7 +19,7 @@ Stock::Stock()
 
 Stock::Stock(const Stock & stock)
 {
-	std::cout << "Copy constructor Stock(const Stock& stock)" << std::endl;
+	std::cout << "Copy constructor Stock(const Stock& stock)" << ++counter <<  std::endl;
 
 	this->company   = stock.getCompany();
 	this->shares    = stock.getShares();
@@ -28,7 +30,7 @@ Stock::Stock(const Stock & stock)
 
 Stock::Stock(const std::string & company, long shares, double shares_val)
 {
-	std::cout << "Constructor Stock(p1,p2,...)" << std::endl;
+	std::cout << "Constructor Stock(p1,p2,...)" << ++counter << std::endl;
 
 	this->company = company;
 	this->shares = shares;
@@ -38,7 +40,7 @@ Stock::Stock(const std::string & company, long shares, double shares_val)
 
 Stock::Stock(double total_val)
 {
-	std::cout << "Constructor Stock(p1)" << std::endl;
+	std::cout << "Constructor Stock(p1)" << ++counter  << std::endl;
 	company = "x company";
 	shares = 100;
 	share_val = total_val / shares;
@@ -47,9 +49,12 @@ Stock::Stock(double total_val)
 
 
 
+
+
+
 Stock::~Stock()
 {
-	std::cout << "Destructor ~Stock(){} for object: " <<company<< std::endl;
+	std::cout << "Destructor ~Stock(){} for object: " << counter-- <<"  "<<company<< std::endl;
 }
 
 
@@ -93,6 +98,10 @@ void Stock::show()const
 }
 
 
+void Stock::set_counter(int init_val)
+{
+	counter = init_val;
+}
 
 
 void test_class()
@@ -100,6 +109,8 @@ void test_class()
 
 	std::cout << "tests oop:" << std::endl;
 	{
+		Stock::set_counter(500);						//установка начального значения для статического поля id
+
 		Stock stock1;							//неявный вызов конструктора по умолчанию
 		Stock stock2 = Stock();					//явный вызов конструктора по умолчанию
 		Stock stock3(stock1);					//явный вызов конструктора копирования
@@ -110,7 +121,7 @@ void test_class()
 		Stock stock8{ "BP", 150, 67.2 };		//создание объекта при помощи списка инициализации	
 		Stock stock9 = 92.0;					//вызов конструктора с одним параметром	
 		Stock stock10{ 67.5 };
-
+		Stock stock11 = Stock(55.2);
 
 		stock1.show();
 		stock2.show();
@@ -122,5 +133,40 @@ void test_class()
 		stock8.show();
 		stock9.show();
 		stock10.show();
+		stock11.show();
+	}
+
+	std::cout << std::endl << "Work with constructs:" << std::endl;
+	std::cout << std::endl;
+	{
+		A a1;
+		A a2("This is a2");
+		A a3(a1);
+		A a4(std::move(a2));
+
+		a1.p();
+		a2.p();
+		a3.p();
+		a4.p();
+	}
+
+
+
+	cout << endl << "class inheritance" <<endl;
+	{
+		cout << endl << "object of class Base" << endl;
+		Base b(1, 2);
+		b.showij();
+
+
+		cout << endl << "object of class OpenBase" << endl;
+		OpenBase ob(3,5,6);
+		ob.setk(10);
+		ob.showij();
+		ob.showk();
+
+		cout << endl << "object of class PrivateBase" << endl;
+		PrivateBase pb(7, 7, 8);
+		pb.showijm();
 	}
 }
