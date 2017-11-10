@@ -95,7 +95,7 @@ public:
 
 
 
-
+//наследование с атрибутом доступа public
 class OpenBase : public Base
 {
 private:
@@ -119,6 +119,9 @@ public:
 	
 };
 
+
+
+//наследование с атрибутом доступа private
 class PrivateBase : private Base
 {
 private:
@@ -142,6 +145,47 @@ public:
 	}
 };
 
+
+
+//наследование protected членов класса
+class base {
+protected:
+	string name;
+	string surname;
+
+public:
+	base() :name("no name"), surname("no surname") { cout << "base default constructor" << endl; }
+	base(string name, string surname) :name(name), surname(surname) { cout << "base constructor(p1,p2)" << endl; }
+	~base() { cout << "destructor" << endl; }
+
+	void print()						{ cout << "name: " + name + " " + "surname: " + surname << endl; }
+	void set_name(string name)			{ this->name = name; }
+	void set_surname(string surname)	{ this->surname = surname; }
+};
+
+//открытое наследование класса base с областью protected
+class open_base : public base {
+private:	
+	string full_name;
+public:
+	open_base() :base() { cout << "open_base default constructor" << endl; }
+	~open_base() { cout << "open_base destructor" << endl; }
+
+	void make_fullname() { full_name = name + " " + surname; }
+	void print_full_name() { cout << "full name: " + full_name << endl; }
+};
+
+
+//открытое наследование класса open_base с областью protected унаследованной от класса base
+class info_base : public open_base {
+private:
+	short old;
+public:
+	info_base() :old(0) { cout << "info_base default constructor " << endl; }
+	~info_base() { cout << "info_base destructor" << endl; }
+	void set_old(short old) { this->old = old; }
+	void show_info() { cout << "person: " + name + " " + surname << std::to_string(old) << endl; }
+};
 
 
 
