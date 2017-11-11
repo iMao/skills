@@ -45,7 +45,11 @@ int main()
 	//test_string_streams();
 
 	//---------------------тесты ООП---------------------------------------------------------------
-	test_class();
+	//test_class();
+	//test_multiple_inheritance();
+	test_access_declaration();
+
+
 
 
 	return 0;

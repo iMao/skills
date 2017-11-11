@@ -159,14 +159,72 @@ void test_class()
 		b.showij();
 
 
-		cout << endl << "object of class OpenBase" << endl;
-		OpenBase ob(3,5,6);
+		cout << endl << "object of class OpenBase public inheritance" << endl;
+		OpenBase ob(3, 5, 6);
 		ob.setk(10);
 		ob.showij();
 		ob.showk();
 
-		cout << endl << "object of class PrivateBase" << endl;
+		cout << endl << "object of class PrivateBase private inheritance" << endl;
 		PrivateBase pb(7, 7, 8);
 		pb.showijm();
+
 	}
+
+	{
+		cout << endl << "inheritance with protected area" << endl;
+		cout << endl;
+
+		base bs("Nico", "Mackoy");
+		bs.print();
+
+		cout << endl;
+
+		open_base obs;
+		obs.make_fullname();
+		obs.print_fullname();
+
+		cout << endl;
+
+		info_base infb;
+		infb.show();
+
+		cout << endl;
+
+		close_base cb;
+		cb.show_all();
+	}
+}
+
+
+
+//--------------------------множественное наследование---------------------------------------------
+void test_multiple_inheritance()
+{
+	cout << "test multiple inheritance" << endl;
+	{
+		circle_quad cq(2);
+		cq.calc_l();
+		cq.calc_s();
+		cq.calc_squad();
+		
+		cq.getStatus();
+		cq.show_circle();
+		cq.show_quad();
+	}
+
+}
+
+
+
+//----------------------предоставление доступа-----------------------------------------------
+void test_access_declaration()
+{
+	derived d(2, 4);
+	d.showij();
+
+	d.setij(10, 24);
+	d.showij();
+
+
 }
