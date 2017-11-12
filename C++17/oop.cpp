@@ -228,3 +228,88 @@ void test_access_declaration()
 
 
 }
+
+
+
+
+//-------------------virtual functions-------------------------------------------------
+void vf(Char & ch)
+{
+	ch.show_char();
+}
+
+
+void test_virtual_functions()
+{
+	//динамическое связывание через указатель на объект базового класса
+	cout << endl << "Virtual functions" << endl;
+	{
+		Char* pchar{nullptr};
+
+		Char      oChar('u');
+		UpperChar upChar('u');
+		ASCIChar  asciChar('u');
+	
+		cout << endl;
+		
+		pchar = &oChar;
+		pchar->show_char();		//вызов функции базового класса Char
+
+		pchar = &upChar;
+		pchar->show_char();		//вызов функции производного класса UpperChar
+
+		pchar = &asciChar;
+		pchar->show_char();		//вызов функции производного класса ASCIChar
+	}
+
+	//динамическое связывание через объект базового класса передаваемый в функцию по ссылке
+	{
+		Char      oChar('x');
+		UpperChar upChar('x');
+		ASCIChar  asciChar('x');
+
+		vf(oChar);
+		vf(upChar);
+		vf(asciChar);
+	}
+}
+
+
+
+//-------------------------abstract class----------------------------------------------
+void test_abstract_class()
+{
+	number* pn{nullptr};
+
+	hexnumber hn(0xA1);
+	decnumber dn(0xA1);
+	octnumber on(0xA1);
+
+	pn = &hn;
+	pn->show();
+
+	pn = &dn;
+	pn->show();
+
+	pn = &on;
+	pn->show();
+
+}
+
+
+
+//------------------------------разные возможности ООП------------------------------------
+unsigned int graph_object::counter;			//определение статической переменной класса graph_object
+
+
+void test_oop_features()
+{
+	figure_interface* fp{ nullptr };
+	Quad qd(10, 0, 0);
+
+	fp = &qd;
+	fp->calcS();
+	fp->show();
+	qd.showAttributes();
+
+}

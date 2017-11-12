@@ -47,10 +47,10 @@ int main()
 	//---------------------тесты ООП---------------------------------------------------------------
 	//test_class();
 	//test_multiple_inheritance();
-	test_access_declaration();
-
-
-
+	//test_access_declaration();
+	//test_virtual_functions();
+	//test_abstract_class();
+	test_oop_features();
 
 	return 0;
 }

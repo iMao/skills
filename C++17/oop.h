@@ -268,6 +268,7 @@ public:
 	~circle_quad() { cout << "destructor of class circle_quad" << endl; }
 
 	
+	
 };
 
 void test_multiple_inheritance();
@@ -300,16 +301,243 @@ public:
 
 };
 
-
-
-
 void test_access_declaration();
 
 
+//-------------------virtual functions---------------------------------------------------
+
+
+class Char {
+protected:
+	char c;
+public:
+	Char() :c('\0') { cout <<" constructor of class Char"<< '\n'; }
+	Char(char c) :c(c) { cout << " constructor of class Char " << "Char: " << c << '\n'; }
+	~Char() { cout << "destructor of class Char\n"; }
+
+	virtual void show_char() { cout << "Char: " << c << endl; }
+};
+
+class UpperChar : public Char {
+public:
+	UpperChar(char c) : Char(c) { cout << "constructor of class UpperChar" << endl; }
+	~UpperChar() { cout << "destructor of class UpperChar" << endl; }
+	
+	void show_char() { cout << "Char: " << "< " << c << " >" << endl; }
+};
+
+class ASCIChar : public Char {
+public:
+	ASCIChar(char c) :Char(c) { cout << "constructor of class ASCIChar" << endl; }
+	~ASCIChar() { cout << "destructor of class ASCIChar" << endl; }
+	void show_char() { cout << "Char: " << "[" << c << "]" << "has ASCI code =  " << static_cast<int>(c) << endl; }
+
+};
+
+void vf(Char & ch);
+
+void test_virtual_functions();
+
+
+//-------------------------abstract class----------------------------------------------
+
+class number {
+protected:
+	int a;
+public:
+	number() :a(0) {}
+	number(int a) : a(a) {}
+	~number() {}
+
+	virtual void show() = 0;		//чисто виртуальная функция
+};
+
+class hexnumber :public number {
+public: 
+	hexnumber() :number() {}
+	hexnumber(int a) : number(a) {}
+	~hexnumber() {}
+
+	void show() 
+	{ 
+		cout.setf(std::ios::hex, std::ios::basefield);
+		cout.setf(std::ios::showpos | std::ios::showbase | std::ios::uppercase);
+		
+		cout << a << endl;
+	}
+};
+
+
+class octnumber : public number {
+public:
+	octnumber() :number() {}
+	octnumber(int a) :number(a) {}
+	~octnumber() {}
+
+	void show() 
+	{
+		cout.setf(std::ios::oct, std::ios::basefield);
+		cout.setf(std::ios::showpos | std::ios::showbase | std::ios::uppercase);
+		
+		cout << a << endl;
+	}
+};
+
+class decnumber : public number {
+public:
+	decnumber():number() {}
+	decnumber(int a) :number(a) {}
+	~decnumber() {}
+
+	void show() 
+	{
+		cout.setf(std::ios::dec, std::ios::basefield);
+		cout.setf(std::ios::showpos | std::ios::showbase | std::ios::uppercase);
+		
+		cout << a << endl;
+	}
+};
+
+
+
+void test_abstract_class();
+
+
+//------------------------------разные возможности ООП------------------------------------
+
+//библиотека классов для рисования на экране
+
+class point {
+protected:
+	int x, y;
+public:
+	point() :x(0), y(0) {}
+	point(int x, int y) :x(x), y(y) {}
+	~point() {}
+	
+	int getX()const { return x; }
+	int getY()const { return y; }
+
+	void setX(int x) { this->x = x; }
+	void setY(int y) { this->y = y; }
+
+	friend	std::ostream& operator<<(std::ostream &os, point pt)
+	{
+		os << "center.x = " << pt.getX() << endl;
+		os << "center.y = " << pt.getY() << endl;
+		return os;
+	}
+
+};
+
+
+class bbox {
+protected:
+	int x, y;
+	int width, height;
+public:
+	bbox():x(0), y(0), width(0), height(0) {}
+	bbox(int x, int y, int width, int height) :x(x), y(x), width(width), height(height) {}
+	~bbox() {}
+
+	int getX()const { return x; }
+	int getY()const { return y; }
+	int getWidth()const  { return width; }
+	int getHeight()const { return height; }
+
+	void setX(int x) { this->x = x; }
+	void setY(int y) { this->y = y; }
+	void setWidth(int width)   { this->width = width;   }
+	void setHeight(int height) { this->height = height; }
+
+
+	friend	std::ostream& operator<<(std::ostream &os, bbox box)
+	{
+		os << "bbox.x      = " << box.getX() << endl;
+		os << "bbox.y      = " << box.getY() << endl;
+		os << "bbox.width  = " << box.getWidth() << endl;
+		os << "bbox.height = " << box.getHeight() << endl;
+
+		return os;
+	}
+
+};
+
+class attributes {
+protected:
+	bool visible;
+	bbox box;
+	point center;
+
+public:
+	attributes() {}
+	attributes(bbox box, point center) :visible(true), box(box), center(center) { }
+	~attributes() {}
+
+	void setVisible(bool visible) { this->visible = visible; }
+	bool getVisible()const { return visible; }
+
+	bbox getBox() const { return box; }
+	point getCenter()const { return center; }
+
+	void setBox(bbox box) { this->box = box; }
+	void setCenter(point center) { this->center = center; }
+
+	void showAttributes() {
+
+		cout << endl << "Attributes: " << endl;
+		cout << "visible: " << std::boolalpha << visible << endl;
+		cout << center << endl;
+		cout << box << endl;
+	}
+
+};
+
+
+class figure_interface {
+public:
+	virtual void show() = 0;
+	virtual void clear() = 0;
+	virtual void calcS() = 0;
+};
+
+
+
+class graph_object : public attributes {
+protected:
+	static unsigned int counter;				//счетчик графических объектов
+
+public:
+	graph_object():attributes() { ++counter; }
+	graph_object(bbox box, point center) :attributes(box, center) { ++counter; }
+	~graph_object() { --counter; }
+
+	static void setInitCounter(int initValue) { counter = initValue; }
+
+	unsigned int getCounter()const { return counter; }
+
+};
+
+
+class Quad : public graph_object, public figure_interface {
+protected:
+	int a;
+	int S;
+public:
+	Quad() = delete;
+	Quad(int a, int x, int y) :graph_object(bbox((x - a / 2), (y - a / 2), a, a), point(x, y)), a(a) { cout << "Quad: " << a << "x" << a << endl; }
+	~Quad() {}
+
+	void calcS() { S = a*a; }
+	void show() { cout << "This is Quad: a = " << a << " S = " << S << endl; }
+	void clear() { cout << "Quad "<<counter <<" was deleted" << endl; }
+};
 
 
 
 
+
+void test_oop_features();
 
 
 
