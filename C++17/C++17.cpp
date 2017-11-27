@@ -1,7 +1,7 @@
 
-//#include "tools.h"
+#include "tools.h"
 //#include "study_stl.h"
-#include "oop.h"
+//#include "oop.h"
 
 
 int main()
@@ -24,6 +24,7 @@ int main()
 	//test_future_and_async();
 	//test_packaged_task();
 	//test_chrono();
+	test_atomic();
 
 	//----------------------тесты STL--------------------------------------------------------------
 	//test_array();
@@ -50,7 +51,7 @@ int main()
 	//test_access_declaration();
 	//test_virtual_functions();
 	//test_abstract_class();
-	test_oop_features();
+	//test_oop_features();
 
 	return 0;
 }

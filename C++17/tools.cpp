@@ -1287,3 +1287,162 @@ void test_chrono()
 	//время с начала эпохи
 	cout << endl <<"time from epoch started:"<< tpsysclk.time_since_epoch() << endl;
 }
+
+
+
+//----------------------------------тестирование атомарных операций----------------------------------------------------------------------
+
+std::atomic<bool> bool_data(false);
+
+std::atomic<char> char_data(-4);
+std::atomic<unsigned char> uchar_data('F');
+
+std::atomic<short> short_data(-129);
+std::atomic<unsigned short> ushort_data(65000);
+
+std::atomic<int> int_data(0);
+std::atomic<unsigned int> uint_data(0);
+
+std::atomic<long> long_data(-1000);
+std::atomic<unsigned long> ulong_data(0);
+
+std::atomic<long long> llong_data(-1000);
+std::atomic<unsigned long long> ullong_data(0);
+
+
+std::atomic<uint32_t> uint32var;
+
+//std::atomic_flag flag(ATOMIC_FLAG_INIT);
+
+
+void test_atomic()
+{
+	//получение характеристик атомарных переменных
+	std::thread t1([]() {
+		get_atomic_info(bool_data);
+		get_atomic_info(char_data);
+		get_atomic_info(uchar_data);
+		get_atomic_info(short_data);
+		get_atomic_info(ushort_data);
+		get_atomic_info(int_data);
+		get_atomic_info(uint_data);
+		get_atomic_info(long_data);
+		get_atomic_info(ulong_data);
+		get_atomic_info(llong_data);
+		get_atomic_info(ullong_data);
+	});
+
+	if (t1.joinable())
+		t1.join();
+
+
+	
+	//работа с атомарными переменными
+	uint_data.store(10);												//атомарная инициализация
+
+	std::thread t3([]() {
+		while (auto a = uint_data.load())
+		{
+			cout << "atomic unsigned int data: " << a << endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		}
+	});
+
+
+	std::thread t4([]() {
+		for (;;)
+		{
+			uint_data.fetch_sub(1);
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+			if (!uint_data.load())
+				break;
+		}
+	});
+
+	if (t3.joinable())
+		t3.join();
+
+	if (t4.joinable())
+		t4.join();
+
+
+	//синхронизация доступа к данным на основе std::atomic<bool> bool_data;
+	data_Ty dty{ 2,3,5.2,"Hello string" };
+
+	std::thread t5([&]() {
+	
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+		dty.a = 7;
+		dty.b = 7;
+		dty.f = 7.0;
+		dty.s = "Thread t5";
+	
+		bool_data.store(true);
+	});
+
+
+	std::thread t6([&]() {
+	
+		while (!bool_data.load())
+		{
+			cout << "data not ready" << endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		}
+		
+		cout << dty << endl;
+	
+	});
+
+	t5.join();
+	t6.join();
+
+	//демонстрация атомарных операций с атомарными переменными
+	std::atomic_init(&uint32var, 100);
+	cout << "std::atomic<uint32_t> uint32var - " << uint32var.load() << endl;
+
+	uint32var.fetch_add(10);
+	cout << "std::atomic<uint32_t> uint32var - fetch_add(10)    " << uint32var.load() << endl;
+
+	uint32var.fetch_sub(90);
+	cout << "std::atomic<uint32_t> uint32var - fetch_sub(90)    " << uint32var.load() << endl;
+
+	uint32var.store(50);
+	cout << "std::atomic<uint32_t> uint32var - store(50)        " << uint32var.load() << endl;
+
+	
+	cout << "std::atomic<uint32_t> uint32var - exchange(0x5555) " << uint32var.exchange(0x5555) << endl;
+	cout <<"new value -  " << uint32var.load() << endl;
+
+	uint32var.fetch_and(0xFFFF);
+	cout << "std::atomic<uint32_t> uint32var - fetch_and(0xFFFF)" << uint32var.load() << endl;
+
+	uint32var.fetch_or(0x00FF);
+	cout << "std::atomic<uint32_t> uint32var - fetch_or(0x00FF)" << uint32var.load() << endl;
+
+
+	uint32_t uintval{ 10 };
+	uint32var.store(10);
+	uint32var.compare_exchange_strong(uintval, 1000);
+	cout << "std::atomic<uint32_t> uint32var - compare_exchange_strong(10, 1000) - " << uint32var.load() << endl;
+
+
+	//упорядочение доступа к памяти для атомарных операций
+
+	//memory_order_relaxed - ослабленное упорядочение  
+
+	//memory_order_consume - захват освобождение
+	//memory_order_acquire - 
+	//memory_order_release - 
+	//memory_order_acq_rel - 
+
+	//memory_order_seq_cst - последовательно согласованное упорядочение
+	
+	
+	//flag.test_and_set(std::memory_order_seq_cst);
+
+
+
+
+}

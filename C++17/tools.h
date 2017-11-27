@@ -22,6 +22,9 @@
 #include <random>
 #include <exception>
 #include <ratio>
+#include <atomic>
+
+
 
 
 using std::cout;
@@ -356,7 +359,34 @@ string timeAsString(std::chrono::system_clock::time_point & tp);
 void test_chrono();
 
 
+//----------------------------------тестирование атомарных операций----------------------------------------------------------------------
 
+
+template <typename atom_t>
+void get_atomic_info(std::atomic<atom_t> & atom_var)
+{
+	cout << "atomic variable information: " << endl;
+	cout << "is_lock_free(): " <<std::boolalpha<< atom_var.is_lock_free() << endl;
+	cout << "atomic value:   " << static_cast<atom_t>(atom_var.load()) << endl;
+	cout << endl;
+}
+
+
+
+struct data_Ty {
+	int a;
+	int b;
+	float f;
+	string s;
+
+	friend std::ostream& operator<<(std::ostream & os, data_Ty & dty) {
+		return os << "a = " << dty.a << " b = " << dty.b << " f = " << dty.f << " s = " << dty.s << endl;
+	}
+
+};
+
+
+void test_atomic();
 
 
 
