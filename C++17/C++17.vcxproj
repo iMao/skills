@@ -144,11 +144,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="algo.h" />
     <ClInclude Include="oop.h" />
     <ClInclude Include="study_stl.h" />
     <ClInclude Include="tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="algo.cpp" />
     <ClCompile Include="C++17.cpp" />
     <ClCompile Include="oop.cpp" />
     <ClCompile Include="study_stl.cpp" />

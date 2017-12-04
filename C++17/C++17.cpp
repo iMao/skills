@@ -1,7 +1,9 @@
 
-#include "tools.h"
+//#include "tools.h"
 //#include "study_stl.h"
 //#include "oop.h"
+#include "algo.h"
+
 
 
 int main()
@@ -24,7 +26,7 @@ int main()
 	//test_future_and_async();
 	//test_packaged_task();
 	//test_chrono();
-	test_atomic();
+	//test_atomic();
 
 	//----------------------עוסעû STL--------------------------------------------------------------
 	//test_array();
@@ -52,6 +54,13 @@ int main()
 	//test_virtual_functions();
 	//test_abstract_class();
 	//test_oop_features();
+
+
+
+	//--------------------עוסעû אכדמנטעלמג--------------------------------------------------------
+	test_liner_list();
+
+
 
 	return 0;
 }
