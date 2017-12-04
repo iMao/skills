@@ -38,10 +38,13 @@ struct Node {
 };
 
 
-void createList(Node* head, int number);
+typedef Node* PNode;
 
-void reverseList(Node* head);
+void createList(PNode & head, int number);
 
+void reverseList(PNode & head);
+
+void deleteList(PNode & head);
 
 
 
