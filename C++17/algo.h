@@ -6,7 +6,8 @@
 
 
 
-//----------------------------------алгоритмы-------------------------------------------------------------------------------
+//изучение алгоритмов
+
 
 //----------------------------------односвязные списки----------------------------------------------------------------------
 
@@ -46,14 +47,48 @@ void reverseList(PNode & head);
 
 void deleteList(PNode & head);
 
-
+void insert_after(PNode & head, int key, PNode & elem);
 
 
 
 void test_liner_list();
 
 
+//--------------------------------------------бинарные деревья-----------------------------------------------------------------
 
+
+template<typename _Ty>
+struct NodeTree {
+	_Ty key;
+	NodeTree* left;
+	NodeTree* right;
+	NodeTree* parent;
+
+	NodeTree() { left = nullptr; right = nullptr; parent = nullptr; }
+	NodeTree(_Ty key, NodeTree* left, NodeTree* right, NodeTree* parent) : key(key), left(left), right(right), parent(parent) {}
+	~NodeTree() {} 
+};
+
+//template<typename _Ty, int n>
+//NodeTree* createBinaryTree(std::array<_Ty, n> & keys)
+//{
+//
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void test_binary_tree();
 
 
 
