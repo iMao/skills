@@ -3,7 +3,7 @@
 
 
 
-//функция для простого потока
+//С„СѓРЅРєС†РёСЏ РґР»СЏ РїСЂРѕСЃС‚РѕРіРѕ РїРѕС‚РѕРєР°
 void thfunc()
 {
 	std::initializer_list<int> ini{ 2,4,5,6,7,8,9 };
@@ -18,34 +18,34 @@ void thf(int a)
 		std::cout << "Hello from second thread" << std::endl;
 }
 
-//-------------------------------------работа с потоками по новому стандарту С++17----------------------------------------------------
+//-------------------------------------СЂР°Р±РѕС‚Р° СЃ РїРѕС‚РѕРєР°РјРё РїРѕ РЅРѕРІРѕРјСѓ СЃС‚Р°РЅРґР°СЂС‚Сѓ РЎ++17----------------------------------------------------
 void test_number_1()
 {
-	//создание простого потока
+	//СЃРѕР·РґР°РЅРёРµ РїСЂРѕСЃС‚РѕРіРѕ РїРѕС‚РѕРєР°
 	std::cout << std::endl;
 	std::thread t1(thfunc);
 	t1.join();
 
 
-	//создание потока и передача параметров в функцию потока
+	//СЃРѕР·РґР°РЅРёРµ РїРѕС‚РѕРєР° Рё РїРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂРѕРІ РІ С„СѓРЅРєС†РёСЋ РїРѕС‚РѕРєР°
 	std::cout << std::endl;
 	std::thread t2(thf, 2);
 	t2.join();
 
 
 
-	//создание потока и передача ему объекта-функтора
+	//СЃРѕР·РґР°РЅРёРµ РїРѕС‚РѕРєР° Рё РїРµСЂРµРґР°С‡Р° РµРјСѓ РѕР±СЉРµРєС‚Р°-С„СѓРЅРєС‚РѕСЂР°
 	std::cout << std::endl;
-	std::thread t3((background_task()));					//первый способ передачи объекта-функтора в дополнительных скобках
+	std::thread t3((background_task()));					//РїРµСЂРІС‹Р№ СЃРїРѕСЃРѕР± РїРµСЂРµРґР°С‡Рё РѕР±СЉРµРєС‚Р°-С„СѓРЅРєС‚РѕСЂР° РІ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… СЃРєРѕР±РєР°С…
 	t3.join();
 
 	std::cout << std::endl;
-	std::thread t4{ background_task(1) };					//второй способ передачи объекта-функтора в фигурных {} скобках
+	std::thread t4{ background_task(1) };					//РІС‚РѕСЂРѕР№ СЃРїРѕСЃРѕР± РїРµСЂРµРґР°С‡Рё РѕР±СЉРµРєС‚Р°-С„СѓРЅРєС‚РѕСЂР° РІ С„РёРіСѓСЂРЅС‹С… {} СЃРєРѕР±РєР°С…
 	t4.join();
 
 
 
-	//создание потока и передача ему лямбда выражения
+	//СЃРѕР·РґР°РЅРёРµ РїРѕС‚РѕРєР° Рё РїРµСЂРµРґР°С‡Р° РµРјСѓ Р»СЏРјР±РґР° РІС‹СЂР°Р¶РµРЅРёСЏ
 	std::cout << std::endl;
 	auto lambda = [](int a) { std::cout << "a = " << a << std::endl; };
 
@@ -53,7 +53,7 @@ void test_number_1()
 	t5.join();
 
 
-	//тестирование безопасного завершения потока
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ Р±РµР·РѕРїР°СЃРЅРѕРіРѕ Р·Р°РІРµСЂС€РµРЅРёСЏ РїРѕС‚РѕРєР°
 	std::cout << std::endl;
 	std::thread t6{ background_task() };
 	t6.join();
@@ -61,7 +61,7 @@ void test_number_1()
 
 
 
-	//тестирование безопасного завершения потока при возникновении исключительной ситуации
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ Р±РµР·РѕРїР°СЃРЅРѕРіРѕ Р·Р°РІРµСЂС€РµРЅРёСЏ РїРѕС‚РѕРєР° РїСЂРё РІРѕР·РЅРёРєРЅРѕРІРµРЅРёРё РёСЃРєР»СЋС‡РёС‚РµР»СЊРЅРѕР№ СЃРёС‚СѓР°С†РёРё
 	std::cout << std::endl;
 	auto l = [](int a)
 	{
@@ -81,7 +81,7 @@ void test_number_1()
 	//t7.join();
 	thread_guard tguard(t7);
 
-	//создание потока и передача ему функции-члена класса
+	//СЃРѕР·РґР°РЅРёРµ РїРѕС‚РѕРєР° Рё РїРµСЂРµРґР°С‡Р° РµРјСѓ С„СѓРЅРєС†РёРё-С‡Р»РµРЅР° РєР»Р°СЃСЃР°
 	std::cout << std::endl;
 	Xth x(3);
 	std::thread t8(&Xth::do_some_thing, &x, std::string("xxxx----xxxx"));
@@ -90,7 +90,7 @@ void test_number_1()
 
 }
 
-//---------------------------------------------------второй тест (передача параметров для функции потока)-----------------------------
+//---------------------------------------------------РІС‚РѕСЂРѕР№ С‚РµСЃС‚ (РїРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ С„СѓРЅРєС†РёРё РїРѕС‚РѕРєР°)-----------------------------
 void tst_param(int a, float& b, std::string & str, std::string & buf)
 {
 	std::cout << "data inserted into thread\n";
@@ -113,7 +113,7 @@ void tst_param(int a, float& b, std::string & str, std::string & buf)
 void test_number_2()
 {
 
-	//передача параметров функции потока: по значению, по ссылке
+	//РїРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂРѕРІ С„СѓРЅРєС†РёРё РїРѕС‚РѕРєР°: РїРѕ Р·РЅР°С‡РµРЅРёСЋ, РїРѕ СЃСЃС‹Р»РєРµ
 	int a{ 9 };
 	float b{ 3.14f };
 	char buffer[256];
@@ -132,7 +132,7 @@ void test_number_2()
 	std::cout << "a = " << a << " b = " << b << " str = " << stbuff << " buf = " << buffer << std::endl;
 
 
-	//передача параметров функции члена класса
+	//РїРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂРѕРІ С„СѓРЅРєС†РёРё С‡Р»РµРЅР° РєР»Р°СЃСЃР°
 	int A = 7;
 	int B = 8;
 	int C = 9;
@@ -155,7 +155,7 @@ void test_number_2()
 	std::cout << "\n Data after thread A = " << A << " B = " << B << " C = " << C << std::endl;
 }
 
-//---------------------------------------------------тестирование семантики перемещения для объектов std::thread----------------------
+//---------------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ СЃРµРјР°РЅС‚РёРєРё РїРµСЂРµРјРµС‰РµРЅРёСЏ РґР»СЏ РѕР±СЉРµРєС‚РѕРІ std::thread----------------------
 void f()
 {
 	std::thread::id id = std::this_thread::get_id();
@@ -169,7 +169,7 @@ void func(std::string & s)
 
 void test_number_3()
 {
-	//поддержка семантики перемещения для объектов std::thread
+	//РїРѕРґРґРµСЂР¶РєР° СЃРµРјР°РЅС‚РёРєРё РїРµСЂРµРјРµС‰РµРЅРёСЏ РґР»СЏ РѕР±СЉРµРєС‚РѕРІ std::thread
 	std::thread t1(f);
 	std::thread t2;
 	std::thread t3 = std::move(t1);
@@ -189,7 +189,7 @@ void test_number_3()
 
 }
 
-//--------------------------------------------------тестирование интеллектуальных указателей------------------------------------------
+//--------------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РёРЅС‚РµР»Р»РµРєС‚СѓР°Р»СЊРЅС‹С… СѓРєР°Р·Р°С‚РµР»РµР№------------------------------------------
 void deleter(int *p)
 {
 	cout << endl << "deleter is working" << endl;
@@ -202,7 +202,7 @@ void deleter(int *p)
 
 void test_shared_ptr()
 {
-	//простой тест shared_ptr<int>
+	//РїСЂРѕСЃС‚РѕР№ С‚РµСЃС‚ shared_ptr<int>
 	shared_ptr<int> ptrInt(new int[10], [](int* p) {
 
 		cout << endl << "Array will be delete" << endl;
@@ -238,7 +238,7 @@ void test_shared_ptr()
 
 void test_intel_ptrs()
 {
-	//простые shared_ptr указатели
+	//РїСЂРѕСЃС‚С‹Рµ shared_ptr СѓРєР°Р·Р°С‚РµР»Рё
 	shared_ptr<string> nicaPtr(new string("nica"));
 	shared_ptr<string> juttaPtr(new string("jutta"));
 
@@ -318,7 +318,7 @@ void test_intel_ptrs()
 
 void test_intel_ptrs_hard()
 {
-	//более сложное использование shared_ptr указателей со своей стратегией удаления
+	//Р±РѕР»РµРµ СЃР»РѕР¶РЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ shared_ptr СѓРєР°Р·Р°С‚РµР»РµР№ СЃРѕ СЃРІРѕРµР№ СЃС‚СЂР°С‚РµРіРёРµР№ СѓРґР°Р»РµРЅРёСЏ
 	shared_ptr<string> pstr(new string("Hello"), [](string * p) {
 
 		cout << "\nYou deleted string - " << (*p) << endl;
@@ -366,7 +366,7 @@ void test_intel_ptrs_hard()
 
 	superDataPtr = nullptr;
 
-	//интеллектуальный указатель на ресурс связанный с файлом
+	//РёРЅС‚РµР»Р»РµРєС‚СѓР°Р»СЊРЅС‹Р№ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЂРµСЃСѓСЂСЃ СЃРІСЏР·Р°РЅРЅС‹Р№ СЃ С„Р°Р№Р»РѕРј
 	shared_ptr<std::ofstream> fp(new std::ofstream("tmpfile.txt"), FileDeleter("tmpfile.txt"));
 
 	fp = nullptr;
@@ -381,7 +381,7 @@ void test_intel_ptrs_hard()
 	cout << "[0] = " << shptr.get()[0] << " [1] = " << shptr.get()[1] << " [2] = " << shptr.get()[2] << endl;
 }
 
-//----------------------------------------------тестирование уникальных указателей unique_ptr<>---------------------------------------
+//----------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ СѓРЅРёРєР°Р»СЊРЅС‹С… СѓРєР°Р·Р°С‚РµР»РµР№ unique_ptr<>---------------------------------------
 unique_ptr<string> createString(char const * charArray)
 {
 	return unique_ptr<string>(new string(charArray));
@@ -400,7 +400,7 @@ void fdeleter(int * p)
 
 void test_unique_ptr()
 {
-	//тестирование базовых возможностей уникальных указателей
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ Р±Р°Р·РѕРІС‹С… РІРѕР·РјРѕР¶РЅРѕСЃС‚РµР№ СѓРЅРёРєР°Р»СЊРЅС‹С… СѓРєР°Р·Р°С‚РµР»РµР№
 	std::unique_ptr<int[], void(*)(int*)> up(new int[10], [](int* p) {
 
 		std::cout << "delete array " << std::endl;
@@ -419,7 +419,7 @@ void test_unique_ptr()
 
 void test_unique_ptrs()
 {
-	//базовые возможности
+	//Р±Р°Р·РѕРІС‹Рµ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё
 	unique_ptr<string> pStr(new string("uma"));
 
 	(*pStr)[0] = 'U';
@@ -433,7 +433,7 @@ void test_unique_ptrs()
 
 	pStr = nullptr;
 
-	//указатель на массив строк
+	//СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє
 	unique_ptr<string[]> text(new string[5]);
 
 	text[0] = string("Hello");
@@ -450,7 +450,7 @@ void test_unique_ptrs()
 
 	text = nullptr;
 
-	//указатель на массив строк со своим удалителем
+	//СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє СЃРѕ СЃРІРѕРёРј СѓРґР°Р»РёС‚РµР»РµРј
 	unique_ptr<string[], void(*)(string*)> page(new string[5], [](string* p) {
 
 		cout << "\nYou will delete a page of text\n";
@@ -471,19 +471,19 @@ void test_unique_ptrs()
 	page = nullptr;
 
 
-	//потеря владения объектом
+	//РїРѕС‚РµСЂСЏ РІР»Р°РґРµРЅРёСЏ РѕР±СЉРµРєС‚РѕРј
 	unique_ptr<string> upStr(new string("Object"));
 
-	string* str = upStr.release();							//вызов функции release() - приводит к потере владения
+	string* str = upStr.release();							//РІС‹Р·РѕРІ С„СѓРЅРєС†РёРё release() - РїСЂРёРІРѕРґРёС‚ Рє РїРѕС‚РµСЂРµ РІР»Р°РґРµРЅРёСЏ
 
 	cout << "\n str - " << *str<<endl;
 
 	delete str;
 
-	//передача владения
+	//РїРµСЂРµРґР°С‡Р° РІР»Р°РґРµРЅРёСЏ
 	unique_ptr<string> ps(new string("Super Object"));
 
-	upStr = std::move(ps);									//передача владения std::move()
+	upStr = std::move(ps);									//РїРµСЂРµРґР°С‡Р° РІР»Р°РґРµРЅРёСЏ std::move()
 
 	cout << '\n';
 	cout << "unique_ptr<string> upStr has - " << *upStr << endl;
@@ -499,30 +499,30 @@ void test_unique_ptrs()
 	ps = nullptr;
 
 
-	//передача владения 2
+	//РїРµСЂРµРґР°С‡Р° РІР»Р°РґРµРЅРёСЏ 2
 	unique_ptr<int, void(*)(int*)> up1(new int, [](int * p) { cout << "\n delete up1\n"; delete p; });
 	*up1 = 2;
 
 	unique_ptr<int, void(*)(int*)> up2(new int, [](int * p) { cout << "\n delete up2\n"; delete p; });
 	*up2 = 4;
 
-	up2 = std::move(up1);			//для потерянного объекта связанного с up2 - будет вызвана функция удаления
+	up2 = std::move(up1);			//РґР»СЏ РїРѕС‚РµСЂСЏРЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р° СЃРІСЏР·Р°РЅРЅРѕРіРѕ СЃ up2 - Р±СѓРґРµС‚ РІС‹Р·РІР°РЅР° С„СѓРЅРєС†РёСЏ СѓРґР°Р»РµРЅРёСЏ
 
 	cout << "\n up2 -> " << *up2 << endl;
 
-	up1 = unique_ptr<int, void(*)(int*)>(new int, [](int*p) {delete p; });			//пустому unique_ptr<> присваиваем новое значение
+	up1 = unique_ptr<int, void(*)(int*)>(new int, [](int*p) {delete p; });			//РїСѓСЃС‚РѕРјСѓ unique_ptr<> РїСЂРёСЃРІР°РёРІР°РµРј РЅРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ
 	*up1 = 10;
 	cout << "\n up1 -> " << *up1 << endl;
 
 
 
-	//исток и сток для unique_ptr<>
+	//РёСЃС‚РѕРє Рё СЃС‚РѕРє РґР»СЏ unique_ptr<>
 	unique_ptr<string> p = createString("America");
 
 	printString(std::move(p));
 
 
-	//операторы удаления
+	//РѕРїРµСЂР°С‚РѕСЂС‹ СѓРґР°Р»РµРЅРёСЏ
 	unique_ptr<int, void(*)(int*)> up3(new int[4], [](int * p) { cout << "\n declaration void(*)(int*)\n"; delete[] p; });
 
 	unique_ptr<int, std::function<void(int*)>> up4(new int[10], [](int * p) { cout << "\n declaration std::function<void(int*)> \n"; delete[] p; });
@@ -540,7 +540,7 @@ void test_unique_ptrs()
 }
 
 
-//----------------------------------------------------тестирование идентификации потоков----------------------------------------------
+//----------------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С†РёРё РїРѕС‚РѕРєРѕРІ----------------------------------------------
 void some_work()
 {
 	std::thread::id id = std::this_thread::get_id();
@@ -549,22 +549,22 @@ void some_work()
 
 void test_threads_id()
 {
-	//тестирование получения id потока
-	std::thread::id thisId = std::this_thread::get_id();					//получим id текущего потока
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РїРѕР»СѓС‡РµРЅРёСЏ id РїРѕС‚РѕРєР°
+	std::thread::id thisId = std::this_thread::get_id();					//РїРѕР»СѓС‡РёРј id С‚РµРєСѓС‰РµРіРѕ РїРѕС‚РѕРєР°
 
-	int numThreads = std::thread::hardware_concurrency();					//получаем сколько потоков возможно по настоящему
+	int numThreads = std::thread::hardware_concurrency();					//РїРѕР»СѓС‡Р°РµРј СЃРєРѕР»СЊРєРѕ РїРѕС‚РѕРєРѕРІ РІРѕР·РјРѕР¶РЅРѕ РїРѕ РЅР°СЃС‚РѕСЏС‰РµРјСѓ
 
 	cout << "\n System has hardware concurrency - " << numThreads << endl;
 	cout << "\n This thread id - " << thisId << endl;
 
 
-	std::vector<std::thread> poolThreads(numThreads);						//резервируем размер вектора для потоков
+	std::vector<std::thread> poolThreads(numThreads);						//СЂРµР·РµСЂРІРёСЂСѓРµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° РґР»СЏ РїРѕС‚РѕРєРѕРІ
 	for (int i = 0; i < numThreads; i++)
 	{
 		poolThreads.push_back(std::thread(some_work));
 	}
 
-	std::for_each(poolThreads.begin(), poolThreads.end(), ThreadJointer());	//поочередный вызов join() для каждого потока
+	std::for_each(poolThreads.begin(), poolThreads.end(), ThreadJointer());	//РїРѕРѕС‡РµСЂРµРґРЅС‹Р№ РІС‹Р·РѕРІ join() РґР»СЏ РєР°Р¶РґРѕРіРѕ РїРѕС‚РѕРєР°
 
 																			//std::vector<std::thread>::iterator t;
 																			//for (t = poolThreads.begin(); t != poolThreads.end(); ++t )
@@ -580,7 +580,7 @@ void test_threads_id()
 }
 
 
-//----------------------------------------------------тестиование мьютексов-----------------------------------------------------------
+//----------------------------------------------------С‚РµСЃС‚РёРѕРІР°РЅРёРµ РјСЊСЋС‚РµРєСЃРѕРІ-----------------------------------------------------------
 void print_rec(string& s, std::recursive_mutex& mut)
 {
 	{
@@ -638,7 +638,7 @@ void swap(int & a, int & b)
 
 void test_mutex()
 {
-	//использование простого мьютекса
+	//РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РїСЂРѕСЃС‚РѕРіРѕ РјСЊСЋС‚РµРєСЃР°
 	std::mutex mut;
 
 	string strhello("Hello mutex");
@@ -655,7 +655,7 @@ void test_mutex()
 
 	cout << endl;
 
-	//использование рекурсивных мьютексов (3 потока конкурируют за доступ к строке и за доступ в консоль)
+	//РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЂРµРєСѓСЂСЃРёРІРЅС‹С… РјСЊСЋС‚РµРєСЃРѕРІ (3 РїРѕС‚РѕРєР° РєРѕРЅРєСѓСЂРёСЂСѓСЋС‚ Р·Р° РґРѕСЃС‚СѓРї Рє СЃС‚СЂРѕРєРµ Рё Р·Р° РґРѕСЃС‚СѓРї РІ РєРѕРЅСЃРѕР»СЊ)
 	std::recursive_mutex rec_mutex;
 
 	std::thread t3(reverseString, std::ref(strhello), std::ref(rec_mutex));
@@ -669,7 +669,7 @@ void test_mutex()
 
 	cout << endl;
 
-	//тестирование попытки блокировки
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РїРѕРїС‹С‚РєРё Р±Р»РѕРєРёСЂРѕРІРєРё
 	std::mutex try_mutex;
 
 	std::thread t6([&]() {
@@ -697,24 +697,24 @@ void test_mutex()
 
 
 
-	//тестирование std::timed_mutex  и std::recursive_timed_mutex
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ std::timed_mutex  Рё std::recursive_timed_mutex
 	std::timed_mutex t_mutex;
 
-	//поток будет работать 3 секунды и блокировать мьютекс
+	//РїРѕС‚РѕРє Р±СѓРґРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ 3 СЃРµРєСѓРЅРґС‹ Рё Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РјСЊСЋС‚РµРєСЃ
 	std::thread t7([&]() {
 		{
 			std::lock_guard<std::timed_mutex> tlg(t_mutex);
 			for (int i = 0; i < 3; i++)
 			{
 				cout << "pause 1 sec - " << "t7" << endl;
-				std::this_thread::sleep_for(std::chrono::seconds(1));		//пауза в 1 sec
+				std::this_thread::sleep_for(std::chrono::seconds(1));		//РїР°СѓР·Р° РІ 1 sec
 			}
 		}
 	});
 
 
 
-	//будем пытаться захватить мьютекс 4 сек
+	//Р±СѓРґРµРј РїС‹С‚Р°С‚СЊСЃСЏ Р·Р°С…РІР°С‚РёС‚СЊ РјСЊСЋС‚РµРєСЃ 4 СЃРµРє
 	if (t_mutex.try_lock_for(std::chrono::seconds(4)))
 	{
 		{
@@ -734,7 +734,7 @@ void test_mutex()
 
 
 
-	//работа с несколькими блокировками
+	//СЂР°Р±РѕС‚Р° СЃ РЅРµСЃРєРѕР»СЊРєРёРјРё Р±Р»РѕРєРёСЂРѕРІРєР°РјРё
 	cout << endl;
 	cout << "Test multiple mutex blocking" << endl;
 
@@ -747,10 +747,10 @@ void test_mutex()
 
 	auto lambda_swap = [&]() {
 		{
-			int index_failure_lock = 0;													//будет содержать индекс первой неудачной блокировки 
-			index_failure_lock = std::try_lock(mut1, mut2, mut3);						//попытка блокировки трех мьютексов				
+			int index_failure_lock = 0;													//Р±СѓРґРµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ РёРЅРґРµРєСЃ РїРµСЂРІРѕР№ РЅРµСѓРґР°С‡РЅРѕР№ Р±Р»РѕРєРёСЂРѕРІРєРё 
+			index_failure_lock = std::try_lock(mut1, mut2, mut3);						//РїРѕРїС‹С‚РєР° Р±Р»РѕРєРёСЂРѕРІРєРё С‚СЂРµС… РјСЊСЋС‚РµРєСЃРѕРІ				
 
-			//std::lock(mut1, mut2, mut3);												//запрос на блокировку трех мьютексов
+			//std::lock(mut1, mut2, mut3);												//Р·Р°РїСЂРѕСЃ РЅР° Р±Р»РѕРєРёСЂРѕРІРєСѓ С‚СЂРµС… РјСЊСЋС‚РµРєСЃРѕРІ
 			if (index_failure_lock < 0)								
 			{
 				std::lock_guard<std::mutex> lgdMut1(mut1, std::adopt_lock);
@@ -792,7 +792,7 @@ void test_unique_lock()
 
 	std::thread t1([&]() {
 
-		std::unique_lock<std::mutex> l(mut, std::defer_lock);					//создали защиту для мьютекса но не заблокировали
+		std::unique_lock<std::mutex> l(mut, std::defer_lock);					//СЃРѕР·РґР°Р»Рё Р·Р°С‰РёС‚Сѓ РґР»СЏ РјСЊСЋС‚РµРєСЃР° РЅРѕ РЅРµ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°Р»Рё
 
 		l.lock();
 		s.append("_t1_");
@@ -802,18 +802,18 @@ void test_unique_lock()
 
 	std::thread t2([&]() {
 
-		std::unique_lock<std::mutex> l(mut, std::defer_lock);					//создали защиту для мьютекса но не заблокировали
+		std::unique_lock<std::mutex> l(mut, std::defer_lock);					//СЃРѕР·РґР°Р»Рё Р·Р°С‰РёС‚Сѓ РґР»СЏ РјСЊСЋС‚РµРєСЃР° РЅРѕ РЅРµ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°Р»Рё
 
-		l.lock();																//блокировка
+		l.lock();																//Р±Р»РѕРєРёСЂРѕРІРєР°
 		s.append("_t2_");
 		cout << endl << "our string is - " << s << endl;
-		l.unlock();																//разблокировка			
+		l.unlock();																//СЂР°Р·Р±Р»РѕРєРёСЂРѕРІРєР°			
 	});
 
 
 	std::thread t3([&]() {
 		{
-			std::unique_lock<std::mutex> ul(mut, std::try_to_lock);					//попытка заблокировать мьютекс
+			std::unique_lock<std::mutex> ul(mut, std::try_to_lock);					//РїРѕРїС‹С‚РєР° Р·Р°Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РјСЊСЋС‚РµРєСЃ
 			if (ul)
 			{
 				s.append("t3");
@@ -828,7 +828,7 @@ void test_unique_lock()
 
 
 	{
-		std::unique_lock<std::mutex> lock(mut);									//создали защиту для мьютекса и сразу же заблокировали его
+		std::unique_lock<std::mutex> lock(mut);									//СЃРѕР·РґР°Р»Рё Р·Р°С‰РёС‚Сѓ РґР»СЏ РјСЊСЋС‚РµРєСЃР° Рё СЃСЂР°Р·Сѓ Р¶Рµ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°Р»Рё РµРіРѕ
 		s.append("_main_thread_");
 		cout << endl << "our string is - " << s << endl;
 	}
@@ -839,7 +839,7 @@ void test_unique_lock()
 
 }
 
-//----------------------------------------------------тестиование condition variables--------------------------------------------------
+//----------------------------------------------------С‚РµСЃС‚РёРѕРІР°РЅРёРµ condition variables--------------------------------------------------
 void insertValue(int & val, std::queue<int> & qu, std::mutex & mut, std::condition_variable & cv)
 {
 	for (int i = 0; i < 10; i++)
@@ -869,7 +869,7 @@ void getValue(std::queue<int> & qu, std::mutex & mut, std::condition_variable & 
 
 void test_condition_variables()
 {
-	//простое тестирование условных переменных
+	//РїСЂРѕСЃС‚РѕРµ С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ СѓСЃР»РѕРІРЅС‹С… РїРµСЂРµРјРµРЅРЅС‹С…
 	std::condition_variable condVar;
 	std::mutex mut;
 
@@ -910,7 +910,7 @@ void test_condition_variables()
 
 void test_condition_variable_queue()
 {
-	//более сложный пример с очередью значений std::queue<int> qu
+	//Р±РѕР»РµРµ СЃР»РѕР¶РЅС‹Р№ РїСЂРёРјРµСЂ СЃ РѕС‡РµСЂРµРґСЊСЋ Р·РЅР°С‡РµРЅРёР№ std::queue<int> qu
 	//std::queue<int> qu;
 	//std::condition_variable cond_var;
 	//std::mutex qmutex;
@@ -923,7 +923,7 @@ void test_condition_variable_queue()
 	//t3.join();
 	//t4.join();
 
-	//тестирование wait_for()
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ wait_for()
 	cout << endl << "Test condition_variable.wait_for()" << endl;
 	std::queue<int> qu;
 	std::condition_variable cvar;
@@ -958,7 +958,7 @@ void test_condition_variable_queue()
 	t6.join();
 }
 
-//---------------------------------------------------тестирование объектов будущих результатов и асинхронного выполнения функций--------
+//---------------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РѕР±СЉРµРєС‚РѕРІ Р±СѓРґСѓС‰РёС… СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ Рё Р°СЃРёРЅС…СЂРѕРЅРЅРѕРіРѕ РІС‹РїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёР№--------
 void async_func()
 {
 	cout << endl << "Hello from async thread" << endl;
@@ -1007,7 +1007,7 @@ void test_async_and_future()
 	cout << "future<int> intf = " << intf.get() << endl;
 
 
-	std::future<string> strf = std::async(std::launch::deferred, stringback, std::string("А роза упала на лапу азора"));
+	std::future<string> strf = std::async(std::launch::deferred, stringback, std::string("Рђ СЂРѕР·Р° СѓРїР°Р»Р° РЅР° Р»Р°РїСѓ Р°Р·РѕСЂР°"));
 
 	cout << endl << "std::future<string> strf = " << strf.get() << endl;
 
@@ -1031,7 +1031,7 @@ void test_async_and_future()
 
 void test_future_and_async()
 {
-	//простой тест асинхроного выполнеия функциональной сущности
+	//РїСЂРѕСЃС‚РѕР№ С‚РµСЃС‚ Р°СЃРёРЅС…СЂРѕРЅРѕРіРѕ РІС‹РїРѕР»РЅРµРёСЏ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕР№ СЃСѓС‰РЅРѕСЃС‚Рё
 	int sum{ 0 };
 	int a{ 5 };
 	int b{ 2 };
@@ -1045,7 +1045,7 @@ void test_future_and_async()
 	cout << endl << "sum = " << sum << endl;
 
 
-	//отложеный вызов функциональной сущности
+	//РѕС‚Р»РѕР¶РµРЅС‹Р№ РІС‹Р·РѕРІ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕР№ СЃСѓС‰РЅРѕСЃС‚Рё
 	std::future<void> f3 = std::async(std::launch::deferred, async_func);
 	f3.get();
 
@@ -1055,7 +1055,7 @@ void test_future_and_async()
 
 
 
-	//ожидание будущих результатов, запрос состояния
+	//РѕР¶РёРґР°РЅРёРµ Р±СѓРґСѓС‰РёС… СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ, Р·Р°РїСЂРѕСЃ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 	std::vector<int> vec;
 
 	std::future<void> f5{ async(std::launch::async, fill_array, std::ref(vec), 10, 5) };
@@ -1077,7 +1077,7 @@ void test_future_and_async()
 
 
 
-	//разделяемые объекты будущих результатов
+	//СЂР°Р·РґРµР»СЏРµРјС‹Рµ РѕР±СЉРµРєС‚С‹ Р±СѓРґСѓС‰РёС… СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
 	std::mutex mut;
 
 	std::shared_future<int> shf{ std::async([&]()->int {
@@ -1113,7 +1113,7 @@ void test_future_and_async()
 	auto f9{ std::async(lam) };
 
 
-	//ждем завершения потоков
+	//Р¶РґРµРј Р·Р°РІРµСЂС€РµРЅРёСЏ РїРѕС‚РѕРєРѕРІ
 	f6.get();
 	f7.get();
 	f8.get();
@@ -1122,7 +1122,7 @@ void test_future_and_async()
 
 }
 
-//--------------------------------------------------тестирование упакованных задач------------------------------------------------------
+//--------------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ СѓРїР°РєРѕРІР°РЅРЅС‹С… Р·Р°РґР°С‡------------------------------------------------------
 double computeMul(double x, double y)
 {
 	return x*y;
@@ -1130,7 +1130,7 @@ double computeMul(double x, double y)
 
 void test_packaged_task()
 {
-	//упакованная задача (сделанная из функции)
+	//СѓРїР°РєРѕРІР°РЅРЅР°СЏ Р·Р°РґР°С‡Р° (СЃРґРµР»Р°РЅРЅР°СЏ РёР· С„СѓРЅРєС†РёРё)
 	double x = 2.2, y = 2.0;
 
 	std::packaged_task<double(double, double)> pckt(computeMul);
@@ -1141,7 +1141,7 @@ void test_packaged_task()
 
 	cout << endl << "x = " << x << " y = " << y << " x * y = " << fd.get() << endl;
 
-	//упакованная задача (сделанная из лямбда выражения)
+	//СѓРїР°РєРѕРІР°РЅРЅР°СЏ Р·Р°РґР°С‡Р° (СЃРґРµР»Р°РЅРЅР°СЏ РёР· Р»СЏРјР±РґР° РІС‹СЂР°Р¶РµРЅРёСЏ)
 	int a{8};
 	auto lambda{ [&]()->int { return (a*a); } };
 	std::packaged_task<int()> packaged_lambda(lambda);
@@ -1154,7 +1154,7 @@ void test_packaged_task()
 	t2.join();
 
 
-	//упакованная задача сделанная из функтора
+	//СѓРїР°РєРѕРІР°РЅРЅР°СЏ Р·Р°РґР°С‡Р° СЃРґРµР»Р°РЅРЅР°СЏ РёР· С„СѓРЅРєС‚РѕСЂР°
 	std::packaged_task<void(string)> pacxc{ Xc() };
 	std::future<void> fv{pacxc.get_future()};
 
@@ -1164,14 +1164,14 @@ void test_packaged_task()
 	cout << endl << "Xc() - ";
 	fv.get();
 
-	//упакованная задача сделанная из функции члена класса
+	//СѓРїР°РєРѕРІР°РЅРЅР°СЏ Р·Р°РґР°С‡Р° СЃРґРµР»Р°РЅРЅР°СЏ РёР· С„СѓРЅРєС†РёРё С‡Р»РµРЅР° РєР»Р°СЃСЃР°
 
 }
 
-//----------------------------------------------тестирование размеров указателей--------------------------------------------------------
+//----------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ СЂР°Р·РјРµСЂРѕРІ СѓРєР°Р·Р°С‚РµР»РµР№--------------------------------------------------------
 void test_pointers_size()
 {
-	//проверка размерности указателя
+	//РїСЂРѕРІРµСЂРєР° СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё СѓРєР°Р·Р°С‚РµР»СЏ
 	double s = 9.0;
 	double *ptr = &s;
 
@@ -1186,7 +1186,7 @@ void test_pointers_size()
 	cout << endl << "sizeof(char*)   = " << sizeof(pc) << " sizeof(*char) = " << sizeof(c) << endl;
 }
 
-//------------------------------------------------тестирование библиотечки хроно--------------------------------------------------------
+//------------------------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ Р±РёР±Р»РёРѕС‚РµС‡РєРё С…СЂРѕРЅРѕ--------------------------------------------------------
 string timeAsString(std::chrono::system_clock::time_point & tp)
 {
 	time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -1198,13 +1198,13 @@ string timeAsString(std::chrono::system_clock::time_point & tp)
 
 void test_chrono()
 {
-	//тестирование интервалов
-	std::chrono::duration<int, std::ratio<60, 1>> two_minute(2);				//интервал 2 минуты с целым отсчетом
-	std::chrono::duration<double, std::ratio<60>> half_minute(0.5);				//интервал 0.5 минуты с дробным отсчетом
-	std::chrono::duration<int, std::ratio<1, 1000>> millisec_100(100);			//интервал 100 милисекунд
-	std::chrono::duration<int> five_sec(5);										//интервал 5 секунд
-	std::chrono::duration<int, std::ratio<1, 1000000>> microsec_10(10);			//интервал 10 микросекунд
-	std::chrono::duration<int, std::pico> picosec(10);							//10 пикосекунд	
+	//С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РёРЅС‚РµСЂРІР°Р»РѕРІ
+	std::chrono::duration<int, std::ratio<60, 1>> two_minute(2);				//РёРЅС‚РµСЂРІР°Р» 2 РјРёРЅСѓС‚С‹ СЃ С†РµР»С‹Рј РѕС‚СЃС‡РµС‚РѕРј
+	std::chrono::duration<double, std::ratio<60>> half_minute(0.5);				//РёРЅС‚РµСЂРІР°Р» 0.5 РјРёРЅСѓС‚С‹ СЃ РґСЂРѕР±РЅС‹Рј РѕС‚СЃС‡РµС‚РѕРј
+	std::chrono::duration<int, std::ratio<1, 1000>> millisec_100(100);			//РёРЅС‚РµСЂРІР°Р» 100 РјРёР»РёСЃРµРєСѓРЅРґ
+	std::chrono::duration<int> five_sec(5);										//РёРЅС‚РµСЂРІР°Р» 5 СЃРµРєСѓРЅРґ
+	std::chrono::duration<int, std::ratio<1, 1000000>> microsec_10(10);			//РёРЅС‚РµСЂРІР°Р» 10 РјРёРєСЂРѕСЃРµРєСѓРЅРґ
+	std::chrono::duration<int, std::pico> picosec(10);							//10 РїРёРєРѕСЃРµРєСѓРЅРґ	
 
 	std::chrono::seconds seconds_(2);
 	std::chrono::minutes minutes(1);
@@ -1240,7 +1240,7 @@ void test_chrono()
 	cout << sec_dur << endl;
 
 
-	//разложение интервала на часы, минуты, секунды
+	//СЂР°Р·Р»РѕР¶РµРЅРёРµ РёРЅС‚РµСЂРІР°Р»Р° РЅР° С‡Р°СЃС‹, РјРёРЅСѓС‚С‹, СЃРµРєСѓРЅРґС‹
 	std::chrono::milliseconds time_milliseconds(12908234);
 
 	std::chrono::hours h           = std::chrono::duration_cast<std::chrono::hours>(time_milliseconds);
@@ -1251,7 +1251,7 @@ void test_chrono()
 	cout << "raw " << h << "::" << m_ << "::" << sec << "::" << msec << endl;
 	cout << h.count() << "::" << m_.count() << "::" << sec.count() << "::" << msec.count() << endl;
 
-	//часы в системе Windows 10
+	//С‡Р°СЃС‹ РІ СЃРёСЃС‚РµРјРµ Windows 10
 	cout << endl << "System clock";
 	printClockData<std::chrono::system_clock>();
 
@@ -1265,7 +1265,7 @@ void test_chrono()
 
 
 
-	//моменты времени
+	//РјРѕРјРµРЅС‚С‹ РІСЂРµРјРµРЅРё
 
 	std::chrono::time_point<std::chrono::steady_clock> tp_start = std::chrono::steady_clock::now();
 
@@ -1276,7 +1276,7 @@ void test_chrono()
 	cout << endl << "difference time:" << (tp_stop - tp_start).count() << endl;
 
 
-	//эпоха часов
+	//СЌРїРѕС…Р° С‡Р°СЃРѕРІ
 	std::chrono::time_point<std::chrono::system_clock> tpsysclk;
 	cout << endl << "epoch:" << timeAsString(tpsysclk) << endl;
 
@@ -1284,13 +1284,13 @@ void test_chrono()
 	tpsysclk = std::chrono::system_clock::now();
 	cout << endl << "now:" << timeAsString(tpsysclk) << endl;
 
-	//время с начала эпохи
+	//РІСЂРµРјСЏ СЃ РЅР°С‡Р°Р»Р° СЌРїРѕС…Рё
 	cout << endl <<"time from epoch started:"<< tpsysclk.time_since_epoch() << endl;
 }
 
 
 
-//----------------------------------тестирование атомарных операций----------------------------------------------------------------------
+//----------------------------------С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ Р°С‚РѕРјР°СЂРЅС‹С… РѕРїРµСЂР°С†РёР№----------------------------------------------------------------------
 
 std::atomic<bool> bool_data(false);
 
@@ -1317,7 +1317,7 @@ std::atomic<uint32_t> uint32var;
 
 void test_atomic()
 {
-	//получение характеристик атомарных переменных
+	//РїРѕР»СѓС‡РµРЅРёРµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє Р°С‚РѕРјР°СЂРЅС‹С… РїРµСЂРµРјРµРЅРЅС‹С…
 	std::thread t1([]() {
 		get_atomic_info(bool_data);
 		get_atomic_info(char_data);
@@ -1337,8 +1337,8 @@ void test_atomic()
 
 
 	
-	//работа с атомарными переменными
-	uint_data.store(10);												//атомарная инициализация
+	//СЂР°Р±РѕС‚Р° СЃ Р°С‚РѕРјР°СЂРЅС‹РјРё РїРµСЂРµРјРµРЅРЅС‹РјРё
+	uint_data.store(10);												//Р°С‚РѕРјР°СЂРЅР°СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
 
 	std::thread t3([]() {
 		while (auto a = uint_data.load())
@@ -1367,7 +1367,7 @@ void test_atomic()
 		t4.join();
 
 
-	//синхронизация доступа к данным на основе std::atomic<bool> bool_data;
+	//СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј РЅР° РѕСЃРЅРѕРІРµ std::atomic<bool> bool_data;
 	data_Ty dty{ 2,3,5.2,"Hello string" };
 
 	std::thread t5([&]() {
@@ -1398,7 +1398,7 @@ void test_atomic()
 	t5.join();
 	t6.join();
 
-	//демонстрация атомарных операций с атомарными переменными
+	//РґРµРјРѕРЅСЃС‚СЂР°С†РёСЏ Р°С‚РѕРјР°СЂРЅС‹С… РѕРїРµСЂР°С†РёР№ СЃ Р°С‚РѕРјР°СЂРЅС‹РјРё РїРµСЂРµРјРµРЅРЅС‹РјРё
 	std::atomic_init(&uint32var, 100);
 	cout << "std::atomic<uint32_t> uint32var - " << uint32var.load() << endl;
 
@@ -1428,16 +1428,16 @@ void test_atomic()
 	cout << "std::atomic<uint32_t> uint32var - compare_exchange_strong(10, 1000) - " << uint32var.load() << endl;
 
 
-	//упорядочение доступа к памяти для атомарных операций
+	//СѓРїРѕСЂСЏРґРѕС‡РµРЅРёРµ РґРѕСЃС‚СѓРїР° Рє РїР°РјСЏС‚Рё РґР»СЏ Р°С‚РѕРјР°СЂРЅС‹С… РѕРїРµСЂР°С†РёР№
 
-	//memory_order_relaxed - ослабленное упорядочение  
+	//memory_order_relaxed - РѕСЃР»Р°Р±Р»РµРЅРЅРѕРµ СѓРїРѕСЂСЏРґРѕС‡РµРЅРёРµ  
 
-	//memory_order_consume - захват освобождение
+	//memory_order_consume - Р·Р°С…РІР°С‚ РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ
 	//memory_order_acquire - 
 	//memory_order_release - 
 	//memory_order_acq_rel - 
 
-	//memory_order_seq_cst - последовательно согласованное упорядочение
+	//memory_order_seq_cst - РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ СЃРѕРіР»Р°СЃРѕРІР°РЅРЅРѕРµ СѓРїРѕСЂСЏРґРѕС‡РµРЅРёРµ
 	
 	
 	//flag.test_and_set(std::memory_order_seq_cst);

@@ -20,25 +20,25 @@ using std::string;
 
 
 
-//---------------------------------тест ООП---------------------------------------------
+//---------------------------------С‚РµСЃС‚ РћРћРџ---------------------------------------------
 
 class Stock
 {
 private:
-	static int counter;																	//счетчик количества объектов
-	std::string company;																//имя компании
-	long shares;																		//количество акций
-	double share_val;																	//доля 1 акции
-	double total_val;																	//общая доля владения
+	static int counter;																	//СЃС‡РµС‚С‡РёРє РєРѕР»РёС‡РµСЃС‚РІР° РѕР±СЉРµРєС‚РѕРІ
+	std::string company;																//РёРјСЏ РєРѕРјРїР°РЅРёРё
+	long shares;																		//РєРѕР»РёС‡РµСЃС‚РІРѕ Р°РєС†РёР№
+	double share_val;																	//РґРѕР»СЏ 1 Р°РєС†РёРё
+	double total_val;																	//РѕР±С‰Р°СЏ РґРѕР»СЏ РІР»Р°РґРµРЅРёСЏ
 
 	void set_tot() { total_val = shares * share_val; }
 
 public:
-	Stock();																			//конструктор по умолчанию	
-	Stock(double total_val);															//конструктор с одним параметром			
-	Stock(const std::string & company, long shares = 0, double share_val = 0.0);		//конструктор с несколькими параметрами
-	Stock(const Stock & stock);															//конструктор копирования	
-	~Stock();																			//деструктор
+	Stock();																			//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ	
+	Stock(double total_val);															//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РѕРґРЅРёРј РїР°СЂР°РјРµС‚СЂРѕРј			
+	Stock(const std::string & company, long shares = 0, double share_val = 0.0);		//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РЅРµСЃРєРѕР»СЊРєРёРјРё РїР°СЂР°РјРµС‚СЂР°РјРё
+	Stock(const Stock & stock);															//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ	
+	~Stock();																			//РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 
 	std::string getCompany()const	{ return company;   }
 	long getShares()const			{ return shares;    }
@@ -49,7 +49,7 @@ public:
 	void sell(long shares, double price);
 	void show()const;
 
-	static void set_counter(int init_val);												//статическая функция инициализации счетчика объектов			
+	static void set_counter(int init_val);												//СЃС‚Р°С‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё СЃС‡РµС‚С‡РёРєР° РѕР±СЉРµРєС‚РѕРІ			
 
 };
 
@@ -79,7 +79,7 @@ public:
 
 
 
-//-------------------------------------наследование------------------------------------------------------------------------------
+//-------------------------------------РЅР°СЃР»РµРґРѕРІР°РЅРёРµ------------------------------------------------------------------------------
 class Base {
 private:
 	int i;
@@ -95,7 +95,7 @@ public:
 
 
 
-//наследование с атрибутом доступа public
+//РЅР°СЃР»РµРґРѕРІР°РЅРёРµ СЃ Р°С‚СЂРёР±СѓС‚РѕРј РґРѕСЃС‚СѓРїР° public
 class OpenBase : public Base
 {
 private:
@@ -121,7 +121,7 @@ public:
 
 
 
-//наследование с атрибутом доступа private
+//РЅР°СЃР»РµРґРѕРІР°РЅРёРµ СЃ Р°С‚СЂРёР±СѓС‚РѕРј РґРѕСЃС‚СѓРїР° private
 class PrivateBase : private Base
 {
 private:
@@ -140,14 +140,14 @@ public:
 	}
 
 	void showijm(){
-		showij();						//обращение к закрытым функциям-членам базового класса
+		showij();						//РѕР±СЂР°С‰РµРЅРёРµ Рє Р·Р°РєСЂС‹С‚С‹Рј С„СѓРЅРєС†РёСЏРј-С‡Р»РµРЅР°Рј Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР°
 		cout << "m = " << m << endl;
 	}
 };
 
 
 
-//наследование protected членов класса
+//РЅР°СЃР»РµРґРѕРІР°РЅРёРµ protected С‡Р»РµРЅРѕРІ РєР»Р°СЃСЃР°
 class base {
 protected:
 	string name;
@@ -163,7 +163,7 @@ public:
 	void set_surname(string surname)	{ this->surname = surname; }
 };
 
-//открытое наследование класса base с областью protected
+//РѕС‚РєСЂС‹С‚РѕРµ РЅР°СЃР»РµРґРѕРІР°РЅРёРµ РєР»Р°СЃСЃР° base СЃ РѕР±Р»Р°СЃС‚СЊСЋ protected
 class open_base : public base {
 private:	
 	string full_name;
@@ -176,7 +176,7 @@ public:
 };
 
 
-//открытое наследование класса open_base с областью protected унаследованной от класса base
+//РѕС‚РєСЂС‹С‚РѕРµ РЅР°СЃР»РµРґРѕРІР°РЅРёРµ РєР»Р°СЃСЃР° open_base СЃ РѕР±Р»Р°СЃС‚СЊСЋ protected СѓРЅР°СЃР»РµРґРѕРІР°РЅРЅРѕР№ РѕС‚ РєР»Р°СЃСЃР° base
 class info_base : public open_base {
 public:
 	info_base() { cout << "info_base default constructor " << endl; }
@@ -185,7 +185,7 @@ public:
 	void show() { cout << "person: " + name + " " + surname << " -> " << endl; }
 };
 
-//закрытое наследование класса open_base с областью protected унаследованной от класса base
+//Р·Р°РєСЂС‹С‚РѕРµ РЅР°СЃР»РµРґРѕРІР°РЅРёРµ РєР»Р°СЃСЃР° open_base СЃ РѕР±Р»Р°СЃС‚СЊСЋ protected СѓРЅР°СЃР»РµРґРѕРІР°РЅРЅРѕР№ РѕС‚ РєР»Р°СЃСЃР° base
 class close_base : private open_base {
 public:
 	close_base() :open_base() { cout << "close_base default constructor " << endl; }
@@ -203,7 +203,7 @@ public:
 void test_class();
 
 
-//--------------------------множественное наследование---------------------------------------------
+//--------------------------РјРЅРѕР¶РµСЃС‚РІРµРЅРЅРѕРµ РЅР°СЃР»РµРґРѕРІР°РЅРёРµ---------------------------------------------
 const double PI{ 3.14 };
 
 
@@ -273,7 +273,7 @@ public:
 
 void test_multiple_inheritance();
 
-//----------------------предоставление доступа-----------------------------------------------
+//----------------------РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРёРµ РґРѕСЃС‚СѓРїР°-----------------------------------------------
 
 class basic {
 protected:
@@ -295,7 +295,7 @@ public:
 	derived(int i, int j) : basic(i, j) { cout << "constructor of class derived" << endl; }
 	~derived() { cout << "destructor of class derived" << endl; }
 
-	//предоставление доступа, закрытые функции члены делаем открытыми
+	//РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРёРµ РґРѕСЃС‚СѓРїР°, Р·Р°РєСЂС‹С‚С‹Рµ С„СѓРЅРєС†РёРё С‡Р»РµРЅС‹ РґРµР»Р°РµРј РѕС‚РєСЂС‹С‚С‹РјРё
 	basic::setij;
 	basic::showij;
 
@@ -349,7 +349,7 @@ public:
 	number(int a) : a(a) {}
 	~number() {}
 
-	virtual void show() = 0;		//чисто виртуальная функция
+	virtual void show() = 0;		//С‡РёСЃС‚Рѕ РІРёСЂС‚СѓР°Р»СЊРЅР°СЏ С„СѓРЅРєС†РёСЏ
 };
 
 class hexnumber :public number {
@@ -403,9 +403,9 @@ public:
 void test_abstract_class();
 
 
-//------------------------------разные возможности ООП------------------------------------
+//------------------------------СЂР°Р·РЅС‹Рµ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РћРћРџ------------------------------------
 
-//библиотека классов для рисования на экране
+//Р±РёР±Р»РёРѕС‚РµРєР° РєР»Р°СЃСЃРѕРІ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ РЅР° СЌРєСЂР°РЅРµ
 
 class point {
 protected:
@@ -505,7 +505,7 @@ public:
 
 class graph_object : public attributes {
 protected:
-	static unsigned int counter;				//счетчик графических объектов
+	static unsigned int counter;				//СЃС‡РµС‚С‡РёРє РіСЂР°С„РёС‡РµСЃРєРёС… РѕР±СЉРµРєС‚РѕРІ
 
 public:
 	graph_object():attributes() { ++counter; }
