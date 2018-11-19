@@ -1,10 +1,11 @@
 
-//#include "tools.h"
-//#include "study_stl.h"
+//#include "hdr/tools.h"
+#include "hdr/study_stl.h"
 //#include "oop.h"
-#include "hdr/algo.h"
+//#include "hdr/algo.h"
 
 int main() {
+  std::cout << "Hello C++17" << std::endl;
   //тесты многопоточности, синхронизации и пр.
   //--------------------------------------------------------------
   // test_number_3();
@@ -26,7 +27,7 @@ int main() {
 
   //тесты STL
   // --------------------------------------------------------------
-  // test_array();
+  // TestArray();
   // test_pairs();
   // test_tuples();
   // test_vector();
@@ -55,7 +56,7 @@ int main() {
 
   //тесты алгоритмов
   //--------------------------------------------------------
-  test_liner_list();
+  // test_liner_list();
 
   return 0;
 }
