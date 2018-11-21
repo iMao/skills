@@ -28,4 +28,4 @@ add_executable(${PROJECT_NAME} ${hdr} ${src} C++17.cpp)
 
 add_executable(${PROJECT_NAME}_std_array ${hdr} ${src} apps/array_main.cpp)
 
-
+add_executable(${PROJECT_NAME}_std_pair ${hdr} ${src} apps/pair_main.cpp)

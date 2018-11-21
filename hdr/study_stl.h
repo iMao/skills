@@ -1,9 +1,9 @@
 #ifndef C17_HDR_STUDY_STL_
 #define C17_HDR_STUDY_STL_
 
-#include <stdlib.h>
 #include <iomanip>
 #include <iostream>
+#include <stdlib.h>
 
 #include <math.h>
 #include <string.h>
@@ -48,7 +48,8 @@ using std::wstring;
 //тестирование массива array<>-----------------------------------
 template <typename t, std::size_t n>
 void PrintArray(const std::array<t, n> &a) {
-  for (auto x : a) cout << "x=" << x << " ";
+  for (auto x : a)
+    cout << "x=" << x << " ";
   cout << endl;
 }
 
@@ -64,25 +65,27 @@ void CompareArrays(const std::array<t, n> &a, const std::array<t, n> &b) {
   }
 }
 
-template <typename t, size_t n>
-class Object {
- private:
+template <typename t, size_t n> class Object {
+private:
   t array_[n];
 
- public:
+public:
   Object() {
-    for (size_t i = 0; i < n; i++) array_[i] = i;
+    for (size_t i = 0; i < n; i++)
+      array_[i] = i;
   }
 
   Object(t val) {
-    for (size_t i = 0; i < n; i++) array_[i] = val;
+    for (size_t i = 0; i < n; i++)
+      array_[i] = val;
   }
 
   ~Object() {}
 
   bool operator==(const Object &object) {
     for (size_t i = 0; i < n; i++) {
-      if (this->array_[i] != object.array_[i]) return false;
+      if (this->array_[i] != object.array_[i])
+        return false;
     }
     return true;
   }
@@ -91,7 +94,8 @@ class Object {
 
   void print() {
     cout << endl;
-    for (size_t i = 0; i < n; i++) cout << endl << " x = " << array_[i];
+    for (size_t i = 0; i < n; i++)
+      cout << endl << " x = " << array_[i];
   }
 };
 
@@ -99,25 +103,24 @@ void TestArray();
 
 //тестирование std::pair<T1,T2>p
 //------------------------------------------------------
-// template <typename t1, typename t2>
-// std::ostream &operator<<(std::ostream &ostr, std::pair<t1, t2> &p) {
-//  return ostr << "[" << p.first << "," << p.second << "]";
-//}
+template <typename t1, typename t2>
+std::ostream &operator<<(std::ostream &ostr, std::pair<t1, t2> &p) {
+  return ostr << "[" << p.first << "," << p.second << "]";
+}
 
-// template <typename t>
-// std::pair<t, t> &solve_equation(t a, t b, t c) {
-//  t D = b * b - 4 * a * c;
-//  if (D < 0)
-//    return std::move(std::make_pair(static_cast<t>(0), static_cast<t>(0)));
-//  else {
-//    t x1 = (-b - sqrt(D)) / 2 * a;
-//    t x2 = (-b + sqrt(D)) / 2 * a;
+template <typename t> std::pair<t, t> SolveEquation(t a, t b, t c) {
+  t D = b * b - 4 * a * c;
+  if (D < 0)
+    return std::make_pair(static_cast<t>(0), static_cast<t>(0));
+  else {
+    t x1 = (-b - sqrt(D)) / 2 * a;
+    t x2 = (-b + sqrt(D)) / 2 * a;
 
-//    return std::move(std::make_pair(x1, x2));
-//  }
-//}
+    return std::make_pair(x1, x2);
+  }
+}
 
-// void test_pairs();
+void TestPairs();
 
 ////тестирование кортежей std::tuple<T1,T2,...Tn> t
 //// ------------------------------------------------
