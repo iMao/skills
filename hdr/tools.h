@@ -1,37 +1,37 @@
 #ifndef _TOOLS_H_
 #define _TOOLS_H_
 
-//#include <ctime>
-//#include <stdint.h>
+#include <stdint.h>
+#include <ctime>
 
-//#include <fstream>
-//#include <iostream>
+#include <fstream>
+#include <iostream>
 
-//#include <algorithm>
-//#include <initializer_list>
-//#include <string>
-//#include <thread>
-//#include <vector>
+#include <algorithm>
+#include <initializer_list>
+#include <string>
+#include <thread>
+#include <vector>
 
-//#include <atomic>
-//#include <chrono>
-//#include <condition_variable>
-//#include <exception>
-//#include <future>
-//#include <memory>
-//#include <mutex>
-//#include <queue>
-//#include <random>
-//#include <ratio>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <exception>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <queue>
+#include <random>
+#include <ratio>
 
-// using std::cin;
-// using std::cout;
-// using std::endl;
+using std::cin;
+using std::cout;
+using std::endl;
 
-// using std::shared_ptr;
-// using std::string;
-// using std::unique_ptr;
-// using std::vector;
+using std::shared_ptr;
+using std::string;
+using std::unique_ptr;
+using std::vector;
 
 ////первый тест (создание потоков, управление)
 // void thfunc(); //функция для простого потока
