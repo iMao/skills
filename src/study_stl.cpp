@@ -13,31 +13,31 @@ void TestArray() {
   //тестирование конструкторов
   std::array<int, 10> a{
       0, 1, 2, 3, 4,
-      5, 6, 7, 8, 9};  //инициализация при объявлении списком инициализации
+      5, 6, 7, 8, 9}; //инициализация при объявлении списком инициализации
 
-  std::array<int, 10> b{};  //инициализация всех элементов нулем
+  std::array<int, 10> b{}; //инициализация всех элементов нулем
 
-  std::array<int, 10> c(a);  //вызов неявного конструктора копирования
+  std::array<int, 10> c(a); //вызов неявного конструктора копирования
 
-  std::array<int, 10> d = std::move(b);  //вызов конструктора перемещения
+  std::array<int, 10> d = std::move(b); //вызов конструктора перемещения
   PrintArray(d);
 
-  b.fill(5);  //заполняем все элементы массива значением 5
+  b.fill(5); //заполняем все элементы массива значением 5
 
   PrintArray(b);
   PrintArray(c);
   PrintArray(word);
 
-  std::array<int, 3> zero;  //содержит мусор
+  std::array<int, 3> zero; //содержит мусор
   PrintArray(zero);
 
-  std::array<int, 5> half_zero{1, 2};  // 0-й и 1-й содержат 1 и 2 остальные - 0
+  std::array<int, 5> half_zero{1, 2}; // 0-й и 1-й содержат 1 и 2 остальные - 0
   PrintArray(half_zero);
 
-  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //копия массива а
+  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}; //копия массива а
   CompareArrays(a, a_);
 
-  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};  //
+  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; //
   CompareArrays(b, b_);
 
   //обработка исключения при выходе за границы массива
@@ -51,7 +51,7 @@ void TestArray() {
   //тестирование семантики перемещения
   std::array<int, 5> s{9, 9, 9, 9, 9};
   std::array<int, 5> h =
-      std::move(s);  //происходит простое копирование исходного массива
+      std::move(s); //происходит простое копирование исходного массива
 
   s[0] = 0;
   s[1] = 1;
@@ -61,7 +61,8 @@ void TestArray() {
 
   //массив с объектами
   std::array<Object<int, 5>, 5> matrix;
-  for (auto &ar : matrix) ar.print();
+  for (auto &ar : matrix)
+    ar.print();
 
   //использование списоков инициализации std::initializer_list<> невозможно
   // std::initializer_list<int> lst{2, 5, 7, 1, 8, 9};
@@ -99,84 +100,84 @@ void TestArray() {
 
 //тестирование std::pair<T1,T2>p
 //------------------------------------------------------
-// void test_pairs() {
-//  //создание пар
-//  std::pair<int, string> p1;  //пустая пара
-//  cout << endl << "p1 = " << p1 << endl;
+void TestPairs() {
+  //создание пар
+  std::pair<int, string> p1; //пустая пара
+  cout << endl << "p1 = " << p1 << endl;
 
-//  std::pair<int, string> p2 =
-//      std::make_pair(0, string("Pair"));  //использование std::make_pair()
-//  cout << endl << "p2 = " << p2 << endl;
+  std::pair<int, string> p2 =
+      std::make_pair(0, string("Pair")); //использование std::make_pair()
+  cout << endl << "p2 = " << p2 << endl;
 
-//  std::pair<int, string> p3(p2);  //использование копирующего конструктора
-//  cout << endl << "p3 = " << p3 << endl;
+  std::pair<int, string> p3(p2); //использование копирующего конструктора
+  cout << endl << "p3 = " << p3 << endl;
 
-//  std::pair<int, string> p4{5, "five"};  //использование списка инициализации
-//  cout << endl << "p4 = " << p4 << endl;
+  std::pair<int, string> p4{5, "five"}; //использование списка инициализации
+  cout << endl << "p4 = " << p4 << endl;
 
-//  std::pair<int, string> p5 =
-//      std::move(p4);  //использование перемещающего конструктора
-//  cout << endl << "p5 = std::move(p4) " << p5 << endl;
-//  cout << endl << "p4 = " << p4 << endl;
+  std::pair<int, string> p5 =
+      std::move(p4); //использование перемещающего конструктора
+  cout << endl << "p5 = std::move(p4) " << p5 << endl;
+  cout << endl << "p4 = " << p4 << endl;
 
-//  std::pair<int, string> p6{};  //пустой список инициализации
-//  cout << endl << "p6 = " << p6 << endl;
+  std::pair<int, string> p6{}; //пустой список инициализации
+  cout << endl << "p6 = " << p6 << endl;
 
-//  auto p7 = std::make_pair('Q', '@');  //создание пары std::pair<char, char>
-//  cout << endl << "p7 = " << p7 << endl;
+  auto p7 = std::make_pair('Q', '@'); //создание пары std::pair<char, char>
+  cout << endl << "p7 = " << p7 << endl;
 
-//  auto p8 = std::make_pair(
-//      "D", "S");  //создание пары std::pair<const char*, const char*>
-//  cout << endl << "p8 = " << p8 << endl;
+  auto p8 = std::make_pair(
+      "D", "S"); //создание пары std::pair<const char*, const char*>
+  cout << endl << "p8 = " << p8 << endl;
 
-//  std::pair<int, float> p9(3, 2.71f);
-//  cout << endl << "p9 = " << p9 << endl;
+  std::pair<int, float> p9(3, 2.71f);
+  cout << endl << "p9 = " << p9 << endl;
 
-//  //обмен парами
-//  cout << endl << "exchange pairs" << endl;
+  //обмен парами
+  cout << endl << "exchange pairs" << endl;
 
-//  std::pair<int, char> a1(9, 'Y');
-//  std::pair<int, char> a2(3, 'R');
+  std::pair<int, char> a1(9, 'Y');
+  std::pair<int, char> a2(3, 'R');
 
-//  cout << endl << "a1 = " << a1 << endl;
-//  cout << endl << "a2 = " << a2 << endl;
+  cout << endl << "a1 = " << a1 << endl;
+  cout << endl << "a2 = " << a2 << endl;
 
-//  std::swap(a1, a2);  //обмен парами
+  std::swap(a1, a2); //обмен парами
 
-//  cout << endl << "a1 = " << a1 << endl;
-//  cout << endl << "a2 = " << a2 << endl;
+  cout << endl << "a1 = " << a1 << endl;
+  cout << endl << "a2 = " << a2 << endl;
 
-//  string f{"first"};
-//  string s{"second"};
+  string f{"first"};
+  string s{"second"};
 
-//  std::pair<string, string> a3 = std::make_pair(
-//      std::move(f),
-//      std::move(s));  //использование семантики перемещения в
-//                      // std::make_pair( std::move(), std::move() )
+  std::pair<string, string> a3 = std::make_pair(
+      std::move(f),
+      std::move(s)); //использование семантики перемещения в
+                     // std::make_pair( std::move(), std::move() )
 
-//  cout << endl << "a3 = " << a3 << endl;
-//  cout << endl << "f = " << f << endl;
-//  cout << endl << "s = " << s << endl;
+  cout << endl << "a3 = " << a3 << endl;
+  cout << endl << "f = " << f << endl;
+  cout << endl << "s = " << s << endl;
 
-//  int i = 0;
+  int i = 0;
 
-//  auto a4 = std::make_pair(
-//      std::ref(i), std::ref(i));  //использование семантики ссылок std::ref()
-//  cout << endl << "a4 = " << a4 << endl;
+  auto a4 = std::make_pair(
+      std::ref(i), std::ref(i)); //использование семантики ссылок std::ref()
+  cout << endl << "a4 = " << a4 << endl;
 
-//  ++a4.first;
-//  ++a4.second;
+  ++a4.first;
+  ++a4.second;
 
-//  cout << endl << "a4 = " << a4 << endl;
+  cout << endl << "a4 = " << a4 << endl;
 
-//  std::pair<char, double> a5{'Z', 4.789};
+  std::pair<char, double> a5{'Z', 4.789};
 
-//  cout << endl << "std::get<0>(a5) = " << std::get<0>(a5) << endl;
-//  cout << endl << "std::get<1>(a5) = " << std::get<1>(a5) << endl;
+  cout << endl << "std::get<0>(a5) = " << std::get<0>(a5) << endl;
+  cout << endl << "std::get<1>(a5) = " << std::get<1>(a5) << endl;
 
-//  auto res = solve_equation(1.4f, 7.0f, 2.0f);
-//  cout << endl << "  result " << res << endl;
-//}
+  auto res = SolveEquation(1.4f, 7.0f, 2.0f);
+  cout << endl << "  result " << res << endl;
+}
 
 ////тестирование кортежей std::tuple<T1,T2,...Tn> t
 //// ----------------------------------------------
