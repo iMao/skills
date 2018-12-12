@@ -32,6 +32,8 @@ set(patterns
     ./patterns/pattern_strategy.cpp
     ./patterns/pattern_observer.h
     ./patterns/pattern_observer.cpp
+    ./patterns/pattern_factory.h
+    ./patterns/pattern_factory.cpp
     )
 
 
@@ -48,3 +50,8 @@ add_executable(${PROJECT_NAME}_std_pair ${hdr} ${src} apps/pair_main.cpp)
 add_executable(${PROJECT_NAME}_pattern_strategy ${patterns} apps/pattern_strategy_main.cpp)
 
 add_executable(${PROJECT_NAME}_pattern_observer ${patterns} apps/pattern_observer_main.cpp)
+
+add_executable(${PROJECT_NAME}_pattern_factory ${patterns} apps/pattern_factory_main.cpp)
+
+
+
