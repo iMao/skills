@@ -29,7 +29,10 @@ set(src
 
 set(patterns
     ./patterns/pattern_strategy.h
-    ./patterns/pattern_strategy.cpp)
+    ./patterns/pattern_strategy.cpp
+    ./patterns/pattern_observer.h
+    ./patterns/pattern_observer.cpp
+    )
 
 
 
@@ -43,3 +46,5 @@ add_executable(${PROJECT_NAME}_rwlock ${hdr} ${src} apps/rwlock_main.cpp)
 add_executable(${PROJECT_NAME}_std_pair ${hdr} ${src} apps/pair_main.cpp)
 
 add_executable(${PROJECT_NAME}_pattern_strategy ${patterns} apps/pattern_strategy_main.cpp)
+
+add_executable(${PROJECT_NAME}_pattern_observer ${patterns} apps/pattern_observer_main.cpp)
