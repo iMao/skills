@@ -1,57 +1,59 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 
-project(C17)
+project(skills)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3 -fopenmp -std=c++17 -fPIC -pthread")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -fopenmp -std=c++17 -fPIC -pthread")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3  -fPIC -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3  -std=c++17 -fPIC -pthread")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Werror -pedantic")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgomp")
 
-
-
-set(hdr
-./hdr/algo.h
-./hdr/oop.h
-./hdr/study_stl.h
-./hdr/tools.h
-./hdr/rwlock.h
-)
-
-set(src
-./src/algo.cpp
-./src/oop.cpp
-./src/study_stl.cpp
-./src/tools.cpp
-./src/rwlock.cpp
+set(HDR_LIST
+    src/algo/algo.h
+    src/oop/oop.h
+    src/CPP11/stl/study_stl.h
+    src/CPP11/multithreading/tools.h
+    src/CPP14/features.h
+    src/system/rwlock.h
+    src/patterns/pattern_factory.h
+    src/patterns/pattern_observer.h
+    src/patterns/pattern_strategy.h
 )
 
 
-set(patterns
-    ./patterns/pattern_strategy.h
-    ./patterns/pattern_strategy.cpp
-    ./patterns/pattern_observer.h
-    ./patterns/pattern_observer.cpp
-    ./patterns/pattern_factory.h
-    ./patterns/pattern_factory.cpp
+set(SRC
+    src/algo/algo.cpp
+    src/oop/oop.cpp
+    src/CPP11/stl/study_stl.cpp
+    src/CPP11/multithreading/tools.cpp
+    src/CPP14/features.cpp
+    src/system/rwlock.cpp
+)
+
+set(PATTERNS
+    src/patterns/pattern_strategy.cpp
+    src/patterns/pattern_observer.cpp
+    src/patterns/pattern_factory.cpp
     )
 
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
+#headers
+add_custom_target(${PROJECT_NAME}_headers SOURCES ${HDR_LIST} )
 
-add_executable(${PROJECT_NAME} ${hdr} ${src} C++17.cpp)
+#stl library
+add_executable(${PROJECT_NAME} ${HDR_LIST} ${SRC} aps/C++17.cpp)
+add_executable(${PROJECT_NAME}_stl ${HDR_LIST} ${SRC} aps/stl_cpp11.cpp)
+add_executable(${PROJECT_NAME}_multithreading ${HDR_LIST} ${SRC} aps/multithreading_cpp11.cpp)
 
-add_executable(${PROJECT_NAME}_std_array ${hdr} ${src} apps/array_main.cpp)
+#system programming
+add_executable(${PROJECT_NAME}_rwlock ${HDR_LIST} ${SRC} aps/rwlock_main.cpp)
 
-add_executable(${PROJECT_NAME}_rwlock ${hdr} ${src} apps/rwlock_main.cpp)
+#patterns usage
+add_executable(${PROJECT_NAME}_pattern_strategy ${HDR_LIST}  ${PATTERNS} aps/pattern_strategy_main.cpp)
+add_executable(${PROJECT_NAME}_pattern_observer ${HDR_LIST} ${PATTERNS} aps/pattern_observer_main.cpp)
+add_executable(${PROJECT_NAME}_pattern_factory ${HDR_LIST} ${PATTERNS} aps/pattern_factory_main.cpp)
 
-add_executable(${PROJECT_NAME}_std_pair ${hdr} ${src} apps/pair_main.cpp)
-
-add_executable(${PROJECT_NAME}_pattern_strategy ${patterns} apps/pattern_strategy_main.cpp)
-
-add_executable(${PROJECT_NAME}_pattern_observer ${patterns} apps/pattern_observer_main.cpp)
-
-add_executable(${PROJECT_NAME}_pattern_factory ${patterns} apps/pattern_factory_main.cpp)
 
 
 
