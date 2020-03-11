@@ -45,53 +45,60 @@ using std::endl;
 using std::string;
 using std::wstring;
 
-//тестирование массива array<>-----------------------------------
+//тестирование массива std::array<>
 template <typename t, std::size_t n>
-void PrintArray(const std::array<t, n> &a) {
-  for (auto x : a) cout << "x=" << x << " ";
+void PrintArray(const char *array_name, const std::array<t, n> &a) {
+  std::cout << array_name << ":  ";
+  for (auto &x : a) cout << x << " ";
   cout << endl;
 }
 
 template <typename t, std::size_t n>
-void CompareArrays(const std::array<t, n> &a, const std::array<t, n> &b) {
+void CompareArrays(const char *name_a, const std::array<t, n> &a,
+                   const char *name_b, const std::array<t, n> &b) {
+  cout << "arrays compared: ";
   if (a == b)
-    cout << endl << "a == b" << endl;
+    cout << name_a << " == " << name_b;
   else {
     if (a > b)
-      cout << "a > b" << endl;
+      cout << name_a << " > " << name_b;
     else
-      cout << "a < b" << endl;
+      cout << name_a << " < " << name_b;
   }
+  cout << endl;
 }
 
 template <typename t, size_t n>
-class Object {
+class OArray {
  private:
   t array_[n];
 
  public:
-  Object() {
+  OArray() {
     for (size_t i = 0; i < n; i++) array_[i] = i;
   }
 
-  Object(t val) {
+  OArray(t val) {
     for (size_t i = 0; i < n; i++) array_[i] = val;
   }
 
-  ~Object() {}
+  ~OArray() {}
 
-  bool operator==(const Object &object) {
+  bool operator==(const OArray &object) {
     for (size_t i = 0; i < n; i++) {
       if (this->array_[i] != object.array_[i]) return false;
     }
     return true;
   }
 
-  bool operator!=(const Object &object) { return !((*this) == (object)); }
+  bool operator!=(const OArray &object) { return !((*this) == (object)); }
 
-  void print() {
-    cout << endl;
-    for (size_t i = 0; i < n; i++) cout << endl << " x = " << array_[i];
+  void Print() {
+    cout << "Object array: ";
+    for (size_t i = 0; i < n; i++) {
+      cout << array_[i] << " ";
+    }
+    std::cout << std::endl;
   }
 };
 
