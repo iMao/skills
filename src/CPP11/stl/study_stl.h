@@ -104,23 +104,23 @@ class OArray {
 
 void TestArray();
 
-//тестирование std::pair<T1,T2>p
-//------------------------------------------------------
+//---------тестирование std::pair<T1,T2>p------------------------
 template <typename t1, typename t2>
-std::ostream &operator<<(std::ostream &ostr, std::pair<t1, t2> &p) {
+std::ostream &operator<<(std::ostream &ostr, const std::pair<t1, t2> &p) {
   return ostr << "[" << p.first << "," << p.second << "]";
 }
 
 template <typename t>
-std::pair<t, t> SolveEquation(t a, t b, t c) {
+std::pair<bool, std::pair<t, t>> SolveEquation(t a, t b, t c) {
   t D = b * b - 4 * a * c;
-  if (D < 0)
-    return std::make_pair(static_cast<t>(0), static_cast<t>(0));
-  else {
+  if (D < 0) {
+    return std::make_pair(false,
+                          std::make_pair(static_cast<t>(0), static_cast<t>(0)));
+  } else {
     t x1 = (-b - sqrt(D)) / 2 * a;
     t x2 = (-b + sqrt(D)) / 2 * a;
 
-    return std::make_pair(x1, x2);
+    return std::make_pair(true, std::make_pair(x1, x2));
   }
 }
 

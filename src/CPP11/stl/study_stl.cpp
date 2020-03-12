@@ -1,4 +1,5 @@
 #include "study_stl.h"
+#include <typeinfo>
 
 //тестирование массива array<>
 void TestArray() {
@@ -122,35 +123,42 @@ void TestArray() {
 void TestPairs() {
   //создание пар
   std::pair<int, string> p1;  //пустая пара
-  cout << endl << "p1 = " << p1 << endl;
+  cout << "p1: " << p1 << endl;
 
-  std::pair<int, string> p2 =
-      std::make_pair(0, string("Pair"));  //использование std::make_pair()
-  cout << endl << "p2 = " << p2 << endl;
+  //использование std::make_pair()
+  std::pair<int, string> p2 = std::make_pair(0, string("Pair"));
+  cout << "p2: " << p2 << endl;
 
-  std::pair<int, string> p3(p2);  //использование копирующего конструктора
-  cout << endl << "p3 = " << p3 << endl;
+  //использование копирующего конструктора
+  std::pair<int, string> p3(p2);
+  cout << "p3: " << p3 << endl;
 
-  std::pair<int, string> p4{5, "five"};  //использование списка инициализации
-  cout << endl << "p4 = " << p4 << endl;
+  //использование списка инициализации
+  std::pair<int, string> p4{5, "five"};
+  cout << "p4: " << p4 << endl;
 
-  std::pair<int, string> p5 =
-      std::move(p4);  //использование перемещающего конструктора
-  cout << endl << "p5 = std::move(p4) " << p5 << endl;
-  cout << endl << "p4 = " << p4 << endl;
+  //использование перемещающего конструктора
+  std::pair<int, string> p5 = std::move(p4);
+  cout << "p5 = std::move(p4) " << p5 << endl;
+  cout << "p4: " << p4 << endl;
 
-  std::pair<int, string> p6{};  //пустой список инициализации
-  cout << endl << "p6 = " << p6 << endl;
+  //пустой список инициализации
+  std::pair<int, string> p6{};
+  cout << "p6: " << p6 << endl;
 
-  auto p7 = std::make_pair('Q', '@');  //создание пары std::pair<char, char>
-  cout << endl << "p7 = " << p7 << endl;
+  //создание пары std::pair<char, char>
+  auto p7 = std::make_pair('Q', '@');
+  cout << "p7: " << p7 << " has type: " << typeid(p7).name() << endl;
+  cout << "p7.first  has type: " << typeid(p7.first).name() << endl;
+  cout << "p7.second has type: " << typeid(p7.second).name() << endl;
 
-  auto p8 = std::make_pair(
-      "D", "S");  //создание пары std::pair<const char*, const char*>
-  cout << endl << "p8 = " << p8 << endl;
+  //создание пары std::pair<const char*, const char*>
+  auto p8 = std::make_pair("D", "S");
+  cout << "p8: " << p8 << endl;
 
+  //создание пары конструктором с параметрами
   std::pair<int, float> p9(3, 2.71f);
-  cout << endl << "p9 = " << p9 << endl;
+  cout << "p9: " << p9 << endl;
 
   //обмен парами
   cout << endl << "exchange pairs" << endl;
@@ -158,44 +166,49 @@ void TestPairs() {
   std::pair<int, char> a1(9, 'Y');
   std::pair<int, char> a2(3, 'R');
 
-  cout << endl << "a1 = " << a1 << endl;
-  cout << endl << "a2 = " << a2 << endl;
+  cout << "a1: " << a1 << endl;
+  cout << "a2: " << a2 << endl;
 
   std::swap(a1, a2);  //обмен парами
-
-  cout << endl << "a1 = " << a1 << endl;
-  cout << endl << "a2 = " << a2 << endl;
+  cout << endl;
+  cout << "after std::swap(a1,a2)" << endl;
+  cout << "a1: " << a1 << endl;
+  cout << "a2: " << a2 << endl;
 
   string f{"first"};
   string s{"second"};
 
-  std::pair<string, string> a3 = std::make_pair(
-      std::move(f),
-      std::move(s));  //использование семантики перемещения в
-                      // std::make_pair( std::move(), std::move() )
+  //использование семантики перемещения в
+  // std::make_pair( std::move(), std::move() )
+  std::pair<string, string> a3 = std::make_pair(std::move(f), std::move(s));
+  cout << endl;
+  cout << "a3: " << a3 << endl;
+  cout << "f: " << f << endl;
+  cout << "s: " << s << endl;
 
-  cout << endl << "a3 = " << a3 << endl;
-  cout << endl << "f = " << f << endl;
-  cout << endl << "s = " << s << endl;
-
+  //использование семантики ссылок std::ref()
   int i = 0;
-
-  auto a4 = std::make_pair(
-      std::ref(i), std::ref(i));  //использование семантики ссылок std::ref()
-  cout << endl << "a4 = " << a4 << endl;
+  auto a4 = std::make_pair(std::ref(i), std::ref(i));
+  cout << endl << "a4: " << a4 << endl;
 
   ++a4.first;
   ++a4.second;
 
-  cout << endl << "a4 = " << a4 << endl;
+  cout << "a4: " << a4 << endl;
 
   std::pair<char, double> a5{'Z', 4.789};
+  cout << "access to fields throw global function std::get<>" << endl;
+  cout << "std::get<0>(a5) = " << std::get<0>(a5) << endl;
+  cout << "std::get<1>(a5) = " << std::get<1>(a5) << endl;
 
-  cout << endl << "std::get<0>(a5) = " << std::get<0>(a5) << endl;
-  cout << endl << "std::get<1>(a5) = " << std::get<1>(a5) << endl;
-
+  //решение квадратного уравнения
   auto res = SolveEquation(1.4f, 7.0f, 2.0f);
-  cout << endl << "  result " << res << endl;
+  cout << endl;
+  if (res.first) {
+    cout << "result: " << res.second << endl;
+  } else {
+    cout << "roots abcent" << endl;
+  }
 }
 
 ////тестирование кортежей std::tuple<T1,T2,...Tn> t

@@ -1,11 +1,14 @@
+/*
+ * Tests of  STL C++ 11 features
+ * author Andrey Makarov
+ *
+ */
 
 #include "src/CPP11/stl/study_stl.h"
 
 int main() {
-  //тесты STL
-  // --------------------------------------------------------------
-  TestArray();
-  // TestPairs();
+  // TestArray();
+  TestPairs();
   // test_tuples();
   // test_vector();
   // test_deque();
