@@ -2,36 +2,34 @@
 #define SRC_CPP11_MULTITHREADING_TOOLS_H_
 
 #include <stdint.h>
-#include <ctime>
-
-#include <fstream>
-#include <iostream>
 
 #include <algorithm>
-#include <initializer_list>
-#include <string>
-#include <thread>
-#include <vector>
-
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <ctime>
 #include <exception>
+#include <fstream>
 #include <future>
+#include <initializer_list>
+#include <iostream>
 #include <memory>
 #include <mutex>
 #include <queue>
 #include <random>
 #include <ratio>
+#include <string>
+#include <thread>
+#include <vector>
 
-using std::cin;
-using std::cout;
-using std::endl;
+// using std::cin;
+// using std::cout;
+// using std::endl;
 
-using std::shared_ptr;
-using std::string;
-using std::unique_ptr;
-using std::vector;
+// using std::shared_ptr;
+// using std::string;
+// using std::unique_ptr;
+// using std::vector;
 
 ////первый тест (создание потоков, управление)
 // void thfunc(); //функция для простого потока

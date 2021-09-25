@@ -2,6 +2,7 @@
 #define SRC_PATTERNS_PATTERN_OBSERVER_H
 
 #include <stdint.h>
+
 #include <list>
 
 namespace patterns {

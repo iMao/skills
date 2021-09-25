@@ -5,43 +5,43 @@
 
 namespace testlab {
 
-class RWlock {
- public:
-  RWlock();
-  // RWlock(const pthread_rwlockattr_t* rwlockattr);
-  RWlock(const RWlock& rwlock) = delete;
-  RWlock& operator=(const RWlock& rwlock) = delete;
-  ~RWlock();
+// class RWlock {
+// public:
+//  RWlock();
+//  // RWlock(const pthread_rwlockattr_t* rwlockattr);
+//  RWlock(const RWlock& rwlock) = delete;
+//  RWlock& operator=(const RWlock& rwlock) = delete;
+//  ~RWlock();
 
-  // shared ownership
-  void LockShared();
-  bool TryLockShared();
+//  // shared ownership
+//  void LockShared();
+//  bool TryLockShared();
 
-  // exclusive ownership
-  void Lock();
-  bool TryLock();
+//  // exclusive ownership
+//  void Lock();
+//  bool TryLock();
 
-  void Unlock();
+//  void Unlock();
 
- private:
-  pthread_rwlock_t rwlock_;
-  bool is_rwlock_static_allocation_;
-};
+// private:
+//  pthread_rwlock_t rwlock_;
+//  bool is_rwlock_static_allocation_;
+//};
 
-class RWlockGuard {
- public:
-  enum RWlockOwnership {
-    kSharedLock,
-    kSharedTryLock,
-    kExclusiveLock,
-    kExclusiveTryLock
-  };
-  explicit RWlockGuard(RWlock& rwlock, RWlockOwnership ownership);
-  ~RWlockGuard();
+// class RWlockGuard {
+// public:
+//  enum RWlockOwnership {
+//    kSharedLock,
+//    kSharedTryLock,
+//    kExclusiveLock,
+//    kExclusiveTryLock
+//  };
+//  explicit RWlockGuard(RWlock& rwlock, RWlockOwnership ownership);
+//  ~RWlockGuard();
 
- private:
-  RWlock& rwlock_;
-};
+// private:
+//  RWlock& rwlock_;
+//};
 
 }  // namespace testlab
 

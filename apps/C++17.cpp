@@ -1,8 +1,10 @@
 
-#include "src/CPP11/multithreading/tools.h"
-#include "src/CPP11/stl/study_stl.h"
-#include "src/algo/algo.h"
-#include "src/oop/oop.h"
+//#include "src/algo/algo.h"
+//#include "src/oop/oop.h"
+#include "../src/std11/study_stl.h"
+//#include "src/std11/tools.h"
+
+//#include <iostream>
 
 int main() {
   std::cout << "Hello C++17" << std::endl;

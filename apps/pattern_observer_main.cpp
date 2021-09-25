@@ -1,6 +1,7 @@
 #include <chrono>
 #include <memory>
 #include <thread>
+
 #include "src/patterns/pattern_observer.h"
 
 int main() {

@@ -1,6 +1,6 @@
-#include "src/patterns/pattern_factory.h"
-
 #include <memory>
+
+#include "src/patterns/pattern_factory.h"
 
 int main() {
   patterns::PizzaFactoryNY pizza_factory_NY;

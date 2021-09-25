@@ -1,4 +1,5 @@
 #include "pattern_factory.h"
+
 #include <iostream>
 
 namespace patterns {

@@ -1,4 +1,5 @@
 #include "pattern_observer.h"
+
 #include <iostream>
 
 namespace patterns {
@@ -16,8 +17,7 @@ void patterns::WeatherStation::RegisterObserver(Observer *observer) {
 }
 
 void patterns::WeatherStation::RemoveObserver(Observer *observer) {
-  if (!observers_.empty())
-    observers_.remove(observer);
+  if (!observers_.empty()) observers_.remove(observer);
 }
 
 void WeatherStation::NotifyObservers() {
@@ -28,9 +28,9 @@ void WeatherStation::NotifyObservers() {
 
 void WeatherStation::ChangeWeather(float &temperature, float &pressure,
                                    float &humidity) {
-  temperature += 5.0;
-  pressure += 5.0;
-  humidity += 5.0;
+  temperature += 5.0f;
+  pressure += 5.0f;
+  humidity += 5.0f;
 }
 //------------------observers----------------------------------
 CurrentWeather::CurrentWeather(WeatherStation *weather_station)
@@ -56,8 +56,11 @@ void CurrentWeather::Display() {
 }
 
 AverageWeather::AverageWeather(WeatherStation *weather_station)
-    : weather_station_(weather_station), n_(1), avg_temperature_(0),
-      avg_pressure_(0), avg_humidity_(0) {
+    : weather_station_(weather_station),
+      n_(1),
+      avg_temperature_(0),
+      avg_pressure_(0),
+      avg_humidity_(0) {
   std::cout << "Object AverageWeather created" << std::endl;
   weather_station_->RegisterObserver(this);
 }
@@ -95,4 +98,4 @@ void AverageWeather::Display() {
   std::cout << "average humidity: " << avg_humidity_ << std::endl;
 }
 
-} // namespace patterns
+}  // namespace patterns
