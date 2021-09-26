@@ -2,121 +2,152 @@
 
 #include <typeinfo>
 
-//тестирование массива array<>
+/**
+ * @brief TestArray тестирование массива array<>
+ */
 void TestArray() {
-  //простой тест массива array<>
-  std::array<char, 19> word{};
-  strcpy(word.data(), "Hello std::array<>");
+  //  //простой тест массива array<> C style
+  //  std::cout << "C style of usage of std::array<> container stl\n";
+  //  std::array<char, 19> word{};
+  //  strcpy(word.data(), "Hello std::array<>");
+  //  word.at(18) = '\0';
+  //  std::cout << word.data() << std::endl;
 
-  word.at(18) = '\0';
+  //  //тестирование конструкторов
+  //  //инициализация при объявлении списком инициализации
+  //  std::cout << "\n";
+  //  std::cout << "std::array's constructors \n";
 
-  cout << endl << word.data() << endl;
+  //  std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-  //тестирование конструкторов
-  //инициализация при объявлении списком инициализации
-  std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  //  //инициализация всех элементов их конструкторами по умолчанию
+  //  std::array<int, 10> b{};
 
-  //инициализация всех элементов их конструкторами по умолчанию
-  std::array<int, 10> b{};
+  //  //вызов неявного конструктора копирования
+  //  std::array<int, 10> c(a);
 
-  //вызов неявного конструктора копирования
-  std::array<int, 10> c(a);
+  //  //вызов конструктора перемещения
+  //  std::array<int, 10> d = std::move(b);
 
-  //вызов конструктора перемещения
-  std::array<int, 10> d = std::move(b);
+  //  PrintArray("d", d);
 
-  PrintArray("d", d);
+  //  b.fill(5);  //заполняем все элементы массива значением 5
 
-  b.fill(5);  //заполняем все элементы массива значением 5
+  //  PrintArray("b", b);
+  //  PrintArray("c", c);
+  //  PrintArray("word", word);
 
-  PrintArray("b", b);
-  PrintArray("c", c);
-  PrintArray("word", word);
+  //  std::array<int, 3> zero;  //содержит мусор
+  //  PrintArray("zero", zero);
 
-  std::array<int, 3> zero;  //содержит мусор
-  PrintArray("zero", zero);
+  //  std::array<int, 5> half_zero{1, 2};  // 0-й и 1-й содержат 1 и 2 остальные
+  //  -0 PrintArray("half_zero", half_zero);
 
-  std::array<int, 5> half_zero{1, 2};  // 0-й и 1-й содержат 1 и 2 остальные -0
-  PrintArray("half_zero", half_zero);
+  //  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //копия массива а
+  //  CompareArrays("a", a, "a_", a_);
 
-  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //копия массива а
-  CompareArrays("a", a, "a_", a_);
+  //  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};  //
+  //  CompareArrays("b", b, "b_", b_);
 
-  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};  //
-  CompareArrays("b", b, "b_", b_);
+  //  //обработка исключения при выходе за границы массива
+  //  try {
+  //    for (std::size_t i = 0; i < 12; i++)
+  //      std::cout << std::endl << "a[" << i << "] = " << a.at(i);
+  //  } catch (std::exception &e) {
+  //    std::cerr << std::endl << "exeption " << e.what() << std::endl;
+  //  }
 
-  //обработка исключения при выходе за границы массива
-  try {
-    for (std::size_t i = 0; i < 12; i++)
-      cout << endl << "a[" << i << "] = " << a.at(i);
-  } catch (std::exception &e) {
-    std::cerr << endl << "exeption " << e.what() << endl;
-  }
+  //  //тестирование семантики перемещения
+  //  std::cout << "Test std::move() semantics\n";
 
-  //тестирование семантики перемещения
-  std::array<int, 5> s{9, 9, 9, 9, 9};
-  //происходит простое копирование исходного массива
-  std::array<int, 5> h = std::move(s);
+  //  std::array<int, 5> s{9, 9, 9, 9, 9};
+  //  //происходит простое копирование исходного массива
+  //  std::array<int, 5> h = std::move(s);
 
-  s[0] = 0;
-  s[1] = 1;
+  //  s[0] = 0;
+  //  s[1] = 1;
+
+  //  std::cout << std::endl;
+  //  PrintArray("s", s);
+  //  PrintArray("h", h);
+
+  //  //массив с объектами
+  //  std::array<OArray<int, 5>, 5> matrix;
+  //  for (auto &ar : matrix) {
+  //    ar.Print();
+  //  }
+
+  //  //использование списоков инициализации std::initializer_list<> невозможно
+  //  // std::initializer_list<int> lst{2, 5, 7, 1, 8, 9};
+
+  //  //применение алгоритмов STL
+  //  std::cout << "\nUsage stl algorithms\n";
+  //  std::array<float, 5> flt{3.0f, 3.1f, 3.2f};
+
+  //  std::array<float, 5> transformed_flt{};
+
+  //  float sum = std::accumulate(flt.begin(), flt.end(), 0.0f);
+  //  std::cout << std::endl << "sum = " << sum << std::endl;
+
+  //  //изменим элементы и результаты положим в другой массив
+  //  std::transform(flt.begin(), flt.end(), transformed_flt.begin(),
+  //                 std::negate<float>());
+  //  PrintArray("          flt: ", flt);
+  //  PrintArray("transform_flt: ", transformed_flt);
+
+  //  //изменим flt и результаты положим в тот же массив
+  //  std::transform(flt.begin(), flt.end(), flt.begin(),
+  //                 [](float &a) -> float { return (a *= 2.0f); });
+  //  PrintArray("          flt: ", flt);
+
+  //  //запрос информации о массиве
+
+  //  std::cout << std::endl
+  //            << (flt.empty() == true ? "array is empty" : "array is full")
+  //            << std::endl;
+  //  std::cout << std::endl
+  //            << "flt array max size = " << flt.max_size() << std::endl;
+  //  std::cout << std::endl
+  //            << "half_zero array max size = " << half_zero.max_size()
+  //            << std::endl;
+
+  //  std::cout << std::endl << "get front element = " << flt.front() <<
+  //  std::endl; std::cout << std::endl << "get back element = " << flt.back()
+  //  << std::endl;
+
+  //  //интерфейс кортежа для контейнера std::array<>
+  //  typedef std::array<std::string, 3> text;
+  //  text txt{"this", "some", "text"};
+
+  //  //запрос типа элемента
+  //  std::tuple_element<0, text>::type str{"like tuple"};
+  //  std::cout << "std::array like tuple - " << str << std::endl;
+
+  //  //запрос длины контейнера
+  //  std::cout << "array length: " << std::tuple_size<text>::value <<
+  //  std::endl;
+
+  //  // обращение к отдельным элементам контейнера std::array<> как в кортеже
+  //  std::cout << "array like tuple: " << std::get<0>(txt) << " "
+  //            << std::get<1>(txt) << " " << std::get<2>(txt) << std::endl;
+
+  // test new sort algorithm
+  std::cout << "test new sort algorithm\n";
+
+  std::array<unsigned char, 25> numbers;
+  tools::RandomFillArray<25>(numbers);
+
+  std::cout << "\nUnsorted: ";
+  std::for_each(numbers.begin(), numbers.end(),
+                [](unsigned char& c) { std::cout << (int)c << " "; });
+
+  tools::HistSortArray(numbers);
+
+  std::cout << "\n  Sorted: ";
+  std::for_each(numbers.begin(), numbers.end(),
+                [](unsigned char& c) { std::cout << (int)c << " "; });
 
   std::cout << std::endl;
-  PrintArray("s", s);
-  PrintArray("h", h);
-
-  //массив с объектами
-  std::array<OArray<int, 5>, 5> matrix;
-  for (auto &ar : matrix) {
-    ar.Print();
-  }
-
-  //использование списоков инициализации std::initializer_list<> невозможно
-  // std::initializer_list<int> lst{2, 5, 7, 1, 8, 9};
-
-  //применение алгоритмов STL
-  std::array<float, 5> flt{3.0f, 3.1f, 3.2f};
-
-  std::array<float, 5> transform_flt{};
-
-  float sum = std::accumulate(flt.begin(), flt.end(), 0.0f);
-  cout << endl << "sum = " << sum << endl;
-
-  //изменим элементы и результаты положим в другой массив
-  std::transform(flt.begin(), flt.end(), transform_flt.begin(),
-                 std::negate<float>());
-  PrintArray("flt", flt);
-  PrintArray("transform_flt", transform_flt);
-
-  //результаты положим в тот же массив
-  std::transform(flt.begin(), flt.end(), flt.begin(),
-                 [](float &a) -> float { return (a *= 2.0f); });
-  PrintArray("flt", flt);
-
-  //запрос информации о массиве
-
-  cout << endl
-       << (flt.empty() == true ? "array is empty" : "array if full") << endl;
-  cout << endl << "flt array max size = " << flt.max_size() << endl;
-  cout << endl << "half_zero array max size = " << half_zero.max_size() << endl;
-
-  cout << endl << "get front element = " << flt.front() << endl;
-  cout << endl << "get back element = " << flt.back() << endl;
-
-  //интерфейс кортежа для контейнера std::array<>
-  typedef std::array<std::string, 3> text;
-  text txt{"this", "some", "text"};
-
-  //запрос типа элемента
-  std::tuple_element<0, text>::type str{"like tuple"};
-  std::cout << "std::array like tuple - " << str << std::endl;
-
-  //запрос длины контейнера
-  std::cout << "array length: " << std::tuple_size<text>::value << std::endl;
-
-  // обращение к отдельным элементам контейнера std::array<> как в кортеже
-  std::cout << "array like tuple: " << std::get<0>(txt) << std::get<1>(txt)
-            << std::get<2>(txt) << std::endl;
 }
 
 ////тестирование std::pair<T1,T2>p

@@ -24,46 +24,46 @@
 #include <map>
 #include <numeric>
 #include <ostream>
+#include <random>
 #include <set>
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <typeinfo>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-using std::cout;
-using std::wcout;
-
-using std::cin;
-using std::wcin;
-
-using std::endl;
-
-using std::string;
-using std::wstring;
-
+//-------------------------------------------------------------------------------------
 //тестирование массива std::array<>
+//-------------------------------------------------------------------------------------
 template <typename t, std::size_t n>
 void PrintArray(const char *array_name, const std::array<t, n> &a) {
   std::cout << array_name << ":  ";
-  for (auto &x : a) cout << x << " ";
-  cout << endl;
+  if (a.empty()) {
+    std::cout << " is empty\n";
+  }
+
+  for (auto &x : a) {
+    std::cout << x << " ";
+  }
+  std::cout << std::endl;
 }
 
 template <typename t, std::size_t n>
 void CompareArrays(const char *name_a, const std::array<t, n> &a,
                    const char *name_b, const std::array<t, n> &b) {
-  cout << "arrays compared: ";
-  if (a == b)
-    cout << name_a << " == " << name_b;
-  else {
-    if (a > b)
-      cout << name_a << " > " << name_b;
-    else
-      cout << name_a << " < " << name_b;
+  std::cout << "arrays compared: ";
+  if (a == b) {
+    std::cout << name_a << " == " << name_b;
+  } else {
+    if (a > b) {
+      std::cout << name_a << " > " << name_b;
+    } else {
+      std::cout << name_a << " < " << name_b;
+    }
   }
-  cout << endl;
+  std::cout << std::endl;
 }
 
 template <typename t, int16_t n>
@@ -73,11 +73,15 @@ class OArray {
 
  public:
   OArray() {
-    for (int16_t i = 0; i < n; i++) array_[i] = i;
+    for (int16_t i = 0; i < n; i++) {
+      array_[i] = i;
+    }
   }
 
   OArray(t val) {
-    for (int16_t i = 0; i < n; i++) array_[i] = val;
+    for (int16_t i = 0; i < n; i++) {
+      array_[i] = val;
+    }
   }
 
   ~OArray() {}
@@ -92,13 +96,50 @@ class OArray {
   bool operator!=(const OArray &object) { return !((*this) == (object)); }
 
   void Print() {
-    cout << "Object array: ";
+    std::cout << "Object array: ";
     for (int16_t i = 0; i < n; i++) {
-      cout << array_[i] << " ";
+      std::cout << array_[i] << " ";
     }
     std::cout << std::endl;
   }
 };
+
+namespace tools {
+
+template <size_t n>
+void RandomFillArray(std::array<uint8_t, n> &arr) {
+  for (size_t i = 0; i < n; i++) {
+    arr[i] = i;
+  }
+
+  std::random_device rd;
+  std::mt19937 g(rd());
+
+  std::shuffle(arr.begin(), arr.end(), g);
+}
+
+/**
+ *HistSortArray - гистограммная сортировка массива
+ */
+template <size_t n>
+void HistSortArray(std::array<uint8_t, n> &arr) {
+  std::array<int, 256> hist{};
+
+  for (int i = 0; i < n; i++) {
+    uint8_t val = arr[i];
+    hist[val]++;
+  }
+
+  size_t k = 0;
+  for (uint8_t i = 0; i <= 254; i++) {
+    for (int j = 0; j < hist[i]; j++) {
+      arr[k] = i;
+      k++;
+    }
+  }
+}
+
+}  // namespace tools
 
 void TestArray();
 
