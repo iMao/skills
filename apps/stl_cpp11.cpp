@@ -7,10 +7,10 @@
 #include "../src/std11/study_stl.h"
 
 int main() {
-  TestArray();
+  // TestArray();
   // TestPairs();
   // test_tuples();
-  // test_vector();
+  TestVector();
   // test_deque();
   // test_list();
   // test_list_special();

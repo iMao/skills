@@ -6,130 +6,128 @@
  * @brief TestArray тестирование массива array<>
  */
 void TestArray() {
-  //  //простой тест массива array<> C style
-  //  std::cout << "C style of usage of std::array<> container stl\n";
-  //  std::array<char, 19> word{};
-  //  strcpy(word.data(), "Hello std::array<>");
-  //  word.at(18) = '\0';
-  //  std::cout << word.data() << std::endl;
+  //простой тест массива array<> C style
+  std::cout << "C style of usage of std::array<> container stl\n";
+  std::array<char, 19> word{};
+  strcpy(word.data(), "Hello std::array<>");
+  word.at(18) = '\0';
+  std::cout << word.data() << std::endl;
 
-  //  //тестирование конструкторов
-  //  //инициализация при объявлении списком инициализации
-  //  std::cout << "\n";
-  //  std::cout << "std::array's constructors \n";
+  //тестирование конструкторов
+  //инициализация при объявлении списком инициализации
+  std::cout << "\n";
+  std::cout << "std::array's constructors \n";
 
-  //  std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-  //  //инициализация всех элементов их конструкторами по умолчанию
-  //  std::array<int, 10> b{};
+  //инициализация всех элементов их конструкторами по умолчанию
+  std::array<int, 10> b{};
 
-  //  //вызов неявного конструктора копирования
-  //  std::array<int, 10> c(a);
+  //вызов неявного конструктора копирования
+  std::array<int, 10> c(a);
 
-  //  //вызов конструктора перемещения
-  //  std::array<int, 10> d = std::move(b);
+  //вызов конструктора перемещения
+  std::array<int, 10> d = std::move(b);
 
-  //  PrintArray("d", d);
+  PrintArray("d", d);
 
-  //  b.fill(5);  //заполняем все элементы массива значением 5
+  b.fill(5);  //заполняем все элементы массива значением 5
 
-  //  PrintArray("b", b);
-  //  PrintArray("c", c);
-  //  PrintArray("word", word);
+  PrintArray("b", b);
+  PrintArray("c", c);
+  PrintArray("word", word);
 
-  //  std::array<int, 3> zero;  //содержит мусор
-  //  PrintArray("zero", zero);
+  std::array<int, 3> zero;  //содержит мусор
+  PrintArray("zero", zero);
 
-  //  std::array<int, 5> half_zero{1, 2};  // 0-й и 1-й содержат 1 и 2 остальные
-  //  -0 PrintArray("half_zero", half_zero);
+  std::array<int, 5> half_zero{1, 2};  // 0-й и 1-й содержат 1 и 2 остальные -0
+  PrintArray("half_zero", half_zero);
 
-  //  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //копия массива а
-  //  CompareArrays("a", a, "a_", a_);
+  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //копия массива а
+  CompareArrays("a", a, "a_", a_);
 
-  //  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};  //
-  //  CompareArrays("b", b, "b_", b_);
+  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};  //
+  CompareArrays("b", b, "b_", b_);
 
-  //  //обработка исключения при выходе за границы массива
-  //  try {
-  //    for (std::size_t i = 0; i < 12; i++)
-  //      std::cout << std::endl << "a[" << i << "] = " << a.at(i);
-  //  } catch (std::exception &e) {
-  //    std::cerr << std::endl << "exeption " << e.what() << std::endl;
-  //  }
+  //обработка исключения при выходе за границы массива
+  try {
+    for (std::size_t i = 0; i < 12; i++)
+      std::cout << std::endl << "a[" << i << "] = " << a.at(i);
+  } catch (std::exception &e) {
+    std::cerr << std::endl << "exeption " << e.what() << std::endl;
+  }
 
-  //  //тестирование семантики перемещения
-  //  std::cout << "Test std::move() semantics\n";
+  //тестирование семантики перемещения
+  std::cout << "Test std::move() semantics\n";
 
-  //  std::array<int, 5> s{9, 9, 9, 9, 9};
-  //  //происходит простое копирование исходного массива
-  //  std::array<int, 5> h = std::move(s);
+  std::array<int, 5> s{9, 9, 9, 9, 9};
+  //происходит простое копирование исходного массива
+  std::array<int, 5> h = std::move(s);
 
-  //  s[0] = 0;
-  //  s[1] = 1;
+  s[0] = 0;
+  s[1] = 1;
 
-  //  std::cout << std::endl;
-  //  PrintArray("s", s);
-  //  PrintArray("h", h);
+  std::cout << std::endl;
+  PrintArray("s", s);
+  PrintArray("h", h);
 
-  //  //массив с объектами
-  //  std::array<OArray<int, 5>, 5> matrix;
-  //  for (auto &ar : matrix) {
-  //    ar.Print();
-  //  }
+  //массив с объектами
+  std::array<OArray<int, 5>, 5> matrix;
+  for (auto &ar : matrix) {
+    ar.Print();
+  }
 
-  //  //использование списоков инициализации std::initializer_list<> невозможно
-  //  // std::initializer_list<int> lst{2, 5, 7, 1, 8, 9};
+  //использование списоков инициализации std::initializer_list<> невозможно
+  // std::initializer_list<int> lst{2, 5, 7, 1, 8, 9};
 
-  //  //применение алгоритмов STL
-  //  std::cout << "\nUsage stl algorithms\n";
-  //  std::array<float, 5> flt{3.0f, 3.1f, 3.2f};
+  //применение алгоритмов STL
+  std::cout << "\nUsage stl algorithms\n";
+  std::array<float, 5> flt{3.0f, 3.1f, 3.2f};
 
-  //  std::array<float, 5> transformed_flt{};
+  std::array<float, 5> transformed_flt{};
 
-  //  float sum = std::accumulate(flt.begin(), flt.end(), 0.0f);
-  //  std::cout << std::endl << "sum = " << sum << std::endl;
+  float sum = std::accumulate(flt.begin(), flt.end(), 0.0f);
+  std::cout << std::endl << "sum = " << sum << std::endl;
 
-  //  //изменим элементы и результаты положим в другой массив
-  //  std::transform(flt.begin(), flt.end(), transformed_flt.begin(),
-  //                 std::negate<float>());
-  //  PrintArray("          flt: ", flt);
-  //  PrintArray("transform_flt: ", transformed_flt);
+  //изменим элементы и результаты положим в другой массив
+  std::transform(flt.begin(), flt.end(), transformed_flt.begin(),
+                 std::negate<float>());
+  PrintArray("          flt: ", flt);
+  PrintArray("transform_flt: ", transformed_flt);
 
-  //  //изменим flt и результаты положим в тот же массив
-  //  std::transform(flt.begin(), flt.end(), flt.begin(),
-  //                 [](float &a) -> float { return (a *= 2.0f); });
-  //  PrintArray("          flt: ", flt);
+  //изменим flt и результаты положим в тот же массив
+  std::transform(flt.begin(), flt.end(), flt.begin(),
+                 [](float &a) -> float { return (a *= 2.0f); });
+  PrintArray("          flt: ", flt);
 
-  //  //запрос информации о массиве
+  //запрос информации о массиве
 
-  //  std::cout << std::endl
-  //            << (flt.empty() == true ? "array is empty" : "array is full")
-  //            << std::endl;
-  //  std::cout << std::endl
-  //            << "flt array max size = " << flt.max_size() << std::endl;
-  //  std::cout << std::endl
-  //            << "half_zero array max size = " << half_zero.max_size()
-  //            << std::endl;
+  std::cout << std::endl
+            << (flt.empty() == true ? "array is empty" : "array is full")
+            << std::endl;
+  std::cout << std::endl
+            << "flt array max size = " << flt.max_size() << std::endl;
+  std::cout << std::endl
+            << "half_zero array max size = " << half_zero.max_size()
+            << std::endl;
 
-  //  std::cout << std::endl << "get front element = " << flt.front() <<
-  //  std::endl; std::cout << std::endl << "get back element = " << flt.back()
-  //  << std::endl;
+  std::cout << std::endl << "get front element = " << flt.front() << std::endl;
+  std::cout << std::endl << "get back element = " << flt.back() << std::endl;
 
-  //  //интерфейс кортежа для контейнера std::array<>
-  //  typedef std::array<std::string, 3> text;
-  //  text txt{"this", "some", "text"};
+  //интерфейс кортежа для контейнера std::array<>
+  typedef std::array<std::string, 3> text;
+  text txt{"this", "some", "text"};
 
-  //  //запрос типа элемента
-  //  std::tuple_element<0, text>::type str{"like tuple"};
-  //  std::cout << "std::array like tuple - " << str << std::endl;
+  //запрос типа элемента
+  std::tuple_element<0, text>::type str{"like tuple"};
+  std::cout << "std::array like tuple - " << str << std::endl;
 
-  //  //запрос длины контейнера
-  //  std::cout << "array length: " << std::tuple_size<text>::value <<
-  //  std::endl;
+  //запрос длины контейнера
+  std::cout << "array length: " << std::tuple_size<text>::value << std::endl;
 
-  //  // обращение к отдельным элементам контейнера std::array<> как в кортеже
-  //  std::cout << "array like tuple: " << std::get<0>(txt) << " "
-  //            << std::get<1>(txt) << " " << std::get<2>(txt) << std::endl;
+  // обращение к отдельным элементам контейнера std::array<> как в кортеже
+  std::cout << "array like tuple: " << std::get<0>(txt) << " "
+            << std::get<1>(txt) << " " << std::get<2>(txt) << std::endl;
 
   // test new sort algorithm
   std::cout << "test new sort algorithm\n";
@@ -139,13 +137,13 @@ void TestArray() {
 
   std::cout << "\nUnsorted: ";
   std::for_each(numbers.begin(), numbers.end(),
-                [](unsigned char& c) { std::cout << (int)c << " "; });
+                [](unsigned char &c) { std::cout << (int)c << " "; });
 
   tools::HistSortArray(numbers);
 
   std::cout << "\n  Sorted: ";
   std::for_each(numbers.begin(), numbers.end(),
-                [](unsigned char& c) { std::cout << (int)c << " "; });
+                [](unsigned char &c) { std::cout << (int)c << " "; });
 
   std::cout << std::endl;
 }
@@ -354,209 +352,218 @@ void TestArray() {
 //       << std::get<1>(complex_t) << endl;
 //}
 
-// std::ostream &operator<<(std::ostream &ostr, Some &s) {
-//  return ostr << "Some { " << s.getA() << ", " << s.getS() << " }" << endl;
-//}
+//частичная специализация шаблона для типа bool
+template <>
+void PrintVector<bool>(std::vector<bool> &v, const char *vector_name) {
+  std::cout << vector_name << ": " << std::endl;
+  uint32_t i = 0;
+  for (const auto &e : v) {
+    std::cout << "bit[" << i++ << "]: " << std::boolalpha << e << "\n";
+  }
 
-//////частичная специализация шаблона для типа bool
-// template <>
-// void print_vector<bool>(std::vector<bool> &v) {
-//  cout << endl;
-//  for (const auto &e : v) cout << "bit = " << std::boolalpha << e << endl;
-//}
+  std::cout << std::endl;
+}
 
-//////тестирование контейнера  std::vector<>
-//////---------------------------------------
-// void TestVector() {
-//  //способы создания контейнера std::vector<>
-//  std::vector<int> vec0;  //создание пустого вектора для элементов типа int
-//  std::vector<int> vec1(3);  //создание вектора из 3-х элементов
-//                             //инициализированных конструкторами по
-//                             умолчанию
-//  std::vector<int> vec2(
-//      3, 777);  //создание вектора из 3-х элементов со значениями 777, 777,
-//      777
-//  std::vector<int> vec3{
-//      1, 0, 35,
-//      89};  //создание вектора при помощи списка инициализации {3,4,5,6,7}
+std::ostream &operator<<(std::ostream &ostr, Some &s) {
+  return ostr << "Some { " << s.GetA() << ", " << s.GetS() << " } ";
+}
 
-//  std::vector<int> vec4(
-//      vec2);  //создание вектора при помощи конструктора копирования
-//  std::vector<int> vec5(std::move(
-//      vec3));  //создание вектора при помощи перемещающего конструктора
+//---------------------------------------------------------------------------
+//тестирование контейнера  std::vector<>
+//---------------------------------------------------------------------------
+void TestVector() {
+  //способы создания контейнера std::vector<>
+  std::vector<int> vec0;  //создание пустого вектора для элементов типа int
+  std::vector<int> vec1(3);  //создание вектора из 3-х элементов
 
-//  std::vector<int> vec6(
-//      vec2.begin(),
-//      vec2.end());  //создание вектора на основе диапазона другого вектора
+  //инициализированных конструкторами по  умолчанию
+  //создание вектора из 3-х элементов со значениями 777, 777,  777
+  std::vector<int> vec2(3, 777);
 
-//  std::initializer_list<int> initList{1, 2, 3, 4, 5,
-//                                      6, 7, 8, 9};  //список инициализации
-//  std::vector<int> vec7 =
-//      initList;  //создание вектора путем присвоения списка инициализации
+  //создание вектора при помощи списка инициализации {3,4,5,6,7}
+  std::vector<int> vec3{1, 0, 35, 89};
 
-//  std::vector<int> vec8 =
-//      vec7;  //создание вектора путем копирующего присваивания
-//  std::vector<int> vec9 =
-//      std::move(vec8);  //создание вектора путем перемещающего присваивания
+  //создание вектора при помощи конструктора копирования
+  std::vector<int> vec4(vec2);
 
-//  //вывод статистики о векторе
-//  print_vector_info(vec5);
+  //создание вектора при помощи перемещающего конструктора
+  std::vector<int> vec5(std::move(vec3));
 
-//  vec5.reserve(
-//      10);  //увеличиваем размер памяти для вектора для хранения 10
-//      элементов
+  //создание вектора на основе диапазона другого вектора
+  std::vector<int> vec6(vec2.begin(), vec2.end());
 
-//  print_vector_info(vec5);
+  //список инициализации
+  std::initializer_list<int> init_list{1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-//  vec5.shrink_to_fit();  //уменьшаем емкость до количества элементов
+  //создание вектора путем присвоения списка инициализации
+  std::vector<int> vec7 = init_list;
 
-//  print_vector_info(vec5);
+  //создание вектора путем копирующего присваивания
+  std::vector<int> vec8 = vec7;
 
-//  vector_empty_info(vec3);  //применение конструктора перемещения оставило
-//                            //вектор vec3 - пустым
+  //создание вектора путем перемещающего присваивания
+  std::vector<int> vec9 = std::move(vec8);
 
-//  //присваивание элементов
-//  std::vector<int> vec10 = initList;
-//  print_vector(vec10);
+  //вывод статистики о векторе
+  PrintVectorInfo(vec5, "vec5");
 
-//  vec10.assign({0, 0, 0});  // assign - это просто присвоение, при этом
-//                            // удаляются все прежние элементы вектора
-//  print_vector(vec10);
+  //увеличиваем размер памяти для вектора для хранения 10 элементов
+  vec5.reserve(10);
 
-//  vec10.assign(5, 7);
-//  print_vector(vec10);
+  PrintVectorInfo(vec5, "vec5");
 
-//  vec10.assign(vec2.begin(), vec2.end());
-//  print_vector(vec10);
+  vec5.shrink_to_fit();  //уменьшаем емкость до количества элементов
 
-//  std::initializer_list<int> ilist{9, 8, 7, 6, 5, 4, 3, 2, 1};
-//  vec10.assign(ilist);
-//  print_vector(vec10);
+  PrintVectorInfo(vec5, "vec5");
 
-//  //доступ к элементам вектора
-//  vec10[0] = 0;  //доступ к элементу при помощи [i]
-//  vec10[8] = 0;
-//  print_vector(vec10);
+  VectorEmptyInfo(vec3, "vec3");  //применение конструктора перемещения оставило
+                                  //вектор vec3 - пустым
 
-//  vec10.at(0) = -1;  //доступ к элементу при помощи функции at(i)
+  //присваивание элементов
+  std::vector<int> vec10 = init_list;
+  PrintVector(vec10, "vec10");
 
-//  try {
-//    vec10.at(9) = -1;  //выход за границы диапазона
-//  } catch (std::exception &e) {
-//    std::cerr << "EXCEPTION " << e.what() << endl;
-//  }
-//  print_vector(vec10);
+  // assign - это просто присвоение, при этом
+  // удаляются все прежние элементы вектора
+  vec10.assign({0, 0, 0});
+  PrintVector(vec10, "vec10");
 
-//  cout << endl
-//       << "front e = " << vec10.front() << " back e = " << vec10.back() <<
-//       endl;
+  vec10.assign(5, 7);
+  PrintVector(vec10, "vec10");
 
-//  //тестирование итераторов
-//  std::vector<int> ivec{7, 5, 3};
-//  test_iterators(ivec);
+  vec10.assign(vec2.begin(), vec2.end());
+  PrintVector(vec10, "vec10");
 
-//  //операции вставки и удаления элементов вектора
-//  std::vector<int> int_vec;
-//  for (int i = 0; i < 5; ++i)
-//    int_vec.push_back(i);  //добавляем в конец вектора элементы
+  std::initializer_list<int> ilist{9, 8, 7, 6, 5, 4, 3, 2, 1};
+  vec10.assign(ilist);
+  PrintVector(vec10, "vec10");
 
-//  print_vector(int_vec);
+  //доступ к элементам вектора
+  //доступ к элементу при помощи [i]
+  vec10[0] = 0;
+  vec10[8] = 0;
+  PrintVector(vec10, "vec10");
 
-//  int_vec.pop_back();  //удаляем с конца вектора элемент
-//  int_vec.pop_back();  //еще
+  //доступ к элементу при помощи функции at(i)
+  vec10.at(0) = -1;
 
-//  print_vector(int_vec);
+  try {
+    vec10.at(9) = -1;  //выход за границы диапазона
+  } catch (std::exception &e) {
+    std::cerr << "EXCEPTION " << e.what() << std::endl;
+  }
+  PrintVector(vec10, "vec10");
 
-//  std::vector<int>::iterator i = int_vec.begin();
-//  ++i;
-//  int_vec.insert(i, 100);  //вставляем один элемент
-//  print_vector(int_vec);
+  std::cout << std::endl
+            << "front e = " << vec10.front() << " back e = " << vec10.back()
+            << std::endl;
 
-//  i = int_vec.begin();
-//  ++i;
-//  int_vec.insert(i, 2, 90);  //вставляем 2 элемента 90
-//  print_vector(int_vec);
+  //тестирование итераторов
+  std::vector<int> ivec{7, 5, 3};
+  TestIterators(ivec);
+  PrintVector(ivec, "ivec");
 
-//  int_vec.insert(int_vec.begin(), ivec.begin(),
-//                 ivec.end());  //вставляем диапазон значений из другого
-//                 вектора
+  //операции вставки и удаления элементов вектора
+  std::vector<int> int_vec;
+  for (int i = 0; i < 5; ++i)
+    int_vec.push_back(i);  //добавляем в конец вектора элементы
 
-//  print_vector(int_vec);
+  PrintVector(int_vec, "int_vec");
 
-//  i = int_vec.begin();
-//  int_vec.insert(i, {0, 1, 0, 1});
-//  print_vector(int_vec);
+  int_vec.pop_back();  //удаляем с конца вектора элемент
+  int_vec.pop_back();  //еще
 
-//  //операция emplace()
-//  std::vector<Some> vec_some;
-//  vec_some.push_back(Some(3, "Hello "));
-//  vec_some.push_back(Some(5, "Jack "));
+  PrintVector(int_vec, "int_vec");
 
-//  vec_some.emplace_back(5, "Nico ");
-//  vec_some.emplace(vec_some.begin() + 1, 0, "Pico");
+  std::vector<int>::iterator i = int_vec.begin();
+  ++i;
+  int_vec.insert(i, 100);  //вставляем один элемент
+  PrintVector(int_vec, "int_vec");
 
-//  cout << endl;
-//  print_vector(vec_some);
+  i = int_vec.begin();
+  ++i;
+  int_vec.insert(i, 2, 90);  //вставляем 2 элемента 90
+  PrintVector(int_vec, "int_vec");
 
-//  //операция erase()
-//  vec_some.emplace_back(9, "Hero");
-//  vec_some.emplace_back(10, "Niger");
-//  vec_some.emplace_back(12, "Bigger");
+  //вставляем диапазон значений из другого вектора
+  int_vec.insert(int_vec.begin(), ivec.begin(), ivec.end());
 
-//  cout << endl;
-//  print_vector(vec_some);
+  PrintVector(int_vec, "int_vec");
 
-//  vec_some.erase(vec_some.end() - 1);
+  i = int_vec.begin();
+  int_vec.insert(i, {0, 1, 0, 1});
+  PrintVector(int_vec, "int_vec");
 
-//  cout << endl;
-//  print_vector(vec_some);
+  //операция emplace()
+  std::vector<Some> vec_some;
+  vec_some.push_back(Some(3, "Hello "));
+  vec_some.push_back(Some(5, "Jack "));
 
-//  vec_some.erase(vec_some.begin() + 1, vec_some.end());
-//  print_vector_info(vec_some);
+  vec_some.emplace_back(5, "Nico ");
+  vec_some.emplace(vec_some.begin() + 1, 0, "Pico");
 
-//  cout << endl;
-//  print_vector(vec_some);
+  std::cout << std::endl;
+  PrintVector(vec_some, "vec_some");
 
-//  //операция resize()
-//  std::vector<int> iv{9, 9, 9, 9, 9, 9, 9};
-//  print_vector(iv);
+  //операция erase()
+  vec_some.emplace_back(9, "Hero");
+  vec_some.emplace_back(10, "Niger");
+  vec_some.emplace_back(12, "Bigger");
 
-//  iv.resize(4);
-//  print_vector(iv);
+  std::cout << std::endl;
+  PrintVector(vec_some, "vec_some");
 
-//  iv.resize(8);
-//  print_vector(iv);
+  vec_some.erase(vec_some.end() - 1);
 
-//  iv.resize(10, 5);
-//  print_vector(iv);
+  std::cout << std::endl;
+  PrintVector(vec_some, "vec_some");
 
-//  iv.clear();
-//  iv.shrink_to_fit();
-//  print_vector_info(iv);
+  vec_some.erase(vec_some.begin() + 1, vec_some.end());
+  PrintVectorInfo(vec_some, "vec_some");
 
-//  //специализация контейнера std::vector<bool>
-//  std::vector<bool> flags;
-//  flags.push_back(true);
-//  flags.push_back(true);
-//  flags.push_back(false);
-//  flags.push_back(false);
+  std::cout << std::endl;
+  PrintVector(vec_some, "vec_some");
 
-//  print_vector(flags);
+  //операция resize()
+  std::vector<int> iv{9, 9, 9, 9, 9, 9, 9};
+  PrintVector(iv, "iv");
 
-//  flags.flip();
+  iv.resize(4);
+  PrintVector(iv, "iv");
 
-//  print_vector(flags);
-//  print_vector_info(flags);
+  iv.resize(8);
+  PrintVector(iv, "iv");
 
-//  flags[0].flip();
-//  flags[1] = true;
-//  print_vector(flags);
+  iv.resize(10, 5);
+  PrintVector(iv, "iv");
 
-//  flags.pop_back();
-//  flags.insert(flags.begin(), 5, true);
+  iv.clear();
+  iv.shrink_to_fit();
+  PrintVectorInfo(iv, "iv");
 
-//  print_vector(flags);
-//}
+  //специализация контейнера std::vector<bool>
+  std::vector<bool> flags;
+  flags.push_back(true);
+  flags.push_back(true);
+  flags.push_back(false);
+  flags.push_back(false);
+
+  PrintVector(flags, "flags");
+
+  flags.flip();
+
+  PrintVector(flags, "flags");
+  PrintVectorInfo(flags, "flags");
+
+  flags[0].flip();
+  flags[1] = true;
+  PrintVector(flags, "flags");
+
+  flags.pop_back();
+  flags.insert(flags.begin(), 5, true);
+
+  PrintVector(flags, "flags");
+}
 
 ////тестирование контейнера std::deque<>
 //// ------------------------------------------------

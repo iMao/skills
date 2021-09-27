@@ -131,7 +131,7 @@ void HistSortArray(std::array<uint8_t, n> &arr) {
   }
 
   size_t k = 0;
-  for (uint8_t i = 0; i <= 254; i++) {
+  for (uint16_t i = 0; i < 256; i++) {
     for (int j = 0; j < hist[i]; j++) {
       arr[k] = i;
       k++;
@@ -170,82 +170,92 @@ void TestArray();
 ////// ------------------------------------------------
 // void TestTuples();
 
-//////тестирование контейнера std::vector<>
-////// ---------------------------------------
-// template <typename t>
-// void print_vector_info(std::vector<t> &vec) {
-//  cout << endl;
-//  cout << "vec.size()     = " << vec.size()
-//       << endl;  //текущее количество элементов
-//  cout << "vec.max_size() = " << vec.max_size()
-//       << endl;  //максимальное количество элементов
-//  cout << "vec.capacity() = " << vec.capacity()
-//       << endl;  //количество элементов которое возможно разместить без
-//                 //дополнительного выделения памяти
-//}
+////тестирование контейнера std::vector<>
+//// ---------------------------------------
+template <typename t>
+void PrintVectorInfo(std::vector<t> &vec, const char *vec_name) {
+  std::cout << std::endl;
+  //текущее количество элементов
+  std::cout << vec_name << ".size() = " << vec.size() << std::endl;
 
-// template <typename t>
-// void vector_empty_info(std::vector<t> &v) {
-//  cout << endl;
-//  if (v.empty())
-//    cout << "v - empty" << endl;
-//  else
-//    cout << "v - full" << endl;
-//}
+  //максимальное количество элементов
+  std::cout << vec_name << ".max_size() = " << vec.max_size() << std::endl;
 
-// template <typename t>
-// void print_vector(std::vector<t> &v) {
-//  cout << endl;
-//  if (v.empty())
-//    cout << "vector is empty" << endl;
-//  else {
-//    for (auto &e : v) cout << "e = " << e << endl;
-//  }
-//}
+  //количество элементов которое возможно разместить
+  //без дополнительного выделения памяти
+  std::cout << vec_name << ".capacity() = " << vec.capacity() << std::endl;
+}
 
-// template <typename t>
-// void test_iterators(std::vector<t> &vec) {
-//  cout << endl;
-//  typename std::vector<t>::const_iterator j;
-//  for (j = vec.cbegin(); j != vec.cend(); ++j) cout << "e = " << (*j) << endl;
+template <typename t>
+void VectorEmptyInfo(std::vector<t> &v, const char *vector_name) {
+  std::cout << std::endl;
+  if (v.empty())
+    std::cout << vector_name << " - empty" << std::endl;
+  else
+    std::cout << vector_name << " - full" << std::endl;
+}
 
-//  cout << endl;
-//  typename std::vector<t>::iterator i;
-//  for (i = vec.begin(); i != vec.end(); ++i) {
-//    (*i) *= 5;
-//    cout << "e = " << (*i) << endl;
-//  }
+template <typename t>
+void PrintVector(std::vector<t> &v, const char *vector_name) {
+  std::cout << vector_name << ":  ";
+  if (v.empty())
+    std::cout << "vector is empty" << std::endl;
+  else {
+    for (auto &e : v) {
+      std::cout << e << " ";
+    }
+    std::cout << std::endl;
+  }
+}
 
-//  cout << endl;
-//  typename std::vector<t>::reverse_iterator k;
-//  for (k = vec.rbegin(); k != vec.rend(); ++k) {
-//    (*k) *= -1;
-//    cout << "e = " << (*k) << endl;
-//  }
+template <typename t>
+void TestIterators(std::vector<t> &vec) {
+  std::cout << "const iterator" << std::endl;
+  typename std::vector<t>::const_iterator j;
+  for (j = vec.cbegin(); j != vec.cend(); ++j) {
+    std::cout << (*j) << " ";
+  }
 
-//  cout << endl;
-//  typename std::vector<t>::const_reverse_iterator l;
-//  for (l = vec.crbegin(); l != vec.crend(); ++l) cout << "e = " << (*l) <<
-//  endl;
-//}
+  std::cout << "\niterator" << std::endl;
+  typename std::vector<t>::iterator i;
+  for (i = vec.begin(); i != vec.end(); ++i) {
+    (*i) *= 5;
+    std::cout << (*i) << " ";
+  }
 
-// class Some {
-// private:
-//  int a;
-//  string s;
+  std::cout << "\nreverse iterator" << std::endl;
+  typename std::vector<t>::reverse_iterator k;
+  for (k = vec.rbegin(); k != vec.rend(); ++k) {
+    (*k) *= -1;
+    std::cout << (*k) << " ";
+  }
 
-// public:
-//  Some() {}
-//  Some(int a, string s) : a(a), s(s) {}
-//  ~Some() {}
+  std::cout << "\nconst reverse iterator" << std::endl;
+  typename std::vector<t>::const_reverse_iterator l;
+  for (l = vec.crbegin(); l != vec.crend(); ++l) {
+    std::cout << (*l) << " ";
+  }
 
-//  int getA() { return a; }
-//  string &getS() { return s; }
-//};
+  std::cout << std::endl;
+}
 
-// std::ostream &operator<<(std::ostream &ostr, Some &s);
+class Some {
+ private:
+  int a_;
+  std::string s_;
 
-// void TestVector();
+ public:
+  Some() {}
+  Some(int a, std::string s) : a_(a), s_(s) {}
+  ~Some() {}
+
+  int GetA() { return a_; }
+  std::string &GetS() { return s_; }
+};
+
+std::ostream &operator<<(std::ostream &ostr, Some &s);
+
+void TestVector();
 
 //////тестирование контейнера std::deque<>
 ////// ------------------------------------------------
