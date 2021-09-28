@@ -148,209 +148,214 @@ void TestArray() {
   std::cout << std::endl;
 }
 
-////тестирование std::pair<T1,T2>p
-////------------------------------------------------------
-// void TestPairs() {
-//  //создание пар
-//  std::pair<int, string> p1;  //пустая пара
-//  cout << "p1: " << p1 << endl;
+//------------------------------------------------------------------------
+//тестирование std::pair<T1,T2>p
+//------------------------------------------------------------------------
+void TestPairs() {
+  //создание пар
+  std::pair<int, std::string> p1;  //пустая пара
+  std::cout << "p1: " << p1 << std::endl;
 
-//  //использование std::make_pair()
-//  std::pair<int, string> p2 = std::make_pair(0, string("Pair"));
-//  cout << "p2: " << p2 << endl;
+  //использование std::make_pair()
+  std::pair<int, std::string> p2 = std::make_pair(0, std::string("Pair"));
+  std::cout << "p2: " << p2 << std::endl;
 
-//  //использование копирующего конструктора
-//  std::pair<int, string> p3(p2);
-//  cout << "p3: " << p3 << endl;
+  //использование копирующего конструктора
+  std::pair<int, std::string> p3(p2);
+  std::cout << "p3: " << p3 << std::endl;
 
-//  //использование списка инициализации
-//  std::pair<int, string> p4{5, "five"};
-//  cout << "p4: " << p4 << endl;
+  //использование списка инициализации
+  std::pair<int, std::string> p4{4, "four"};
+  std::cout << "p4: " << p4 << std::endl;
 
-//  //использование перемещающего конструктора
-//  std::pair<int, string> p5 = std::move(p4);
-//  cout << "p5 = std::move(p4) " << p5 << endl;
-//  cout << "p4: " << p4 << endl;
+  //использование перемещающего конструктора
+  std::pair<int, std::string> p5 = std::move(p4);
+  std::cout << "p5 = std::move(p4) " << p5 << std::endl;
+  std::cout << "p4: " << p4 << std::endl;
 
-//  //пустой список инициализации
-//  std::pair<int, string> p6{};
-//  cout << "p6: " << p6 << endl;
+  //пустой список инициализации
+  std::pair<int, std::string> p6{};
+  std::cout << "p6: " << p6 << std::endl;
 
-//  //создание пары std::pair<char, char>
-//  auto p7 = std::make_pair('Q', '@');
-//  cout << "p7: " << p7 << " has type: " << typeid(p7).name() << endl;
-//  cout << "p7.first  has type: " << typeid(p7.first).name() << endl;
-//  cout << "p7.second has type: " << typeid(p7.second).name() << endl;
+  //создание пары std::pair<char, char>
+  auto p7 = std::make_pair('Q', '@');
+  std::cout << "p7: " << p7 << " has type: " << typeid(p7).name() << std::endl;
+  std::cout << "p7.first  has type: " << typeid(p7.first).name() << std::endl;
+  std::cout << "p7.second has type: " << typeid(p7.second).name() << std::endl;
 
-//  //создание пары std::pair<const char*, const char*>
-//  auto p8 = std::make_pair("D", "S");
-//  cout << "p8: " << p8 << endl;
+  //
+  typedef decltype(p7) PairCharChar;
+  std::tuple_element<0, PairCharChar>::type c1 = '&';
+  std::tuple_element<1, decltype(p7)>::type c2 = '*';
+  std::cout << "c1: " << c1 << " c2: " << c2 << std::endl;
 
-//  //создание пары конструктором с параметрами
-//  std::pair<int, float> p9(3, 2.71f);
-//  cout << "p9: " << p9 << endl;
+  //создание пары std::pair<const char*, const char*>
+  auto p8 = std::make_pair("D", "S");
+  std::cout << "p8: " << p8 << std::endl;
 
-//  //обмен парами
-//  cout << endl << "exchange pairs" << endl;
+  //создание пары конструктором с параметрами
+  std::pair<int, float> p9(3, 2.71f);
+  std::cout << "p9: " << p9 << std::endl;
 
-//  std::pair<int, char> a1(9, 'Y');
-//  std::pair<int, char> a2(3, 'R');
+  //обмен парами
+  std::cout << std::endl << "exchange pairs" << std::endl;
 
-//  cout << "a1: " << a1 << endl;
-//  cout << "a2: " << a2 << endl;
+  std::pair<int, char> a1(9, 'Y');
+  std::pair<int, char> a2(3, 'R');
 
-//  std::swap(a1, a2);  //обмен парами
-//  cout << endl;
-//  cout << "after std::swap(a1,a2)" << endl;
-//  cout << "a1: " << a1 << endl;
-//  cout << "a2: " << a2 << endl;
+  std::cout << "a1: " << a1 << std::endl;
+  std::cout << "a2: " << a2 << std::endl;
 
-//  string f{"first"};
-//  string s{"second"};
+  std::swap(a1, a2);  //обмен парами
+  std::cout << std::endl;
+  std::cout << "after std::swap(a1,a2)" << std::endl;
+  std::cout << "a1: " << a1 << std::endl;
+  std::cout << "a2: " << a2 << std::endl;
 
-//  //использование семантики перемещения в
-//  // std::make_pair( std::move(), std::move() )
-//  std::pair<string, string> a3 = std::make_pair(std::move(f), std::move(s));
-//  cout << endl;
-//  cout << "a3: " << a3 << endl;
-//  cout << "f: " << f << endl;
-//  cout << "s: " << s << endl;
+  std::string f{"first"};
+  std::string s{"second"};
 
-//  //использование семантики ссылок std::ref()
-//  int i = 0;
-//  auto a4 = std::make_pair(std::ref(i), std::ref(i));
-//  cout << endl << "a4: " << a4 << endl;
+  //использование семантики перемещения в
+  // std::make_pair( std::move(), std::move() )
+  std::pair<std::string, std::string> a3 =
+      std::make_pair(std::move(f), std::move(s));
+  std::cout << std::endl;
+  std::cout << "a3: " << a3 << std::endl;
+  std::cout << "f: " << f << std::endl;
+  std::cout << "s: " << s << std::endl;
 
-//  ++a4.first;
-//  ++a4.second;
+  //использование семантики ссылок std::ref()
+  int i = 0;
+  auto a4 = std::make_pair(std::ref(i), std::ref(i));
+  std::cout << std::endl << "a4: " << a4 << std::endl;
 
-//  cout << "a4: " << a4 << endl;
+  ++a4.first;
+  ++a4.second;
 
-//  std::pair<char, double> a5{'Z', 4.789};
-//  cout << "access to fields throw global function std::get<>" << endl;
-//  cout << "std::get<0>(a5) = " << std::get<0>(a5) << endl;
-//  cout << "std::get<1>(a5) = " << std::get<1>(a5) << endl;
+  std::cout << "a4: " << a4 << std::endl;
 
-//  //решение квадратного уравнения
-//  auto res = SolveEquation(1.4f, 7.0f, 2.0f);
-//  cout << endl;
-//  if (res.first) {
-//    cout << "result: " << res.second << endl;
-//  } else {
-//    cout << "roots abcent" << endl;
-//  }
-//}
+  std::pair<char, double> a5{'Z', 4.789};
+  std::cout << "access to fields throw global function std::get<>" << std::endl;
+  std::cout << "std::get<0>(a5) = " << std::get<0>(a5) << std::endl;
+  std::cout << "std::get<1>(a5) = " << std::get<1>(a5) << std::endl;
 
-//////тестирование кортежей std::tuple<T1,T2,...Tn> t
-////// ----------------------------------------------
-// void TestTuples() {
-//  auto lam = [&](std::tuple<int, float, string> &t) {
-//    cout << endl
-//         << "tuple<int, float, string> t -> "
-//         << "[" << std::get<0>(t) << "," << std::get<1>(t) << ","
-//         << std::get<2>(t) << "]";
-//  };
+  //решение квадратного уравнения
+  auto res = SolveEquation(1.4f, 7.0f, 2.0f);
+  std::cout << std::endl;
+  if (res.first) {
+    std::cout << "result: " << res.second << std::endl;
+  } else {
+    std::cout << "roots abcent" << std::endl;
+  }
+}
 
-//  //создание кортежа
-//  std::tuple<int, float, string> t0;  //кортеж из 3-х элементов с
-//  инициализацией
+//------------------------------------------------------------------------
+//тестирование кортежей std::tuple<T1,T2,...Tn> t
+//------------------------------------------------------------------------
+void TestTuples() {
+  auto lam = [&](std::tuple<int, float, std::string> &t) {
+    std::cout << std::endl
+              << "tuple<int, float, string> t -> "
+              << "[" << std::get<0>(t) << "," << std::get<1>(t) << ","
+              << std::get<2>(t) << "]";
+  };
 
-//  //конструкторами по умолчанию
-//  std::tuple<int, float, string> t1(
-//      5, 4.2f,
-//      "string");  //кортеж из 3-х элементов с инициализацией заданными
-//                  //значениями
-//  std::tuple<int, float, string> t2{
-//      3, 2.71f, "Hello"};  //кортеж из 3-х элементов с инициализацией
-//      списком
-//                           //инициализации
-//  std::tuple<int, float, string> t3(
-//      t1);  //кортеж из 3-х элементов с инициализацией конструктором
-//      копирования
+  //создание кортежа //кортеж из 3-х элементов с инициализацией
+  std::tuple<int, float, std::string> t0;
 
-//  auto t4 = std::make_tuple(0, 0.1f,
-//                            string("auto"));  //создание кортежа с выводом
-//                            типов
+  //конструкторами по умолчанию
+  //кортеж из 3-х элементов с инициализацией заданными
+  //значениями
+  std::tuple<int, float, std::string> t1(5, 4.2f, "string");
 
-//  //из инициализирующих значений
+  //кортеж из 3-х элементов с инициализацией списком
+  std::tuple<int, float, std::string> t2{3, 2.71f, "Hello"};
 
-//  lam(t0);
-//  lam(t1);
-//  lam(t2);
-//  lam(t3);
-//  lam(t4);
+  //инициализации
+  //кортеж из 3-х элементов с инициализацией конструктором копирования
+  std::tuple<int, float, std::string> t3(t1);
 
-//  int i = 33;
-//  float f = 0.9f;
-//  string s("*******");
+  //создание кортежа с выводом типов
+  auto t4 = std::make_tuple(0, 0.1f, std::string("auto"));
 
-//  auto t5 = std::make_tuple(
-//      std::ref(i), std::ref(f),
-//      std::ref(s));  //создание кортежа ссылок с помощью std::make_tuple()
-//  auto t6 = std::tie(i, f, s);  //создание кортежа ссылок с помощью
-//  std::tie()
+  //из инициализирующих значений
 
-//  cout << endl
-//       << "tuple<int&, float&, string&> t5 -> "
-//       << "[" << std::get<0>(t5) << "," << std::get<1>(t5) << ","
-//       << std::get<2>(t5) << "]";
-//  cout << endl
-//       << "tuple<int&, float&, string&> t6 -> "
-//       << "[" << std::get<0>(t6) << "," << std::get<1>(t6) << ","
-//       << std::get<2>(t6) << "]";
+  lam(t0);
+  lam(t1);
+  lam(t2);
+  lam(t3);
+  lam(t4);
 
-//  auto t7 = std::tuple_cat(t1, t2);  //создание кортежа склейкой из двух
-//  других
+  int i = 33;
+  float f = 0.9f;
+  std::string s("*******");
 
-//  cout << endl
-//       << "tuple<int, float, string, int, float, string> t7 -> "
-//       << "[" << std::get<0>(t7) << "," << std::get<1>(t7) << ","
-//       << std::get<2>(t7) << "," << std::get<3>(t7) << "," <<
-//       std::get<4>(t7)
-//       << "," << std::get<5>(t7) << "]" << endl;
+  //создание кортежа ссылок с помощью std::make_tuple()
+  auto t5 = std::make_tuple(std::ref(i), std::ref(f), std::ref(s));
 
-//  std::pair<int, string> p0{9, std::string("pair")};
-//  std::tuple<int, string> t8(p0);  //создание кортежа путем вызова
-//  конструктора
+  //создание кортежа ссылок с помощью std::tie()
+  auto t6 = std::tie(i, f, s);
 
-//  //копирования для объекта std::pair<>
+  std::cout << std::endl
+            << "tuple<int&, float&, string&> t5 -> "
+            << "[" << std::get<0>(t5) << "," << std::get<1>(t5) << ","
+            << std::get<2>(t5) << "]";
+  std::cout << std::endl
+            << "tuple<int&, float&, string&> t6 -> "
+            << "[" << std::get<0>(t6) << "," << std::get<1>(t6) << ","
+            << std::get<2>(t6) << "]";
 
-//  //получение характеристик кортежа
-//  typedef std::tuple<string, int, char, double, short, bool, long>
-//  long_tuple;
+  //создание кортежа склейкой из двух  других
+  auto t7 = std::tuple_cat(t1, t2);
 
-//  cout << endl
-//       << "std::tuple_size<decltype(t2)>::value = "
-//       << std::tuple_size<decltype(t2)>::value << endl;
-//  cout << endl
-//       << "std::tuple<string, int, char, double, short, bool, long> "
-//       << std::tuple_size<long_tuple>::value << endl;
-//  cout << endl
-//       << "std::tuple<int,char> t "
-//       << std::tuple_size<std::tuple<int, char>>::value << endl;
+  std::cout << std::endl
+            << "tuple<int, float, string, int, float, string> t7 -> "
+            << "[" << std::get<0>(t7) << "," << std::get<1>(t7) << ","
+            << std::get<2>(t7) << "," << std::get<3>(t7) << ","
+            << std::get<4>(t7) << "," << std::get<5>(t7) << "]" << std::endl;
 
-//  //получить тип элемента кортежа
-//  std::tuple_element<0, long_tuple>::type str("same element");
-//  cout << endl << str << endl;
+  std::pair<int, std::string> p0{9, std::string("pair")};
+  //создание кортежа путем вызова конструктора
+  //копирования для объекта std::pair<>
+  std::tuple<int, std::string> t8(p0);
 
-//  //интерфейс кортежа для std::array<>
-//  cout << "std::tuple_size<std::array<string,5>>::value = "
-//       << std::tuple_size<std::array<string, 5>>::value << endl;
+  //получение характеристик кортежа
+  typedef std::tuple<std::string, int, char, double, short, bool, long>
+      long_tuple;
 
-//  std::tuple_element<0, std::array<int, 10>>::type a = 10;
-//  cout << "a = " << a << endl;
+  std::cout << std::endl
+            << "std::tuple_size<decltype(t2)>::value = "
+            << std::tuple_size<decltype(t2)>::value << std::endl;
+  std::cout << std::endl
+            << "std::tuple<string, int, char, double, short, bool, long> "
+            << std::tuple_size<long_tuple>::value << std::endl;
+  std::cout << std::endl
+            << "std::tuple<int,char> t "
+            << std::tuple_size<std::tuple<int, char>>::value << std::endl;
 
-//  std::array<string, 10> ar{"Nico", "pico"};
-//  cout << endl << "std::get<0>(ar) = " << std::get<0>(ar) << endl;
+  //получить тип элемента кортежа
+  std::tuple_element<0, long_tuple>::type str("same element");
+  std::cout << std::endl << str << std::endl;
 
-//  // std::pair<> как элементы внутри кортежа
-//  std::tuple<std::pair<int, string>, std::pair<char, float>> complex_t(
-//      std::make_pair(8, string("++++++++")), std::make_pair(1, 1.12f));
+  //интерфейс кортежа для std::array<>
+  std::cout << "std::tuple_size<std::array<string,5>>::value = "
+            << std::tuple_size<std::array<std::string, 5>>::value << std::endl;
 
-//  cout << endl
-//       << "internal pairs " << std::get<0>(complex_t) << "     "
-//       << std::get<1>(complex_t) << endl;
-//}
+  std::tuple_element<0, std::array<int, 10>>::type a = 10;
+  std::cout << "a = " << a << std::endl;
+
+  std::array<std::string, 10> ar{"Nico", "pico"};
+  std::cout << std::endl
+            << "std::get<0>(ar) = " << std::get<0>(ar) << std::endl;
+
+  // std::pair<> как элементы внутри кортежа
+  std::tuple<std::pair<int, std::string>, std::pair<char, float>> complex_t(
+      std::make_pair(8, std::string("++++++++")), std::make_pair(1, 1.12f));
+
+  std::cout << std::endl
+            << "internal pairs " << std::get<0>(complex_t) << "     "
+            << std::get<1>(complex_t) << std::endl;
+}
 
 //частичная специализация шаблона для типа bool
 template <>

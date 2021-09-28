@@ -143,35 +143,38 @@ void HistSortArray(std::array<uint8_t, n> &arr) {
 
 void TestArray();
 
-////---------тестирование std::pair<T1,T2>p------------------------
-// template <typename t1, typename t2>
-// std::ostream &operator<<(std::ostream &ostr, const std::pair<t1, t2> &p) {
-//  return ostr << "[" << p.first << "," << p.second << "]";
-//}
+//------------------------------------------------------------------------
+//тестирование std::pair<T1,T2>p
+//------------------------------------------------------------------------
+template <typename t1, typename t2>
+std::ostream &operator<<(std::ostream &ostr, const std::pair<t1, t2> &p) {
+  return ostr << "[" << p.first << "," << p.second << "]";
+}
 
-// template <typename t>
-// std::pair<bool, std::pair<t, t>> SolveEquation(t a, t b, t c) {
-//  t D = b * b - 4 * a * c;
-//  if (D < 0) {
-//    return std::make_pair(false,
-//                          std::make_pair(static_cast<t>(0),
-//                          static_cast<t>(0)));
-//  } else {
-//    t x1 = (-b - sqrt(D)) / 2 * a;
-//    t x2 = (-b + sqrt(D)) / 2 * a;
+template <typename t>
+std::pair<bool, std::pair<t, t>> SolveEquation(t a, t b, t c) {
+  t D = b * b - 4 * a * c;
+  if (D < 0) {
+    return std::make_pair(false,
+                          std::make_pair(static_cast<t>(0), static_cast<t>(0)));
+  }
 
-//    return std::make_pair(true, std::make_pair(x1, x2));
-//  }
-//}
+  t x1 = (-b - sqrt(D)) / (2 * a);
+  t x2 = (-b + sqrt(D)) / (2 * a);
 
-// void TestPairs();
+  return std::make_pair(true, std::make_pair(x1, x2));
+}
 
-//////тестирование кортежей std::tuple<T1,T2,...Tn> t
-////// ------------------------------------------------
-// void TestTuples();
+void TestPairs();
 
-////тестирование контейнера std::vector<>
-//// ---------------------------------------
+//------------------------------------------------------------------------
+//тестирование кортежей std::tuple<T1,T2,...Tn> t
+//------------------------------------------------------------------------
+void TestTuples();
+
+//------------------------------------------------------------------------
+//тестирование контейнера std::vector<>
+//------------------------------------------------------------------------
 template <typename t>
 void PrintVectorInfo(std::vector<t> &vec, const char *vec_name) {
   std::cout << std::endl;

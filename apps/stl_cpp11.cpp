@@ -8,9 +8,9 @@
 
 int main() {
   // TestArray();
-  // TestPairs();
+  TestPairs();
   // test_tuples();
-  TestVector();
+  // TestVector();
   // test_deque();
   // test_list();
   // test_list_special();
