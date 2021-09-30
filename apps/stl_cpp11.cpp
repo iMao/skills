@@ -8,10 +8,10 @@
 
 int main() {
   // TestArray();
-  TestPairs();
-  // test_tuples();
+  // TestPairs();
+  // TestTuples();
   // TestVector();
-  // test_deque();
+  TestDeque();
   // test_list();
   // test_list_special();
   // test_forward_list();

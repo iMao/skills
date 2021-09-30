@@ -260,26 +260,27 @@ std::ostream &operator<<(std::ostream &ostr, Some &s);
 
 void TestVector();
 
-//////тестирование контейнера std::deque<>
-////// ------------------------------------------------
-// template <typename t>
-// void print_deque_info(std::deque<t> &dq) {
-//  cout << endl;
-//  cout << "size - " << dq.size() << endl;
-//  cout << "max_size - " << dq.max_size() << endl;
-//}
+//------------------------------------------------------------------------
+//тестирование контейнера std::deque<>
+//------------------------------------------------------------------------
+template <typename t>
+void PrintDequeInfo(std::deque<t> &dq) {
+  std::cout << std::endl;
+  std::cout << "size - " << dq.size() << std::endl;
+  std::cout << "max_size - " << dq.max_size() << std::endl;
+}
 
-// template <typename t>
-// void print_deque(std::deque<t> &dq) {
-//  cout << endl;
-//  if (dq.empty())
-//    cout << "deque is empty" << endl;
-//  else {
-//    for (auto &s : dq) cout << "dq - " << s << endl;
-//  }
-//}
+template <typename t>
+void PrintDeque(std::deque<t> &dq) {
+  std::cout << std::endl;
+  if (dq.empty())
+    std::cout << "deque is empty" << std::endl;
+  else {
+    for (auto &s : dq) std::cout << "dq - " << s << std::endl;
+  }
+}
 
-// void TestDeque();
+void TestDeque();
 
 //////тестирование контейнера  std::list<>
 //////-------------------------------------------------

@@ -256,20 +256,22 @@ void TestTuples() {
   auto lam = [&](std::tuple<int, float, std::string> &t) {
     std::cout << std::endl
               << "tuple<int, float, string> t -> "
-              << "[" << std::get<0>(t) << "," << std::get<1>(t) << ","
+              << "[" << std::get<0>(t) << ", " << std::get<1>(t) << ", "
               << std::get<2>(t) << "]";
   };
 
-  //создание кортежа //кортеж из 3-х элементов с инициализацией
+  //создание кортежа из 3-х элементов с инициализацией
   std::tuple<int, float, std::string> t0;
 
-  //конструкторами по умолчанию
   //кортеж из 3-х элементов с инициализацией заданными
   //значениями
   std::tuple<int, float, std::string> t1(5, 4.2f, "string");
 
   //кортеж из 3-х элементов с инициализацией списком
   std::tuple<int, float, std::string> t2{3, 2.71f, "Hello"};
+
+  //а так использовать списки инициализации запрещено
+  // std::tuple<int, float, std::string> t2 = {3, 2.71f, "Hello"};
 
   //инициализации
   //кортеж из 3-х элементов с инициализацией конструктором копирования
@@ -290,7 +292,7 @@ void TestTuples() {
   float f = 0.9f;
   std::string s("*******");
 
-  //создание кортежа ссылок с помощью std::make_tuple()
+  //создание кортежа ссылок с помощью std::make_tuple()  и std::ref()
   auto t5 = std::make_tuple(std::ref(i), std::ref(f), std::ref(s));
 
   //создание кортежа ссылок с помощью std::tie()
@@ -314,10 +316,27 @@ void TestTuples() {
             << std::get<2>(t7) << "," << std::get<3>(t7) << ","
             << std::get<4>(t7) << "," << std::get<5>(t7) << "]" << std::endl;
 
-  std::pair<int, std::string> p0{9, std::string("pair")};
   //создание кортежа путем вызова конструктора
   //копирования для объекта std::pair<>
+
+  std::pair<int, std::string> p0{9, std::string("pair")};
+  std::pair<int, std::string> p00{9, "pair"};
+
   std::tuple<int, std::string> t8(p0);
+  std::tuple<int, std::string> t9(p00);
+
+  //просто запрос типа
+  std::tuple_element<1, decltype(t8)>::type c;
+  std::tuple_element<1, decltype(t9)>::type d;
+
+  auto l = [&](std::pair<int, std::string> &p,
+               std::tuple<int, std::string> &tup) -> void {
+    std::cout << p << " tuple:" << std::get<0>(tup) << " " << std::get<1>(tup)
+              << '\n';
+  };
+
+  l(p0, t8);
+  l(p00, t9);
 
   //получение характеристик кортежа
   typedef std::tuple<std::string, int, char, double, short, bool, long>
@@ -350,7 +369,7 @@ void TestTuples() {
 
   // std::pair<> как элементы внутри кортежа
   std::tuple<std::pair<int, std::string>, std::pair<char, float>> complex_t(
-      std::make_pair(8, std::string("++++++++")), std::make_pair(1, 1.12f));
+      std::make_pair(8, std::string("++++++++")), std::make_pair('1', 1.12f));
 
   std::cout << std::endl
             << "internal pairs " << std::get<0>(complex_t) << "     "
@@ -570,121 +589,127 @@ void TestVector() {
   PrintVector(flags, "flags");
 }
 
-////тестирование контейнера std::deque<>
-//// ------------------------------------------------
-// void TestDeque() {
-//  //методы создания контейнера std::deque<>
-//  std::deque<string> dq0;     //пустой контейнер
-//  std::deque<string> dq1(3);  //контейнер на 3 элемента инициализированных
-//                              //своими конструкторами по умолчанию
-//  std::deque<string> dq2(
-//      3, string("simple"));  //контейнер на 3 элемента типа string
-//                             //инициализированных значением "simple"
-//  std::deque<string> dq3{"Hello", "world", "!!!",
-//                         "OK"};  //контейнер на основе списка инициализации
-//                         {}
+//тестирование контейнера std::deque<>
+// ------------------------------------------------
+void TestDeque() {
+  //методы создания контейнера std::deque<>
 
-//  std::deque<string> dq4(
-//      dq2);  //создание контейнера с помощью конструктора копирования
-//  std::deque<string> dq5(std::move(
-//      dq3));  //создание контейнера при помощи перемещающего конструктора
+  //пустой контейнер
+  std::deque<std::string> dq0;
 
-//  std::deque<string> dq6((++dq5.cbegin()),
-//                         dq5.cend());  //создание контейнера на основе
-//                         диапазоне
+  //контейнер на 3 элемента инициализированных
+  //своими конструкторами по умолчанию
+  std::deque<std::string> dq1(3);
 
-//  //значений другого контейнера
+  //контейнер на 3 элемента типа string
+  //инициализированных значением "simple"
+  std::deque<std::string> dq2(3, std::string("simple"));
 
-//  std::initializer_list<string> text{"BMW",   "Audi",     "Opel",  "Toyota",
-//                                     "Volvo", "Mercedes", "Porshe"};
-//  std::deque<string> dq7 = text;  //создание контейнера на основе присвоения
-//                                  //списка инициализации	{}
+  //контейнер на основе списка инициализации
+  std::deque<std::string> dq3{"Hello", "world", "!!!", "OK"};
 
-//  std::deque<string> dq8 =
-//      dq2;  //создание контейнера на основе оператора копирующего
-//      присваивания
-//  std::deque<string> dq9 =
-//      std::move(dq5);  //создание контейнера на оснопе оператора
-//      перемещающего
-//                       //присваивания
+  //создание контейнера с помощью конструктора копирования
+  std::deque<std::string> dq4(dq2);
 
-//  //запрос информации о контейнере
-//  print_deque_info(dq7);
-//  print_deque(dq7);
+  //создание контейнера при помощи перемещающего конструктора
+  std::deque<std::string> dq5(std::move(dq3));
 
-//  //модифицирование контейнера std::deque<>
-//  dq7.push_back(string("Pegot"));
-//  dq7.push_front(string("Citroen"));
+  //создание контейнера на основе  диапазона
+  //значений другого контейнера
+  std::deque<std::string> dq6((++dq5.cbegin()), dq5.cend());
 
-//  dq7.emplace_back("AlfaRomeo");
-//  dq7.emplace_front("Shevrole");
+  //создание контейнера на основе присвоения
+  //списка инициализации	{}
+  std::initializer_list<std::string> text{
+      "BMW", "Audi", "Opel", "Toyota", "Volvo", "Mercedes", "Porshe"};
 
-//  dq7.insert(++dq7.cbegin(), string("Mustang"));
-//  dq7.emplace(++dq7.cbegin(), "Volga");
+  std::deque<std::string> dq7 = text;
 
-//  print_deque(dq7);
+  //создание контейнера на основе оператора копирующего  присваивания
+  std::deque<std::string> dq8 = dq2;
 
-//  dq7.pop_back();
-//  dq7.pop_front();
+  //создание контейнера на оснопе оператора  перемещающего
+  //присваивания
+  std::deque<std::string> dq9 = std::move(dq5);
 
-//  print_deque(dq7);
+  //запрос информации о контейнере
+  PrintDequeInfo(dq7);
+  PrintDeque(dq7);
 
-//  dq7.assign(10, string("Bently"));
+  //модифицирование контейнера std::deque<>
+  dq7.push_back(std::string("Pegot"));
+  dq7.push_front(std::string("Citroen"));
 
-//  print_deque(dq7);
+  dq7.emplace_back("AlfaRomeo");
+  dq7.emplace_front("Shevrole");
 
-//  dq7.assign(text.begin(), text.end());
+  dq7.insert(++dq7.cbegin(), std::string("Mustang"));
+  dq7.emplace(++dq7.cbegin(), "Volga");
 
-//  print_deque(dq7);
+  PrintDeque(dq7);
 
-//  dq7.erase(--dq7.end());
+  dq7.pop_back();
+  dq7.pop_front();
 
-//  print_deque(dq7);
+  PrintDeque(dq7);
 
-//  dq7.erase(++dq7.begin(), --dq7.end());
+  dq7.assign(10, std::string("Bently"));
 
-//  print_deque(dq7);
+  PrintDeque(dq7);
 
-//  dq7.insert(++dq7.begin(), {"Audi", "Opel", "Toyota", "Volvo"});
+  dq7.assign(text.begin(), text.end());
 
-//  print_deque(dq7);
+  PrintDeque(dq7);
 
-//  dq7.clear();
+  dq7.erase(--dq7.end());
 
-//  print_deque(dq7);
+  PrintDeque(dq7);
 
-//  dq7.resize(5, string("some string"));
-//  print_deque(dq7);
+  dq7.erase(++dq7.begin(), --dq7.end());
 
-//  dq7.resize(7, string("something else"));
-//  print_deque(dq7);
+  PrintDeque(dq7);
 
-//  dq7.resize(3);
-//  print_deque(dq7);
+  dq7.insert(++dq7.begin(), {"Audi", "Opel", "Toyota", "Volvo"});
 
-//  //итераторы для обхода контейнера std::deque<>
-//  std::deque<string>::const_iterator ci = dq7.begin();
-//  std::deque<string>::iterator it = dq7.begin();
-//  std::deque<string>::const_reverse_iterator cri = dq7.crbegin();
-//  std::deque<string>::reverse_iterator ri = dq7.rbegin();
+  PrintDeque(dq7);
 
-//  cout << endl;
-//  for (; ci != dq7.end(); ++ci) cout << "e - " << (*ci) << endl;
+  dq7.clear();
 
-//  cout << endl;
-//  for (; it != dq7.end(); ++it) cout << "e - " << (*it).append("-") << endl;
+  PrintDeque(dq7);
 
-//  cout << endl;
-//  for (; cri != dq7.crend(); ++cri) cout << "e <- " << (*cri) << endl;
+  dq7.resize(5, std::string("some string"));
+  PrintDeque(dq7);
 
-//  cout << endl;
-//  for (; ri != dq7.rend(); ++ri) {
-//    (*ri).at((*ri).size() - 1) = '+';
-//    cout << "e <- " << (*ri) << endl;
-//  }
-//}
+  dq7.resize(7, std::string("something else"));
+  PrintDeque(dq7);
 
-// bool rmbig(int a) { return (a > 1000 ? true : false); }
+  dq7.resize(3);
+  PrintDeque(dq7);
+
+  //итераторы для обхода контейнера std::deque<>
+  std::deque<std::string>::const_iterator ci = dq7.begin();
+  std::deque<std::string>::iterator it = dq7.begin();
+  std::deque<std::string>::const_reverse_iterator cri = dq7.crbegin();
+  std::deque<std::string>::reverse_iterator ri = dq7.rbegin();
+
+  std::cout << std::endl;
+  for (; ci != dq7.end(); ++ci) std::cout << "e - " << (*ci) << std::endl;
+
+  std::cout << std::endl;
+  for (; it != dq7.end(); ++it)
+    std::cout << "e - " << (*it).append("-") << std::endl;
+
+  std::cout << std::endl;
+  for (; cri != dq7.crend(); ++cri) std::cout << "e <- " << (*cri) << std::endl;
+
+  std::cout << std::endl;
+  for (; ri != dq7.rend(); ++ri) {
+    (*ri).at((*ri).size() - 1) = '+';
+    std::cout << "e <- " << (*ri) << std::endl;
+  }
+}
+
+bool rmbig(int a) { return (a > 1000 ? true : false); }
 
 ////тестирование контейнера  std::list<>
 ////-------------------------------------------------
