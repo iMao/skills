@@ -180,175 +180,237 @@
 //    t2.join();
 //}
 
-////тестирование интеллектуальных указателей
-////------------------------------------------
-// void deleter(int *p) {
-//  cout << endl << "deleter is working" << endl;
+//---------------------------------------------------------------------------
+//тестирование интеллектуальных указателей
+//---------------------------------------------------------------------------
 
-//  for (int i = 0; i < 10; i++)
-//    cout << "\n x = " << p[i];
+void PrintIntArray(int *p) {
+  for (int i = 0; i < 10; i++) {
+    std::cout << p[i] << " ";
+  }
+  std::cout << '\n';
+}
 
-//  delete p;
-//}
+//функция для простого удаления массива
+void deleter(int *p) {
+  std::cout << "\n function deleter() ";
+  PrintIntArray(p);
+  delete[] p;
+}
 
-// void test_shared_ptr() {
-//  //простой тест shared_ptr<int>
-//  shared_ptr<int> ptrInt(new int[10], [](int *p) {
-//    cout << endl << "Array will be delete" << endl;
+//функтор для простого удаления массива
+class Deleter {
+ public:
+  void operator()(int *p) {
+    std::cout << "\n functor Deleter()  ";
+    PrintIntArray(p);
+    delete[] p;
+  }
+};
 
-//    for (int i = 0; i < 10; i++)
-//      cout << "\n x = " << p[i];
+void TestSharedPtr() {
+  //простой тест shared_ptr<int>  разными функциями удаления:
+  // deleter - лямбда выражение
+  std::shared_ptr<int> ptr_int_array(new int[10], [](int *p) {
+    std::cout << "\n lambda deleter     ";
+    PrintIntArray(p);
+    delete[] p;
+  });
 
-//    delete[] p;
-//  });
+  // deleter - функция
+  std::shared_ptr<int> ptr_array(new int[10], deleter);
+  // deleter - функтор
+  std::shared_ptr<int> ptr_array2(new int[10], Deleter());
 
-//  for (int i = 0; i < 10; i++)
-//    ptrInt.get()[i] = (10 - i);
+  for (int i = 0; i < 10; i++) {
+    ptr_int_array.get()[i] = (10 - i);
+    ptr_array.get()[i] = (100 - i);
+    ptr_array2.get()[i] = (i - 15);
+  }
 
-//  ptrInt = nullptr;
+  ptr_int_array = nullptr;
+  ptr_array = nullptr;
+  ptr_array2 = nullptr;
 
-//  shared_ptr<int> ptrArray(new int[10], deleter);
-//  shared_ptr<int> ptrArray2(new int[10], Deleter());
+  std::cout << std::endl;
+}
 
-//  for (int i = 0; i < 10; i++) {
-//    ptrArray.get()[i] = (100 - i);
-//    ptrArray2.get()[i] = (i - 15);
-//  }
+void TestIntelPtrs() {
+  //простые shared_ptr указатели
+  std::shared_ptr<std::string> ptr_nica(new std::string("nica"));
+  std::shared_ptr<std::string> ptr_jutta(new std::string("jutta"));
+  std::shared_ptr<std::string> ptr_nico{new std::string("nico")};
 
-//  ptrArray = nullptr;
-//  ptrArray2 = nullptr;
-//}
+  std::cout << "ptr_nica ->" << (*ptr_nica) << std::endl;
+  std::cout << "ptr_jutta->" << (*ptr_jutta) << std::endl;
+  std::cout << "ptr_nico ->" << (*ptr_nico) << std::endl;
 
-// void test_intel_ptrs() {
-//  //простые shared_ptr указатели
-//  shared_ptr<string> nicaPtr(new string("nica"));
-//  shared_ptr<string> juttaPtr(new string("jutta"));
+  (*ptr_nica)[0] = 'N';
+  ptr_jutta->replace(0, 1, "J");
+  ptr_nico->append("-hero");
 
-//  shared_ptr<string> nicoPtr{new string("nico")};
+  std::cout << '\n';
+  std::cout << "ptr_nica ->" << (*ptr_nica) << std::endl;
+  std::cout << "ptr_jutta->" << (*ptr_jutta) << std::endl;
+  std::cout << "ptr_nico ->" << (*ptr_nico) << std::endl;
 
-//  std::cout << "nicaPtr ->" << (*nicaPtr) << endl;
-//  std::cout << "juttaPtr->" << (*juttaPtr) << endl;
-//  std::cout << "nicoPtr ->" << (*nicoPtr) << endl;
+  std::cout << '\n';
+  std::cout << "Nica  use count = " << ptr_nica.use_count() << std::endl;
+  std::cout << "Jutta use count = " << ptr_jutta.use_count() << std::endl;
+  std::cout << "Nico  use count = " << ptr_nico.use_count() << std::endl;
 
-//  (*nicaPtr)[0] = 'N';
-//  juttaPtr->replace(0, 1, "J");
-//  nicoPtr->append("-hero");
+  std::vector<std::shared_ptr<std::string>> vec;
 
-//  cout << '\n';
-//  cout << "nicaPtr ->" << (*nicaPtr) << endl;
-//  cout << "juttaPtr->" << (*juttaPtr) << endl;
-//  cout << "nicoPtr ->" << (*nicoPtr) << endl;
+  vec.push_back(ptr_nica);
+  vec.push_back(ptr_nica);
 
-//  cout << '\n';
-//  cout << "Nica  use count = " << nicaPtr.use_count() << endl;
-//  cout << "Jutta use count = " << juttaPtr.use_count() << endl;
-//  cout << "Nico  use count = " << nicoPtr.use_count() << endl;
+  vec.push_back(ptr_jutta);
+  vec.push_back(ptr_jutta);
+  vec.push_back(ptr_jutta);
+  vec.push_back(ptr_jutta);
 
-//  vector<shared_ptr<string>> vec;
+  vec.push_back(ptr_nico);
+  vec.push_back(ptr_nico);
+  vec.push_back(ptr_nico);
 
-//  vec.push_back(nicaPtr);
-//  vec.push_back(nicaPtr);
+  std::cout << '\n';
+  std::cout << "Nica  use count = " << ptr_nica.use_count() << std::endl;
+  std::cout << "Jutta use count = " << ptr_jutta.use_count() << std::endl;
+  std::cout << "Nico  use count = " << ptr_nico.use_count() << std::endl;
 
-//  vec.push_back(juttaPtr);
-//  vec.push_back(juttaPtr);
-//  vec.push_back(juttaPtr);
-//  vec.push_back(juttaPtr);
+  std::shared_ptr<std::string> nico_;
+  nico_.reset(new std::string("nico-pico"));
 
-//  vec.push_back(nicoPtr);
-//  vec.push_back(nicoPtr);
-//  vec.push_back(nicoPtr);
+  std::cout << '\n';
+  std::cout << "nico_ ->" << (*nico_) << std::endl;
+  std::cout << "nico_ use count " << nico_.use_count() << std::endl;
 
-//  cout << '\n';
-//  cout << "Nica  use count = " << nicaPtr.use_count() << endl;
-//  cout << "Jutta use count = " << juttaPtr.use_count() << endl;
-//  cout << "Nico  use count = " << nicoPtr.use_count() << endl;
+  vec.clear();
 
-//  shared_ptr<string> nico_;
-//  nico_.reset(new string("nico-pico"));
+  std::cout << '\n';
+  std::cout << "std::vector<std::shared_ptr<std::string>> cleared\n";
+  std::cout << "Nica  use count = " << ptr_nica.use_count() << std::endl;
+  std::cout << "Jutta use count = " << ptr_jutta.use_count() << std::endl;
+  std::cout << "Nico  use count = " << ptr_nico.use_count() << std::endl;
 
-//  cout << '\n';
-//  cout << "nico_ ->" << (*nico_) << endl;
-//  cout << "nico_ use count " << nico_.use_count() << endl;
+  ptr_nica = nullptr;
+  ptr_jutta = nullptr;
+  ptr_nico = nullptr;
+  nico_ = nullptr;
 
-//  vec.clear();
+  std::cout << '\n';
+  std::cout << "shared_ptrs = nullptr\n";
+  std::cout << "Nica  use count = " << ptr_nica.use_count() << std::endl;
+  std::cout << "Jutta use count = " << ptr_jutta.use_count() << std::endl;
+  std::cout << "Nico  use count = " << ptr_nico.use_count() << std::endl;
+  std::cout << "nico_ use count = " << nico_.use_count() << std::endl;
+}
 
-//  cout << '\n';
-//  cout << "vector<shared_ptr<string>> cleared\n";
-//  cout << "Nica  use count = " << nicaPtr.use_count() << std::endl;
-//  cout << "Jutta use count = " << juttaPtr.use_count() << std::endl;
-//  cout << "Nico  use count = " << nicoPtr.use_count() << std::endl;
+class SuperData {
+ private:
+  int *a;
+  int b;
+  int c;
 
-//  nicaPtr = nullptr;
-//  juttaPtr = nullptr;
-//  nicoPtr = nullptr;
-//  nico_ = nullptr;
+ public:
+  SuperData() {
+    a = new int;
+    *a = 10;
+    b = 2;
+    c = (*a) / b;
+  };
 
-//  cout << '\n';
-//  cout << "shared_ptrs = nullptr\n";
-//  cout << "Nica  use count = " << nicaPtr.use_count() << std::endl;
-//  cout << "Jutta use count = " << juttaPtr.use_count() << std::endl;
-//  cout << "Nico  use count = " << nicoPtr.use_count() << std::endl;
-//  cout << "nico_ use count = " << nico_.use_count() << endl;
-//}
+  ~SuperData() {
+    if (a != nullptr) {
+      delete a;
+    }
+    b = 0;
+    c = 0;
+    std::cout << " All resoures was returned\n";
+  }
 
-// void test_intel_ptrs_hard() {
-//  //более сложное использование shared_ptr указателей со своей стратегией
-//  //удаления
-//  shared_ptr<string> pstr(new string("Hello"), [](string *p) {
-//    cout << "\nYou deleted string - " << (*p) << endl;
-//    delete p;
-//  });
+  void Print() {
+    std::cout << "a: " << *a << " b: " << b << " c: " << c << std::endl;
+  }
+};
 
-//  cout << "\n pstr = " << (*pstr) << endl;
-//  pstr = nullptr;
+//функтор для реализации стратегии закрытия и удаления файла
+class FileDeleter {
+ private:
+  std::string filename_;
 
-//  shared_ptr<int> ptrArray(new int[10], [](int *p) {
-//    cout << "\nYou deleted array \n";
+ public:
+  FileDeleter() = delete;
+  FileDeleter(std::string const &filename) : filename_(filename) {}
+  ~FileDeleter() = default;
+  void operator()(std::ofstream *ptr_ofstream) {
+    delete ptr_ofstream;
+    std::remove(filename_.c_str());
+    std::cout << "file " << filename_ << " was removed \n";
+  }
+};
 
-//    for (int i = 0; i < 10; i++)
-//      cout << "\n x = " << p[i];
+void TestIntelPtrsHard() {
+  //более сложное использование shared_ptr указателей со своей стратегией
+  //удаления
+  std::shared_ptr<std::string> pstr(
+      new std::string("Hello"), [](std::string *p) {
+        std::cout << "\nYou deleted string: " << (*p) << std::endl;
+        delete p;
+      });
 
-//    delete[] p;
-//  });
+  std::cout << "\n pstr: " << (*pstr) << std::endl;
+  pstr = nullptr;
 
-//  for (int i = 0; i < 10; i++)
-//    ptrArray.get()[i] = i;
+  std::shared_ptr<int> ptr_array(new int[10], [](int *p) {
+    std::cout << "\nYou deleted array: ";
+    PrintIntArray(p);
+    delete[] p;
+  });
 
-//  cout << "Array was initialiazed \n";
+  for (int i = 0; i < 10; i++) {
+    ptr_array.get()[i] = i;
+  }
 
-//  cout << "Array has values " << '\n';
+  std::cout << "Array was initialiazed \n";
+  std::cout << "Array has values   ";
 
-//  for (int i = 0; i < 10; i++)
-//    cout << "\nx = " << ptrArray.get()[i];
+  for (int i = 0; i < 10; i++) {
+    std::cout << ptr_array.get()[i] << " ";
+  }
 
-//  ptrArray = nullptr;
+  ptr_array = nullptr;
 
-//  cout << endl << "ptrArray.use_count() = " << ptrArray.use_count() << endl;
+  std::cout << std::endl
+            << "ptr_array.use_count() = " << ptr_array.use_count() << std::endl;
 
-//  shared_ptr<SuperData> superDataPtr(new SuperData(), [](SuperData *spd) {
-//    cout << "\n removing SuperData ptr\n";
-//    delete spd;
-//  });
+  std::shared_ptr<SuperData> super_data_ptr(
+      new SuperData(), [](SuperData *spd) {
+        std::cout << "\n removing SuperData ptr\n";
+        delete spd;
+      });
 
-//  superDataPtr->prn();
+  super_data_ptr->Print();
 
-//  superDataPtr = nullptr;
+  super_data_ptr = nullptr;
 
-//  //интеллектуальный указатель на ресурс связанный с файлом
-//  shared_ptr<std::ofstream> fp(new std::ofstream("tmpfile.txt"),
-//                               FileDeleter("tmpfile.txt"));
+  //интеллектуальный указатель на ресурс связанный с файлом
+  std::shared_ptr<std::ofstream> fp(new std::ofstream("tmpfile.txt"),
+                                    FileDeleter("tmpfile.txt"));
 
-//  fp = nullptr;
+  (*fp) << "this is test information\n";
 
-//  shared_ptr<int> shptr(new int[5], std::default_delete<int[]>());
-//  shptr.get()[0] = 10;
-//  shptr.get()[1] = 12;
-//  shptr.get()[2] = 15;
+  fp = nullptr;
 
-//  cout << endl;
-//  cout << "[0] = " << shptr.get()[0] << " [1] = " << shptr.get()[1]
-//       << " [2] = " << shptr.get()[2] << endl;
-//}
+  std::shared_ptr<int> shptr(new int[5], std::default_delete<int[]>());
+  shptr.get()[0] = 10;
+  shptr.get()[1] = 12;
+  shptr.get()[2] = 15;
+
+  std::cout << std::endl;
+  std::cout << "[0]: " << shptr.get()[0] << " [1]: " << shptr.get()[1]
+            << " [2]: " << shptr.get()[2] << std::endl;
+}
 
 ////тестирование уникальных указателей unique_ptr<>
 ////-----------------------------------------------

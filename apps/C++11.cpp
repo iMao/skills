@@ -2,18 +2,18 @@
 //#include "src/algo/algo.h"
 //#include "src/oop/oop.h"
 #include "../src/std11/study_stl.h"
-//#include "src/std11/tools.h"
+#include "../src/std11/tools.h"
 
 //#include <iostream>
 
 int main() {
-  std::cout << "Hello C++17" << std::endl;
+  std::cout << "Hello C++11" << std::endl;
   //тесты многопоточности, синхронизации и пр.
   //--------------------------------------------------------------
   // test_number_3();
-  // test_shared_ptr();
-  // test_intel_ptrs();
-  // test_intel_ptrs_hard();
+  // TestSharedPtr();
+  // TestIntelPtrs();
+  TestIntelPtrsHard();
   // test_unique_ptr();
   // test_unique_ptrs();
   // test_threads_id();

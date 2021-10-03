@@ -16,7 +16,7 @@ include_directories(../src/std11)
 add_executable(${PROJECT_NAME}_std17
     ${HDR_STD11}
     ${SRC_STD11}
-    C++17.cpp
+    C++11.cpp
     )
 target_link_libraries(${PROJECT_NAME}_std17
     std11

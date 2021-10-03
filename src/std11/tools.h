@@ -127,76 +127,19 @@
 
 // void test_number_3();
 
-////тестирование интеллектуальных указателей
-////--------------------------------------------------------------
-// void deleter(int *p);
+//---------------------------------------------------------------------
+//тестирование интеллектуальных указателей shared_ptr<>
+//---------------------------------------------------------------------
 
-// class Deleter {
-// public:
-//  void operator()(int *p) {
-//    cout << endl << "Deleter is working" << endl;
+void TestSharedPtr();
 
-//    for (int i = 0; i < 10; i++)
-//      cout << "\n x = " << p[i];
+void TestIntelPtrs();
 
-//    delete p;
-//  }
-//};
+void TestIntelPtrsHard();
 
-// void test_shared_ptr();
-
-// class SuperData {
-// private:
-//  int *a;
-//  int b;
-//  int c;
-
-// public:
-//  SuperData() {
-//    a = new int;
-//    *a = 10;
-
-//    b = 2;
-
-//    c = (*a) / b;
-//  };
-
-//  ~SuperData() {
-//    if (a != nullptr) {
-//      delete a;
-//    }
-
-//    b = 0;
-//    c = 0;
-
-//    cout << " All resoures was returned\n";
-//  }
-
-//  void prn() { cout << "a = " << *a << " b = " << b << " c = " << c << endl; }
-//};
-
-////функтор для реализации стратегии закрытия и удаления файла
-// class FileDeleter {
-// private:
-//  string filename;
-
-// public:
-//  FileDeleter(string const &fn) : filename(fn) {}
-
-//  void operator()(std::ofstream *fp) {
-//    delete fp;
-//    std::remove(filename.c_str());
-//    cout << "file " << filename << " was removed \n";
-//  }
-//};
-
-// void test_intel_ptrs(); //тестирование интелектуальных указателей
-
-// void test_intel_ptrs_hard(); //тестирование дополнительных возможностей
-//                             // shared_ptr<>
-
-////тестирование уникальных указателей unique_ptr<>
-////------------------------------------------------
+//---------------------------------------------------------------------------
+//тестирование уникальных указателей unique_ptr<>
+//---------------------------------------------------------------------------
 // unique_ptr<string> createString(char const *charArray); //функция исток
 
 // void printString(unique_ptr<string> ps); //функция сток
