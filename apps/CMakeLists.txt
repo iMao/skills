@@ -13,12 +13,12 @@ include_directories(../src/std11)
 
 
 #stl library
-add_executable(${PROJECT_NAME}_std17
+add_executable(${PROJECT_NAME}_std11
     ${HDR_STD11}
     ${SRC_STD11}
     C++11.cpp
     )
-target_link_libraries(${PROJECT_NAME}_std17
+target_link_libraries(${PROJECT_NAME}_std11
     std11
     -lpthread
     )

@@ -13,7 +13,7 @@ int main() {
   // test_number_3();
   // TestSharedPtr();
   // TestIntelPtrs();
-  TestIntelPtrsHard();
+  // TestIntelPtrsHard();
   // test_unique_ptr();
   // test_unique_ptrs();
   // test_threads_id();
@@ -24,7 +24,7 @@ int main() {
   // test_async_and_future();
   // test_future_and_async();
   // test_packaged_task();
-  // test_chrono();
+  TestChronoLibrary();
   // test_atomic();
 
   //тесты STL

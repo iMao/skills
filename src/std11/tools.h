@@ -235,34 +235,37 @@ void TestIntelPtrsHard();
 ////---------------------------------------------------
 // void test_pointers_size();
 
-////тестирование библиотечки хроно
-////-----------------------------------------------------
-// template <typename V, typename R>
-// std::ostream &operator<<(std::ostream &s, std::chrono::duration<V, R> &d) {
-//  s << "[" << d.count() << " of " << R::num << "/" << R::den << "]";
-//  return s;
-//}
+//-----------------------------------------------------------------------------
+//тестирование библиотеки хроно
+//-----------------------------------------------------------------------------
+template <typename V, typename R>
+std::ostream &operator<<(std::ostream &s,
+                         const std::chrono::duration<V, R> &d) {
+  s << "[" << d.count() << " of " << R::num << "/" << R::den << "]";
+  return s;
+}
 
-// template <typename C> void printClockData() {
-//  using namespace std;
+template <typename C>
+void PrintClockData() {
+  using namespace std;
 
-//  cout << endl << "-precision:";
+  std::cout << " -precision: ";
 
-//  typedef typename C::period P;
+  typedef typename C::period P;
 
-//  if (ratio_less_equal<P, milli>::value) {
-//    typedef typename ratio_multiply<P, kilo>::type TT;
-//    cout << fixed << double(TT::num) / TT::den << " milliseconds" << endl;
-//  } else {
-//    cout << fixed << double(P::num) / P::den << " seconds" << endl;
-//  }
+  if (ratio_less_equal<P, milli>::value) {
+    typedef typename ratio_multiply<P, kilo>::type TT;
+    cout << fixed << double(TT::num) / TT::den << " milliseconds" << endl;
+  } else {
+    cout << fixed << double(P::num) / P::den << " seconds" << endl;
+  }
 
-//  cout << "-is steady: " << boolalpha << C::is_steady << endl;
-//}
+  cout << "-is steady: " << boolalpha << C::is_steady << endl;
+}
 
-// string timeAsString(std::chrono::system_clock::time_point &tp);
+std::string TimeAsString(std::chrono::system_clock::time_point &tp);
 
-// void test_chrono();
+void TestChronoLibrary();
 
 ////тестирование атомарных операций
 ////----------------------------------------------------------------------

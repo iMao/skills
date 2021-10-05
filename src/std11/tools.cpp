@@ -1177,117 +1177,142 @@ void TestIntelPtrsHard() {
 //       << endl;
 //}
 
-////тестирование библиотечки хроно
-////--------------------------------------------------------
-// string timeAsString(std::chrono::system_clock::time_point &tp) {
-//  time_t t = std::chrono::system_clock::to_time_t(tp);
-//  string ts = std::ctime(&t);
-//  ts.resize(ts.size() - 1);
+//------------------------------------------------------------------------
+//тестирование библиотечки хроно
+//------------------------------------------------------------------------
+std::string TimeAsString(std::chrono::system_clock::time_point &tp) {
+  time_t t = std::chrono::system_clock::to_time_t(tp);
+  std::string ts = std::ctime(&t);
+  ts.resize(ts.size() - 1);
 
-//  return ts;
-//}
+  return ts;
+}
 
-// void test_chrono() {
-//  //тестирование интервалов
-//  std::chrono::duration<int, std::ratio<60, 1>> two_minute(
-//      2); //интервал 2 минуты с целым отсчетом
-//  std::chrono::duration<double, std::ratio<60>> half_minute(
-//      0.5); //интервал 0.5 минуты с дробным отсчетом
-//  std::chrono::duration<int, std::ratio<1, 1000>> millisec_100(
-//      100); //интервал 100 милисекунд
-//  std::chrono::duration<int> five_sec(5); //интервал 5 секунд
-//  std::chrono::duration<int, std::ratio<1, 1000000>> microsec_10(
-//      10); //интервал 10 микросекунд
-//  std::chrono::duration<int, std::pico> picosec(10); // 10 пикосекунд
+void TestChronoLibrary() {
+  //тестирование интервалов
 
-//  std::chrono::seconds seconds_(2);
-//  std::chrono::minutes minutes(1);
-//  std::chrono::nanoseconds nanosec_100(100);
+  //интервал 2 минуты с целым отсчетом
+  std::chrono::duration<int, std::ratio<60, 1>> two_minute(2);
 
-//  std::chrono::microseconds d = millisec_100 - microsec_10;
-//  cout << endl
-//       << "d = 100millisec - 10microsec = " << d.count() << " microsec" <<
-//       endl;
+  //интервал 0.5 минуты с дробным отсчетом
+  std::chrono::duration<double, std::ratio<60>> half_minute(0.5);
 
-//  std::chrono::seconds s(10);
-//  s += two_minute + five_sec;
-//  cout << endl << "s = two_minute + five_sec = " << s.count() << " sec" <<
-//  endl;
+  //интервал 100 милисекунд
+  std::chrono::duration<int, std::ratio<1, 1000>> millisec_100(100);
 
-//  auto dur_3_4_max = std::chrono::duration<int, std::ratio<3, 4>>::max();
-//  cout << endl << "max = " << dur_3_4_max.count() << endl;
+  //интервал 5 секунд
+  std::chrono::duration<int> five_sec(5);
 
-//  auto dur_3_4_min = std::chrono::duration<int, std::ratio<3, 4>>::min();
-//  cout << endl << "min = " << dur_3_4_min.count() << endl;
+  //интервал 10 микросекунд
+  std::chrono::duration<int, std::ratio<1, 1000000>> microsec_10(10);
 
-//  cout << seconds_ << endl;
-//  cout << millisec_100 << endl;
-//  cout << microsec_10 << endl;
-//  cout << minutes << endl;
-//  cout << nanosec_100 << endl;
+  //интервал 10 пикосекунд
+  std::chrono::duration<int, std::pico> picosec(10);
 
-//  // duration_cast<>
-//  std::chrono::seconds ffive(62);
-//  std::chrono::minutes m =
-//      std::chrono::duration_cast<std::chrono::minutes>(ffive);
-//  cout << m << endl;
+  //интервал 2 секунды
+  std::chrono::seconds seconds_(2);
 
-//  std::chrono::seconds sec_dur =
-//      std::chrono::duration_cast<std::chrono::seconds>(half_minute);
-//  cout << sec_dur << endl;
+  //интервал 1 минута
+  std::chrono::minutes minutes(1);
 
-//  //разложение интервала на часы, минуты, секунды
-//  std::chrono::milliseconds time_milliseconds(12908234);
+  //нтервал 100 наносекунд
+  std::chrono::nanoseconds nanosec_100(100);
 
-//  std::chrono::hours h =
-//      std::chrono::duration_cast<std::chrono::hours>(time_milliseconds);
-//  std::chrono::minutes m_ = std::chrono::duration_cast<std::chrono::minutes>(
-//      time_milliseconds % std::chrono::hours(1));
-//  std::chrono::seconds sec = std::chrono::duration_cast<std::chrono::seconds>(
-//      time_milliseconds % std::chrono::minutes(1));
-//  std::chrono::milliseconds msec =
-//      std::chrono::duration_cast<std::chrono::milliseconds>(
-//          time_milliseconds % std::chrono::seconds(1));
+  std::chrono::microseconds d = millisec_100 - microsec_10;
+  std::cout << std::endl
+            << "d = 100millisec - 10microsec = " << d.count() << " microsec"
+            << std::endl;
 
-//  cout << "raw " << h << "::" << m_ << "::" << sec << "::" << msec << endl;
-//  cout << h.count() << "::" << m_.count() << "::" << sec.count()
-//       << "::" << msec.count() << endl;
+  std::chrono::seconds s(10);
+  s += two_minute + five_sec;
+  std::cout << std::endl
+            << "s += two_minute + five_sec = " << s.count() << " sec"
+            << std::endl;
 
-//  //часы в системе Windows 10
-//  cout << endl << "System clock";
-//  printClockData<std::chrono::system_clock>();
+  auto dur_3_4_max = std::chrono::duration<int, std::ratio<3, 4>>::max();
+  std::cout << std::endl << "max() " << dur_3_4_max.count() << std::endl;
 
-//  // std::chrono::system_clock::period
+  auto dur_3_4_min = std::chrono::duration<int, std::ratio<3, 4>>::min();
+  std::cout << std::endl << "min() " << dur_3_4_min.count() << std::endl;
 
-//  cout << endl << "Steady clock";
-//  printClockData<std::chrono::steady_clock>();
+  std::cout << std::endl;
+  std::cout << seconds_ << std::endl;
+  std::cout << millisec_100 << std::endl;
+  std::cout << microsec_10 << std::endl;
+  std::cout << minutes << std::endl;
+  std::cout << nanosec_100 << std::endl;
+  std::cout << std::endl;
 
-//  cout << endl << "High resolution clock";
-//  printClockData<std::chrono::high_resolution_clock>();
+  // duration_cast<>
+  std::chrono::seconds ffive(62);
+  std::chrono::minutes m =
+      std::chrono::duration_cast<std::chrono::minutes>(ffive);
+  std::cout << m << std::endl;
 
-//  //моменты времени
+  std::chrono::seconds sec_dur =
+      std::chrono::duration_cast<std::chrono::seconds>(half_minute);
+  std::cout << sec_dur << std::endl;
+  std::cout << std::endl;
 
-//  std::chrono::time_point<std::chrono::steady_clock> tp_start =
-//      std::chrono::steady_clock::now();
+  //разложение интервала на часы, минуты, секунды
+  std::chrono::milliseconds time_milliseconds(12908234);
 
-//  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::chrono::hours h =
+      std::chrono::duration_cast<std::chrono::hours>(time_milliseconds);
+  std::chrono::minutes m_ = std::chrono::duration_cast<std::chrono::minutes>(
+      time_milliseconds % std::chrono::hours(1));
+  std::chrono::seconds sec = std::chrono::duration_cast<std::chrono::seconds>(
+      time_milliseconds % std::chrono::minutes(1));
+  std::chrono::milliseconds msec =
+      std::chrono::duration_cast<std::chrono::milliseconds>(
+          time_milliseconds % std::chrono::seconds(1));
 
-//  std::chrono::time_point<std::chrono::steady_clock> tp_stop =
-//      std::chrono::steady_clock::now();
+  std::cout << "raw " << h << "::" << m_ << "::" << sec << "::" << msec
+            << std::endl;
+  std::cout << h.count() << "::" << m_.count() << "::" << sec.count()
+            << "::" << msec.count() << std::endl;
 
-//  cout << endl << "difference time:" << (tp_stop - tp_start).count() << endl;
+  //часы в системе
+  std::cout << "\nSystem clock: ";
+  PrintClockData<std::chrono::system_clock>();
 
-//  //эпоха часов
-//  std::chrono::time_point<std::chrono::system_clock> tpsysclk;
-//  cout << endl << "epoch:" << timeAsString(tpsysclk) << endl;
+  // std::chrono::system_clock::period
 
-//  tpsysclk = std::chrono::system_clock::now();
-//  cout << endl << "now:" << timeAsString(tpsysclk) << endl;
+  std::cout << "\nSteady clock: ";
+  PrintClockData<std::chrono::steady_clock>();
 
-//  //время с начала эпохи
-//  cout << endl
-//       << "time from epoch started:" << tpsysclk.time_since_epoch() << endl;
-//}
+  std::cout << "\nHigh resolution clock: ";
+  PrintClockData<std::chrono::high_resolution_clock>();
+
+  //моменты времени
+  std::chrono::time_point<std::chrono::steady_clock> tp_start =
+      std::chrono::steady_clock::now();
+
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+
+  std::chrono::time_point<std::chrono::steady_clock> tp_stop =
+      std::chrono::steady_clock::now();
+
+  std::cout << "\ndifference time:" << (tp_stop - tp_start).count()
+            << std::endl;
+
+  //эпоха часов
+  std::chrono::time_point<std::chrono::system_clock> tpsysclk;
+  std::cout << "\nepoch:" << TimeAsString(tpsysclk) << std::endl;
+
+  tpsysclk = std::chrono::system_clock::now();
+  std::cout << "\nnow:" << TimeAsString(tpsysclk) << std::endl;
+
+  //время с начала эпохи
+  auto tp = tpsysclk.time_since_epoch();
+
+  std::chrono::minutes t_minutes =
+      std::chrono::duration_cast<std::chrono::minutes>(tp);
+
+  std::cout << "\ntime from epoch started nanosec: " << tp << std::endl;
+
+  std::cout << "\ntime from epoch started minutes: " << t_minutes << std::endl;
+}
 
 ////тестирование атомарных операций
 ////-------------------------------------------------------------------
