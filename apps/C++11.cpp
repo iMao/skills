@@ -14,8 +14,8 @@ int main() {
   // TestSharedPtr();
   // TestIntelPtrs();
   // TestIntelPtrsHard();
-  // test_unique_ptr();
-  // test_unique_ptrs();
+  TestUniquePtr();
+  TestUniquePtrs();
   // test_threads_id();
   // test_mutex();
   // test_unique_lock();
@@ -24,7 +24,7 @@ int main() {
   // test_async_and_future();
   // test_future_and_async();
   // test_packaged_task();
-  TestChronoLibrary();
+  // TestChronoLibrary();
   // test_atomic();
 
   //тесты STL

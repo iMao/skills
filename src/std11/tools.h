@@ -137,26 +137,28 @@ void TestIntelPtrs();
 
 void TestIntelPtrsHard();
 
-//---------------------------------------------------------------------------
+//---------------------------------------------------------------------
 //тестирование уникальных указателей unique_ptr<>
-//---------------------------------------------------------------------------
-// unique_ptr<string> createString(char const *charArray); //функция исток
+//---------------------------------------------------------------------
+//функция исток
+std::unique_ptr<std::string> CreateString(char const *charArray);
 
-// void printString(unique_ptr<string> ps); //функция сток
+//функция сток
+void PrintString(std::unique_ptr<std::string> ps);
 
-// class ArrayDeleter {
-// public:
-//  void operator()(int *p) {
-//    cout << "\n You delete array ArrayDeleter()\n";
-//    delete[] p;
-//  }
-//};
+class ArrayDeleter {
+ public:
+  void operator()(int *p) {
+    std::cout << "\n ArrayDeleter():  deleted array \n";
+    delete[] p;
+  }
+};
 
-// void fdeleter(int *p);
+void Fdeleter(int *p);
 
-// void test_unique_ptr();
+void TestUniquePtr();
 
-// void test_unique_ptrs();
+void TestUniquePtrs();
 
 ////тестирование идентификации потоков
 ////----------------------------------------------

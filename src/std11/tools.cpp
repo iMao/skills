@@ -412,164 +412,177 @@ void TestIntelPtrsHard() {
             << " [2]: " << shptr.get()[2] << std::endl;
 }
 
-////тестирование уникальных указателей unique_ptr<>
-////-----------------------------------------------
-// unique_ptr<string> createString(char const *charArray) {
-//  return unique_ptr<string>(new string(charArray));
-//}
+//-----------------------------------------------------------------------------
+//тестирование уникальных указателей unique_ptr<>
+//-----------------------------------------------------------------------------
+std::unique_ptr<std::string> CreateString(char const *charArray) {
+  return std::unique_ptr<std::string>(new std::string(charArray));
+}
 
-// void printString(unique_ptr<string> ps) {
-//  cout << "\n Your string is " + *ps << endl;
-//}
+void PrintString(std::unique_ptr<std::string> ps) {
+  std::cout << "\n Your string is " + *ps << std::endl;
+}
 
-// void fdeleter(int *p) {
-//  cout << "\n You will delete array with function \'fdeleter\' " << endl;
-//  delete[] p;
-//}
+void Fdeleter(int *p) {
+  std::cout << "\n You will delete array with function \'fdeleter\' "
+            << std::endl;
+  delete[] p;
+}
 
-// void test_unique_ptr() {
-//  //тестирование базовых возможностей уникальных указателей
-//  std::unique_ptr<int[], void (*)(int *)> up(new int[10], [](int *p) {
-//    std::cout << "delete array " << std::endl;
-//    for (int i = 0; i < 10; i++)
-//      std::cout << "x = " << p[i] << std::endl;
+void TestUniquePtr() {
+  //тестирование базовых возможностей уникальных указателей
+  std::unique_ptr<int[], void (*)(int *)> up(new int[10], [](int *p) {
+    std::cout << "array was deleted: ";
+    for (int i = 0; i < 10; i++) {
+      std::cout << p[i] << " ";
+    }
+    std::cout << std::endl;
+    delete[] p;
+  });
 
-//    delete[] p;
-//  });
+  for (int i = 0; i < 10; i++) {
+    up[i] = i;
+  }
 
-//  for (int i = 0; i < 10; i++)
-//    up[i] = i;
+  up = nullptr;
+}
 
-//  up = nullptr;
-//}
+void TestUniquePtrs() {
+  //базовые возможности
+  std::unique_ptr<std::string> pStr(new std::string("uma"));
 
-// void test_unique_ptrs() {
-//  //базовые возможности
-//  unique_ptr<string> pStr(new string("uma"));
+  (*pStr)[0] = 'U';
+  std::cout << "\nString: " << *pStr << std::endl;
 
-//  (*pStr)[0] = 'U';
-//  cout << "\nString = " << *pStr << endl;
+  pStr->append("-puma");
+  std::cout << "\nString: " << *pStr << std::endl;
 
-//  pStr->append("-puma");
-//  cout << "\nString = " << *pStr << endl;
+  (*pStr)[2] = 'A';
+  std::cout << "\nString: " << *pStr << std::endl;
 
-//  (*pStr)[2] = 'A';
-//  cout << "\nString = " << *pStr << endl;
+  pStr = nullptr;
 
-//  pStr = nullptr;
+  //указатель на массив строк
+  std::unique_ptr<std::string[]> text(new std::string[5]);
 
-//  //указатель на массив строк
-//  unique_ptr<string[]> text(new string[5]);
+  text[0] = std::string("Hello");
+  text[1] = std::string("unique_ptr<>");
+  text[2] = std::string(" it is cool");
+  text[3] = std::string("very cool and fun");
+  text[4] = std::string("OK");
 
-//  text[0] = string("Hello");
-//  text[1] = string("unique_ptr<>");
-//  text[2] = string(" it is cool");
-//  text[3] = string("very cool and fun");
-//  text[4] = string("OK");
+  std::cout << '\n';
 
-//  cout << '\n';
+  for (int i = 0; i < 5; i++) {
+    std::cout << text[i] << " ";
+  }
 
-//  for (int i = 0; i < 5; i++)
-//    cout << text[i] << " ";
+  text = nullptr;
 
-//  text = nullptr;
+  //указатель на массив строк со своим удалителем
+  std::unique_ptr<std::string[], void (*)(std::string *)> page(
+      new std::string[5], [](std::string *p) -> void {
+        std::cout << "\nYou will delete a page of text\n";
+        delete[] p;
+      });
 
-//  //указатель на массив строк со своим удалителем
-//  unique_ptr<string[], void (*)(string *)> page(new string[5], [](string *p) {
-//    cout << "\nYou will delete a page of text\n";
-//    delete[] p;
-//  });
+  page[0] = std::string("Hello");
+  page[1] = std::string("unique_ptr<>");
+  page[2] = std::string(" it is cool");
+  page[3] = std::string("very cool and fun");
+  page[4] = std::string("OK");
 
-//  page[0] = string("Hello");
-//  page[1] = string("unique_ptr<>");
-//  page[2] = string(" it is cool");
-//  page[3] = string("very cool and fun");
-//  page[4] = string("OK");
+  std::cout << '\n';
+  for (int i = 0; i < 5; i++) {
+    std::cout << page[i] << " ";
+  }
 
-//  cout << '\n';
-//  for (int i = 0; i < 5; i++)
-//    cout << page[i] << " ";
+  page = nullptr;
 
-//  page = nullptr;
+  //потеря владения объектом
+  std::unique_ptr<std::string> upStr(new std::string("Object"));
 
-//  //потеря владения объектом
-//  unique_ptr<string> upStr(new string("Object"));
+  //вызов функции release() - приводит к потере владения
+  //без вызова функции-удалителя
+  std::string *str = upStr.release();
 
-//  string *str =
-//      upStr.release(); //вызов функции release() - приводит к потере владения
+  std::cout << "\n str - " << *str << std::endl;
 
-//  cout << "\n str - " << *str << endl;
+  if (upStr == nullptr) {
+    std::cout << "upStr: nullptr\n";
+  }
 
-//  delete str;
+  delete str;
 
-//  //передача владения
-//  unique_ptr<string> ps(new string("Super Object"));
+  //передача владения
+  std::unique_ptr<std::string> ps(new std::string("Super Object"));
 
-//  upStr = std::move(ps); //передача владения std::move()
+  upStr = std::move(ps);  //передача владения std::move()
 
-//  cout << '\n';
-//  cout << "unique_ptr<string> upStr has - " << *upStr << endl;
+  std::cout << '\n';
+  std::cout << "unique_ptr<string> upStr has - " << *upStr << std::endl;
 
-//  upStr = nullptr;
+  upStr = nullptr;
 
-//  if (ps)
-//    cout << "\n ps is owner of object\n";
-//  else
-//    cout << "\n ps is not owner of object\n";
+  if (ps)
+    std::cout << "\n ps is owner of object\n";
+  else
+    std::cout << "\n ps is not owner of object\n";
 
-//  ps = nullptr;
+  ps = nullptr;
 
-//  //передача владения 2
-//  unique_ptr<int, void (*)(int *)> up1(new int, [](int *p) {
-//    cout << "\n delete up1\n";
-//    delete p;
-//  });
-//  *up1 = 2;
+  //передача владения 2
+  std::unique_ptr<int, void (*)(int *)> up1(new int, [](int *p) {
+    std::cout << "\n deleted up1\n";
+    delete p;
+  });
+  *up1 = 2;
 
-//  unique_ptr<int, void (*)(int *)> up2(new int, [](int *p) {
-//    cout << "\n delete up2\n";
-//    delete p;
-//  });
-//  *up2 = 4;
+  std::unique_ptr<int, void (*)(int *)> up2(new int, [](int *p) {
+    std::cout << "\n deleted up2\n";
+    delete p;
+  });
+  *up2 = 4;
 
-//  up2 = std::move(up1); //для потерянного объекта связанного с up2 - будет
-//                        //вызвана функция удаления
+  up2 = std::move(up1);  //для потерянного объекта связанного с up2 - будет
+                         //вызвана функция удаления
 
-//  cout << "\n up2 -> " << *up2 << endl;
+  std::cout << "\n up2 -> " << *up2 << std::endl;
 
-//  up1 = unique_ptr<int, void (*)(int *)>(new int, [](int *p) {
-//    delete p;
-//  }); //пустому unique_ptr<> присваиваем новое значение
-//  *up1 = 10;
-//  cout << "\n up1 -> " << *up1 << endl;
+  //пустому unique_ptr<> присваиваем новое значение
+  up1 =
+      std::unique_ptr<int, void (*)(int *)>(new int, [](int *p) { delete p; });
+  *up1 = 10;
+  std::cout << "\n up1 -> " << *up1 << std::endl;
 
-//  //исток и сток для unique_ptr<>
-//  unique_ptr<string> p = createString("America");
+  //исток и сток для unique_ptr<>
+  std::unique_ptr<std::string> p = CreateString("America");
 
-//  printString(std::move(p));
+  PrintString(std::move(p));
 
-//  //операторы удаления
-//  unique_ptr<int, void (*)(int *)> up3(new int[4], [](int *p) {
-//    cout << "\n declaration void(*)(int*)\n";
-//    delete[] p;
-//  });
+  //операторы удаления
+  std::unique_ptr<int, void (*)(int *)> up3(new int[4], [](int *p) {
+    std::cout << "\n declaration void(*)(int*)\n";
+    delete[] p;
+  });
 
-//  unique_ptr<int, std::function<void(int *)>> up4(new int[10], [](int *p) {
-//    cout << "\n declaration std::function<void(int*)> \n";
-//    delete[] p;
-//  });
+  std::unique_ptr<int, std::function<void(int *)>> up4(new int[10], [](int *p) {
+    std::cout << "\n declaration std::function<void(int*)> \n";
+    delete[] p;
+  });
 
-//  auto l = [](int *p) {
-//    cout << "\n declaration decltype(l)";
-//    delete[] p;
-//  };
+  auto l = [](int *p) {
+    std::cout << "\n declaration decltype(l)";
+    delete[] p;
+  };
 
-//  unique_ptr<int, decltype(l)> up5(new int[8], l);
+  std::unique_ptr<int, decltype(l)> up5(new int[8], l);
 
-//  unique_ptr<int, std::function<void(int *)>> up7(new int[10], fdeleter);
+  std::unique_ptr<int, std::function<void(int *)>> up7(new int[10], Fdeleter);
 
-//  unique_ptr<int, decltype(ArrayDeleter())> up8(new int[2], ArrayDeleter());
-//}
+  std::unique_ptr<int, decltype(ArrayDeleter())> up8(new int[2],
+                                                     ArrayDeleter());
+}
 
 ////тестирование идентификации потоков
 ////----------------------------------------------
