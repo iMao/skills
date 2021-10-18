@@ -978,150 +978,155 @@ void TestUniquePtrs() {
 //  t6.join();
 //}
 
-////тестирование объектов
-////будущих результатов и асинхронного выполнения функций
-// void async_func() { cout << endl << "Hello from async thread" << endl; }
+//----------------------------------------------------------------------------------
+//тестирование объектов
+//будущих результатов и асинхронного выполнения функций
+//----------------------------------------------------------------------------------
+void AsyncFunction() {
+  std::cout << std::endl << "Hello from async thread" << std::endl;
+}
 
-// void fill_array(std::vector<int> &vec, int size, int i) {
-//  std::default_random_engine dre(i);
-//  std::uniform_int_distribution<int> id(1, 1000);
+void FillArray(std::vector<int> &vec, int size, int init_random_number) {
+  std::default_random_engine dre(init_random_number);
+  std::uniform_int_distribution<int> id(1, 1000);
 
-//  for (int j = 0; j < size; j++)
-//    vec.push_back(id(dre));
-//}
+  for (int j = 0; j < size; j++) {
+    vec.push_back(id(dre));
+  }
+}
 
-// string stringback(string s) {
-//  char c;
-//  int half_size = s.size() / 2;
-//  int size = s.size();
+std::string StringBack(std::string s) {
+  char c;
+  int size = s.size();
+  int half_size = size / 2;
 
-//  for (int i = 0; i < half_size; i++) {
-//    c = s[i];
-//    s[i] = s[size - i - 1];
-//    s[size - i - 1] = c;
-//  }
+  for (int i = 0; i < half_size; i++) {
+    c = s[i];
+    s[i] = s[size - i - 1];
+    s[size - i - 1] = c;
+  }
 
-//  return s;
-//}
+  return s;
+}
 
-// void test_async_and_future() {
-//  int N = 10;
+void TestAsyncAndFuture() {
+  int N = 10;
 
-//  std::future<int> intf = std::async(std::launch::async, [=]() -> int {
-//    int sum = 0;
-//    for (int i = 0; i < N; i++) {
-//      sum += i;
-//    }
-//    return sum;
-//  });
+  std::future<int> intf = std::async(std::launch::async, [=]() -> int {
+    int sum = 0;
+    for (int i = 0; i < N; i++) {
+      sum += i;
+    }
+    return sum;
+  });
 
-//  cout << "future<int> intf = " << intf.get() << endl;
+  std::cout << "future<int> intf: " << intf.get() << std::endl;
 
-//  std::future<string> strf =
-//      std::async(std::launch::deferred, stringback,
-//                 std::string("А роза упала на лапу азора"));
+  std::future<std::string> strf =
+      std::async(std::launch::deferred, StringBack,
+                 std::string("Sator Arepo tenet opera rotas"));
 
-//  cout << endl << "std::future<string> strf = " << strf.get() << endl;
+  std::cout << "\nstd::future<string> strf: " << strf.get() << std::endl;
 
-//  Xc x;
-//  std::future<void> voidf = std::async(std::launch::deferred, &Xc::print_s,
-//  &x,
-//                                       string("function member"));
+  Xc x;
+  std::future<void> voidf = std::async(std::launch::deferred, &Xc::PrintS, &x,
+                                       std::string("function member"));
 
-//  std::future<void> voidf2 =
-//      std::async(std::launch::deferred, Xc(), string("123"));
+  std::future<void> voidf2 =
+      std::async(std::launch::deferred, Xc(), std::string("123"));
 
-//  cout << endl << "voidf = ";
-//  voidf.get();
+  std::cout << "\nvoidf: ";
+  voidf.get();
 
-//  cout << endl << "voidf2 = ";
-//  voidf2.get();
-//  cout << endl;
-//}
+  std::cout << "\nvoidf2: ";
+  voidf2.get();
+  std::cout << std::endl;
+}
 
-// void test_future_and_async() {
-//  //простой тест асинхроного выполнеия функциональной сущности
-//  int sum{0};
-//  int a{5};
-//  int b{2};
+void TestFutureAndAsync() {
+  //простой тест асинхроного выполнеия функциональной сущности
+  int sum{0};
+  int a{5};
+  int b{2};
 
-//  std::future<int> f1 = std::async([](int a) -> int { return a * a; }, a);
+  std::future<int> f1 = std::async([](int a) -> int { return a * a; }, a);
 
-//  std::future<int> f2 = std::async([](int b) -> int { return b * b * b; }, b);
+  std::future<int> f2 = std::async([](int b) -> int { return b * b * b; }, b);
 
-//  sum = f1.get() + f2.get();
+  sum = f1.get() + f2.get();
 
-//  cout << endl << "sum = " << sum << endl;
+  std::cout << "\nsum: " << sum << std::endl;
 
-//  //отложеный вызов функциональной сущности
-//  std::future<void> f3 = std::async(std::launch::deferred, async_func);
-//  f3.get();
+  //отложеный вызов функциональной сущности
+  std::future<void> f3 = std::async(std::launch::deferred, AsyncFunction);
+  f3.get();
 
-//  std::future<double> f4 = std::async(
-//      std::launch::async, [](double d) -> double { return pow(d, 3); }, 3.0);
-//  cout << endl << "3.0^3 = " << f4.get() << endl;
+  std::future<double> f4 = std::async(
+      std::launch::async, [](double d) -> double { return pow(d, 3); }, 3.0);
+  std::cout << "\n 3.0^3 = " << f4.get() << std::endl;
 
-//  //ожидание будущих результатов, запрос состояния
-//  std::vector<int> vec;
+  //ожидание будущих результатов, запрос состояния
+  std::vector<int> vec;
 
-//  std::future<void> f5{
-//      async(std::launch::async, fill_array, std::ref(vec), 10, 5)};
-//  std::future_status status;
-//  status = f5.wait_for(std::chrono::microseconds(10));
+  std::future<void> f5{
+      std::async(std::launch::async, FillArray, std::ref(vec), 10, 5)};
+  std::future_status status;
+  status = f5.wait_for(std::chrono::microseconds(10));
 
-//  if (status == std::future_status::deferred)
-//    cout << endl << "status - deferred" << endl;
+  if (status == std::future_status::deferred)
+    std::cout << std::endl << "status - deferred" << std::endl;
 
-//  if (status == std::future_status::ready)
-//    cout << endl << "status - ready" << endl;
+  if (status == std::future_status::ready)
+    std::cout << std::endl << "status - ready" << std::endl;
 
-//  if (status == std::future_status::timeout)
-//    cout << "status - timeout" << endl;
+  if (status == std::future_status::timeout)
+    std::cout << "status - timeout" << std::endl;
 
-//  std::this_thread::sleep_for(std::chrono::seconds(2));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
 
-//  f5.get();
+  f5.get();
 
-//  //разделяемые объекты будущих результатов
-//  std::mutex mut;
+  //разделяемые объекты будущих результатов
+  std::mutex mut;
 
-//  std::shared_future<int> shf{std::async([&]() -> int {
-//    int num{0};
-//    cout << endl << "input num = ";
-//    cin >> num;
+  std::shared_future<int> shf{std::async([&]() -> int {
+    int num{0};
+    std::cout << "\n input num: ";
+    std::cin >> num;
 
-//    if (!cin)
-//      throw std::runtime_error("number is not valid");
+    if (!std::cin) {
+      throw std::runtime_error("number is not valid");
+    }
 
-//    return num;
-//  })};
+    return num;
+  })};
 
-//  auto lam = [&]() {
-//    {
-//      try {
-//        std::lock_guard<std::mutex> l(mut);
-//        cout << endl
-//             << "thread id " << std::this_thread::get_id()
-//             << "  num = " << shf.get() << endl;
-//      } catch (const std::exception &e) {
-//        std::cerr << endl
-//                  << "EXCEPTION in thread " << std::this_thread::get_id()
-//                  << " : " << e.what() << endl;
-//      }
-//    }
-//  };
+  auto lam = [&]() {
+    {
+      try {
+        std::lock_guard<std::mutex> l(mut);
+        std::cout << '\n'
+                  << "thread id: " << std::this_thread::get_id()
+                  << "  num: " << shf.get() << std::endl;
+      } catch (const std::exception &e) {
+        std::cerr << std::endl
+                  << "EXCEPTION in thread: " << std::this_thread::get_id()
+                  << " : " << e.what() << std::endl;
+      }
+    }
+  };
 
-//  auto f6{std::async(lam)};
-//  auto f7{std::async(lam)};
-//  auto f8{std::async(lam)};
-//  auto f9{std::async(lam)};
+  auto f6{std::async(lam)};
+  auto f7{std::async(lam)};
+  auto f8{std::async(lam)};
+  auto f9{std::async(lam)};
 
-//  //ждем завершения потоков
-//  f6.get();
-//  f7.get();
-//  f8.get();
-//  f9.get();
-//}
+  //ждем завершения потоков
+  f6.get();
+  f7.get();
+  f8.get();
+  f9.get();
+}
 
 ////тестирование упакованных задач
 ////------------------------------------------------------

@@ -203,29 +203,31 @@ void TestUniquePtrs();
 
 // void test_condition_variable_queue();
 
-////тестирование объектов
-////будущих результатов и асинхронного выполнения функций
-// void async_func();
+//-----------------------------------------------------------------------------
+//тестирование объектов будущих результатов std::future<>
+// и асинхронного выполнения функций std::async()
+//-----------------------------------------------------------------------------
+void AsyncFunction();
 
-// void fill_array(std::vector<int> &vec, int size, int i);
+void FillArray(std::vector<int> &vec, int size, int init_random_number);
 
-// string stringback(string s); //функция для оборачивания строки
+//функция для оборачивания строки
+std::string StringBack(std::string s);
 
-// class Xc {
-// private:
-// public:
-//  Xc() {}
-//  ~Xc() {}
+class Xc {
+ private:
+ public:
+  Xc() {}
+  ~Xc() {}
 
-//  void print_s(string s) { cout << s; }
+  void PrintS(std::string s) { std::cout << s; }
 
-//  void operator()(string s) { cout << s; }
-//};
+  void operator()(std::string s) { std::cout << s; }
+};
 
-// void test_future_and_async();
+void TestAsyncAndFuture();
 
-// void test_async_and_future(); //тестирование асинхронного выполнения задач и
-//                              //объектов будущих результатов
+void TestFutureAndAsync();
 
 ////тестирование упакованных задач
 ////-----------------------------------------------------
