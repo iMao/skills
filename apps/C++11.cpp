@@ -21,8 +21,8 @@ int main() {
   // test_unique_lock();
   // test_condition_variables();
   // test_condition_variable_queue();
-  TestAsyncAndFuture();
-  TestFutureAndAsync();
+  // TestAsyncAndFuture();
+  // TestFutureAndAsync();
   // test_packaged_task();
   // TestChronoLibrary();
   // test_atomic();

@@ -12,7 +12,6 @@ include_directories(../src/std11)
 
 
 
-#stl library
 add_executable(${PROJECT_NAME}_std11
     ${HDR_STD11}
     ${SRC_STD11}
@@ -23,6 +22,8 @@ target_link_libraries(${PROJECT_NAME}_std11
     -lpthread
     )
 
+
+#stl library
 add_executable(${PROJECT_NAME}_stl
     ${HDR_STD11}
     ${SRC_STD11}
@@ -32,6 +33,23 @@ target_link_libraries(${PROJECT_NAME}_stl
     std11
     -lpthread
     )
+
+# feature: alignas(), alignof()
+add_executable(alignment features_cpp11_alignment.cpp )
+
+# feature: embedded variable __func__
+add_executable(embedded_variable__func__  embedded_variable__func__.cpp )
+
+# feature: user-defined literals
+add_executable( user_defined_literals  user_defined_literals.cpp )
+
+# feature: using
+add_executable( using  using.cpp )
+
+
+# feature: constexpr
+add_executable(constexpr constexpr.cpp)
+
 
 
 #add_executable(${PROJECT_NAME}_multithreading
