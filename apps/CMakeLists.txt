@@ -46,10 +46,11 @@ add_executable( user_defined_literals  user_defined_literals.cpp )
 # feature: using
 add_executable( using  using.cpp )
 
-
 # feature: constexpr
 add_executable(constexpr constexpr.cpp)
 
+# feature: variadic template
+add_executable(variadic_template variadic_template.cpp)
 
 
 #add_executable(${PROJECT_NAME}_multithreading
