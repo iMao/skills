@@ -53,6 +53,13 @@ add_executable(constexpr constexpr.cpp)
 add_executable(variadic_template variadic_template.cpp)
 
 
+# feature: char16_t, char32_t, R"(raw string)", L"wchar_t string", u8"UTF-8 string",
+# u"char16_t string", U"char32_t"
+add_executable(char16_char32_wchar_t char16_char32_wchar_t.cpp)
+
+
+
+
 #add_executable(${PROJECT_NAME}_multithreading
 #    ${skills_headers}
 #    ${SRC_ALGO}
