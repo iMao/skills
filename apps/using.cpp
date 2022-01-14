@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 
+#define M_PI 3.14
+
 namespace geom {
 
 template <typename _Tp>

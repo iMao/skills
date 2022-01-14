@@ -6,6 +6,8 @@
 #include <cmath>
 #include <iostream>
 
+#define M_PI 3.14
+
 using real = long double;
 real operator"" _deg(real degree) { return degree * (M_PI / 180.0); }
 real operator"" _km_hours(real km_hours) { return km_hours * 1000.0 / 3600.0; }

@@ -19,7 +19,7 @@ int main() {
   char16_t u[] = u"Hello char16_t\0";
   char32_t U[] = U"Hello char32_t\0";
 
-  std::cout.imbue(std::locale("de_DE"));
+  std::cout.imbue(std::locale());
 
   SizeStrings(c);
   SizeStrings(w);
