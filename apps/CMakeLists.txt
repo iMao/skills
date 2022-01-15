@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 #include_directories(../src/algo)
 #include_directories(../src/oop)
@@ -34,6 +36,7 @@ target_link_libraries(${PROJECT_NAME}_stl
     -lpthread
     )
 
+# ------------------features of C++11--------------------------------------------
 # feature: alignas(), alignof()
 add_executable(alignment features_cpp11_alignment.cpp )
 
@@ -52,10 +55,17 @@ add_executable(constexpr constexpr.cpp)
 # feature: variadic template
 add_executable(variadic_template variadic_template.cpp)
 
-
 # feature: char16_t, char32_t, R"(raw string)", L"wchar_t string", u8"UTF-8 string",
 # u"char16_t string", U"char32_t"
 add_executable(char16_char32_wchar_t char16_char32_wchar_t.cpp)
+
+# ------------------features of C++14--------------------------------------------
+# feature: variable template
+add_executable(variable_template variable_template.cpp)
+
+# feature: generic lambda expression
+add_executable(generic_lambda generic_lambda.cpp)
+
 
 
 
