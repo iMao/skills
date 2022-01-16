@@ -67,6 +67,16 @@ add_executable(variable_template variable_template.cpp)
 add_executable(generic_lambda generic_lambda.cpp)
 
 
+# feature: binary literals
+add_executable(binary_literals binary_literals.cpp)
+
+
+# feature: return type deduction
+add_executable(return_type_deduction return_type_deduction.cpp)
+
+
+
+
 
 
 
