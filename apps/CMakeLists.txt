@@ -78,6 +78,14 @@ add_executable(aggregate_initialization aggregate_initialization.cpp)
 # feature: std::exchange<>(a,b)
 add_executable(exchange exchange.cpp)
 
+# feature: std::quoted()
+add_executable(quoted quoted.cpp)
+
+# feature: std::integer_sequence
+add_executable(integer_sequence integer_sequence.cpp)
+
+# feature: std::make_unique()
+add_executable(make_unique make_unique.cpp)
 
 
 
