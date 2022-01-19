@@ -87,6 +87,10 @@ add_executable(integer_sequence integer_sequence.cpp)
 # feature: std::make_unique()
 add_executable(make_unique make_unique.cpp)
 
+#feature: std::shared_timed_mutex
+add_executable(shared_timed_mutex shared_timed_mutex.cpp)
+
+
 
 
 #add_executable(${PROJECT_NAME}_multithreading
