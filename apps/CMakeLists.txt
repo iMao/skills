@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 #include_directories(../src/algo)
 #include_directories(../src/oop)
@@ -90,6 +92,13 @@ add_executable(make_unique make_unique.cpp)
 #feature: std::shared_timed_mutex
 add_executable(shared_timed_mutex shared_timed_mutex.cpp)
 
+
+#------------------features of C++17------------------------------------
+# feature std::variant<A,B,C>
+add_executable(variant variant.cpp)
+
+# feature std::any
+add_executable(any any.cpp)
 
 
 
