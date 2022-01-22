@@ -106,7 +106,8 @@ add_executable(optional optional.cpp)
 # feature std::constexpr if()
 add_executable(constexpr_if constexpr_if.cpp )
 
-
+# feature nested namespaces mao::dsp::math{}
+add_executable(nested_namespaces nested_namespaces.cpp)
 
 
 #add_executable(${PROJECT_NAME}_multithreading
