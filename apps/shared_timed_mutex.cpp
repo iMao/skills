@@ -10,7 +10,7 @@
 #include <string>
 #include <thread>
 
-constexpr int N{100};
+constexpr int SIZE{100};
 
 void ReverseString(std::string& str) {
   for (int i = 0, j = str.size() - 1; i < str.size() / 2; i++, j--) {
@@ -25,7 +25,7 @@ int main() {
 
   std::thread owner_thread([&]() {
     int i = 0;
-    while (i < N) {
+    while (i < SIZE) {
       {
         std::unique_lock<std::shared_timed_mutex> ul(mut);
         ReverseString(str);
@@ -38,7 +38,7 @@ int main() {
 
   std::thread reader_0([&]() {
     int i = 0;
-    while (i < N) {
+    while (i < SIZE) {
       std::shared_lock<std::shared_timed_mutex> sl(mut);
       std::cout << "reader_0: ---" << str << "---" << std::endl;
       i++;
@@ -48,7 +48,7 @@ int main() {
 
   std::thread reader_1([&]() {
     int i = 0;
-    while (i < N) {
+    while (i < SIZE) {
       std::shared_lock<std::shared_timed_mutex> sl(mut);
       std::cout << "reader_1: ---" << str << "---" << std::endl;
       i++;

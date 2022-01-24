@@ -7,7 +7,7 @@
 #include <tuple>
 #include <utility>
 
-constexpr int N{5};
+constexpr int SIZE{5};
 
 template <typename Array, std::size_t... I>
 auto ArrayToTupleImpl(Array& ar, std::index_sequence<I...>) {
@@ -21,7 +21,7 @@ auto ArrayToTuple(const std::array<_Tp, Num>& ar) {
 }
 
 int main() {
-  std::array<int, N> arr{0, 2, 4, 6, 8};
+  std::array<int, SIZE> arr{0, 2, 4, 6, 8};
 
   auto tpl = ArrayToTuple(arr);
 
@@ -29,7 +29,7 @@ int main() {
             << std::get<2>(tpl) << " " << std::get<3>(tpl) << " "
             << std::get<4>(tpl) << std::endl;
 
-  auto index_sequence = std::make_index_sequence<N>{};
+  auto index_sequence = std::make_index_sequence<SIZE>{};
   auto int_sequence = std::make_integer_sequence<int, 10>{};
   auto num_sequence = std::integer_sequence<uint8_t, 1, 1, 0, 4>{};
 

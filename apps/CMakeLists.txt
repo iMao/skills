@@ -109,6 +109,16 @@ add_executable(constexpr_if constexpr_if.cpp )
 # feature nested namespaces mao::dsp::math{}
 add_executable(nested_namespaces nested_namespaces.cpp)
 
+# feature std::string_view
+add_executable(string_view string_view.cpp)
+
+# feature initializers for if() and switch()
+add_executable(initializers_if_switch initializers_if_switch.cpp)
+
+# feature inline variables
+add_executable(inline_variables inline_variables.cpp inline_vars.h inline_vars.cpp )
+
+
 
 #add_executable(${PROJECT_NAME}_multithreading
 #    ${skills_headers}

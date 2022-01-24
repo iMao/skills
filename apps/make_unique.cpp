@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 
-constexpr int N{5};
+constexpr int SIZE{5};
 
 template <typename _Tp>
 class Vec3 {
@@ -54,7 +54,7 @@ int main() {
   std::unique_ptr<Vec3<int>> v3ptr = std::make_unique<Vec3<int>>();
   std::unique_ptr<Vec3<float>> vf3ptr =
       std::make_unique<Vec3<float>>(3.2f, 2.1f, 7.8f);
-  std::unique_ptr<Vec3<double>[]> vd3ptr = std::make_unique<Vec3<double>[]>(N);
+  std::unique_ptr<Vec3<double>[]> vd3ptr = std::make_unique<Vec3<double>[]>(SIZE);
 
   auto v3uchar_ptr = std::make_unique<Vec3<uint8_t>>(9, 2, 7);
 
@@ -62,7 +62,7 @@ int main() {
   std::cout << *vf3ptr << std::endl;
   std::cout << *v3uchar_ptr << std::endl;
 
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i < SIZE; i++) {
     std::cout << vd3ptr[i] << " ";
   }
   std::cout << '\n';
