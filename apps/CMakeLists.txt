@@ -118,6 +118,14 @@ add_executable(initializers_if_switch initializers_if_switch.cpp)
 # feature inline variables
 add_executable(inline_variables inline_variables.cpp inline_vars.h inline_vars.cpp )
 
+# feature class template argument deduction CTAD
+add_executable(class_template_argument_deduction  class_template_argument_deduction.cpp)
+
+# feature template parameters auto
+add_executable(template_parameters_auto template_parameters_auto.cpp)
+
+# feature structured binding const auto&[a,b] = std::tuple<int, char>(p,q)
+add_executable(structured_binding structured_binding.cpp )
 
 
 #add_executable(${PROJECT_NAME}_multithreading
