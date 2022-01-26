@@ -91,7 +91,7 @@ add_executable(make_unique make_unique.cpp)
 
 #feature: std::shared_timed_mutex
 add_executable(shared_timed_mutex shared_timed_mutex.cpp)
-
+target_link_libraries(shared_timed_mutex -lpthread)
 
 #------------------features of C++17------------------------------------
 # feature std::variant<A,B,C>
@@ -132,7 +132,7 @@ add_executable(noexcept noexcept.cpp)
 
 # feature parallel algorithms
 add_executable(parallel_algorithms parallel_algorithms.cpp)
-
+target_link_libraries(parallel_algorithms -ltbb)
 
 
 #add_executable(${PROJECT_NAME}_multithreading

@@ -9,7 +9,9 @@
 #include <iostream>
 #include <vector>
 
+#ifndef M_PI
 #define M_PI 3.14
+#endif
 
 namespace geom {
 
