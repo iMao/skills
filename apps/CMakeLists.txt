@@ -127,6 +127,13 @@ add_executable(template_parameters_auto template_parameters_auto.cpp)
 # feature structured binding const auto&[a,b] = std::tuple<int, char>(p,q)
 add_executable(structured_binding structured_binding.cpp )
 
+# feature noexcept
+add_executable(noexcept noexcept.cpp)
+
+# feature parallel algorithms
+add_executable(parallel_algorithms parallel_algorithms.cpp)
+
+
 
 #add_executable(${PROJECT_NAME}_multithreading
 #    ${skills_headers}
