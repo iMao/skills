@@ -4,15 +4,23 @@
 #include "../src/std11/study_stl.h"
 #include "../src/std11/tools.h"
 
-//#include <iostream>
+#include <iostream>
 
 int main() {
   std::cout << "Hello C++11" << std::endl;
-  //тесты многопоточности, синхронизации и пр.
   //--------------------------------------------------------------
+  //тесты многопоточности
+  //--------------------------------------------------------------
+  // test_number_1();
+  // test_number_2();
   // test_number_3();
+
+  //-------------------------------------------------------------
+  // тесты интелектуальных указателей
+  //-------------------------------------------------------------
   // TestSharedPtr();
-  // TestIntelPtrs();
+     TestIntelPtrs();
+
   // TestIntelPtrsHard();
   // TestUniquePtr();
   // TestUniquePtrs();
@@ -26,21 +34,6 @@ int main() {
   // test_packaged_task();
   // TestChronoLibrary();
   // test_atomic();
-
-  //тесты STL
-  // --------------------------------------------------------------
-  // TestArray();
-  // test_pairs();
-  // test_tuples();
-  // test_vector();
-  // test_deque();
-  // test_list();
-  // test_list_special();
-  // test_forward_list();
-  // test_sets();
-  // test_multisets();
-  // test_maps();
-  // test_unordered_sets();
 
   //тесты потоков ввода вывода
   // --------------------------------------------------------------

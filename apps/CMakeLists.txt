@@ -16,27 +16,13 @@ include_directories(../src/std11)
 
 
 
-add_executable(${PROJECT_NAME}_std11
-    ${HDR_STD11}
-    ${SRC_STD11}
-    C++11.cpp
-    )
-target_link_libraries(${PROJECT_NAME}_std11
-    std11
-    -lpthread
-    )
+add_executable(${PROJECT_NAME}_std11   ${HDR_STD11}  ${SRC_STD11} C++11.cpp )
+target_link_libraries(${PROJECT_NAME}_std11  std11 -lpthread )
 
 
 #stl library
-add_executable(${PROJECT_NAME}_stl
-    ${HDR_STD11}
-    ${SRC_STD11}
-    stl_cpp11.cpp
-    )
-target_link_libraries(${PROJECT_NAME}_stl
-    std11
-    -lpthread
-    )
+add_executable(${PROJECT_NAME}_stl ${HDR_STD11} ${SRC_STD11} stl_cpp11.cpp )
+target_link_libraries(${PROJECT_NAME}_stl std11 -lpthread )
 
 # ------------------features of C++11--------------------------------------------
 # feature: alignas(), alignof()
@@ -131,8 +117,8 @@ add_executable(structured_binding structured_binding.cpp )
 add_executable(noexcept noexcept.cpp)
 
 # feature parallel algorithms
-add_executable(parallel_algorithms parallel_algorithms.cpp)
-target_link_libraries(parallel_algorithms -ltbb)
+#add_executable(parallel_algorithms parallel_algorithms.cpp)
+#target_link_libraries(parallel_algorithms -ltbb)
 
 
 #add_executable(${PROJECT_NAME}_multithreading

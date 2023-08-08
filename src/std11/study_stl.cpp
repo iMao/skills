@@ -2138,7 +2138,7 @@ bool rmbig(int a) { return (a > 1000 ? true : false); }
 //    switch (ifstrm.peek()) {
 //      case '_':
 //      case '0':
-//      case 'X':
+//      case 'Xincrementator':
 //        ifstrm.ignore();
 //        break;
 //      default: {
