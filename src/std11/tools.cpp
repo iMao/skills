@@ -78,8 +78,9 @@ void test_number_1() {
   t8.join();
 }
 
+//------------------------------------------------------------------------------
 //второй тест (передача параметров для функции потока)
-//----------------------------------------------------
+//------------------------------------------------------------------------------
 void tst_param(int a, float &b, std::string &str, std::string &buf) {
   std::cout << "data inserted into thread\n";
   std::cout << "a = " << a << " b = " << b << " str = " << str
@@ -194,9 +195,9 @@ void test_number_3() {
     t1.join();
 }
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //тестирование интеллектуальных указателей
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void PrintIntArray(std::shared_ptr<int> &shptr, int size) {
 
   int i = 0;
@@ -362,7 +363,7 @@ public:
     }
     b = 0;
     c = 0;
-    std::cout << " All resoures was returned\n";
+    std::cout << "All SuperData resources was returned\n";
   }
 
   void Print() {
@@ -386,16 +387,17 @@ public:
   }
 };
 
+//------------------------------------------------------------------------------
+//более сложное использование shared_ptr указателей со своей стратегией удаления
+//------------------------------------------------------------------------------
 void TestIntelPtrsHard() {
-  //более сложное использование shared_ptr указателей со своей стратегией
-  //удаления
   std::shared_ptr<std::string> pstr(
       new std::string("Hello"), [](std::string *p) {
         std::cout << "\nYou deleted string: " << (*p) << std::endl;
         delete p;
       });
 
-  std::cout << "\n pstr: " << (*pstr) << std::endl;
+  std::cout << "\npstr: " << (*pstr) << std::endl;
   pstr = nullptr;
 
   std::shared_ptr<int> ptr_array(new int[10], [](int *p) {
@@ -411,9 +413,7 @@ void TestIntelPtrsHard() {
   std::cout << "Array was initialiazed \n";
   std::cout << "Array has values   ";
 
-  for (int i = 0; i < 10; i++) {
-    std::cout << ptr_array.get()[i] << " ";
-  }
+  PrintIntArray(ptr_array, 10);
 
   ptr_array = nullptr;
 
@@ -422,7 +422,7 @@ void TestIntelPtrsHard() {
 
   std::shared_ptr<SuperData> super_data_ptr(
       new SuperData(), [](SuperData *spd) {
-        std::cout << "\n removing SuperData ptr\n";
+        std::cout << "\nremoving SuperData ptr\n";
         delete spd;
       });
 
@@ -448,43 +448,27 @@ void TestIntelPtrsHard() {
             << " [2]: " << shptr.get()[2] << std::endl;
 }
 
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //тестирование уникальных указателей unique_ptr<>
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//функция исток
 std::unique_ptr<std::string> CreateString(char const *charArray) {
   return std::unique_ptr<std::string>(new std::string(charArray));
 }
 
+//функция сток
 void PrintString(std::unique_ptr<std::string> ps) {
-  std::cout << "\n Your string is " + *ps << std::endl;
+  std::cout << "\nYour string: " + (*ps) << std::endl;
 }
 
 void Fdeleter(int *p) {
-  std::cout << "\n You will delete array with function \'fdeleter\' "
+  std::cout << "\nYou will delete array with function \'fdeleter\' "
             << std::endl;
   delete[] p;
 }
 
-void TestUniquePtr() {
-  //тестирование базовых возможностей уникальных указателей
-  std::unique_ptr<int[], void (*)(int *)> up(new int[10], [](int *p) {
-    std::cout << "array was deleted: ";
-    for (int i = 0; i < 10; i++) {
-      std::cout << p[i] << " ";
-    }
-    std::cout << std::endl;
-    delete[] p;
-  });
-
-  for (int i = 0; i < 10; i++) {
-    up[i] = i;
-  }
-
-  up = nullptr;
-}
-
 void TestUniquePtrs() {
-  //базовые возможности
+  //тестирование базовых возможностей уникальных указателей
   std::unique_ptr<std::string> pStr(new std::string("uma"));
 
   (*pStr)[0] = 'U';
@@ -515,6 +499,22 @@ void TestUniquePtrs() {
 
   text = nullptr;
 
+  // указатель на массив чисел с указанием собственного удалителя
+  std::unique_ptr<int[], void (*)(int *)> up(new int[10], [](int *p) {
+    std::cout << "\narray int[] was deleted: ";
+    for (int i = 0; i < 10; i++) {
+      std::cout << p[i] << " ";
+    }
+    std::cout << std::endl;
+    delete[] p;
+  });
+
+  for (int i = 0; i < 10; i++) {
+    up[i] = i;
+  }
+
+  up = nullptr;
+
   //указатель на массив строк со своим удалителем
   std::unique_ptr<std::string[], void (*)(std::string *)> page(
       new std::string[5], [](std::string *p) -> void {
@@ -542,7 +542,7 @@ void TestUniquePtrs() {
   //без вызова функции-удалителя
   std::string *str = upStr.release();
 
-  std::cout << "\n str - " << *str << std::endl;
+  std::cout << "\nstr - " << *str << std::endl;
 
   if (upStr == nullptr) {
     std::cout << "upStr: nullptr\n";
@@ -561,21 +561,21 @@ void TestUniquePtrs() {
   upStr = nullptr;
 
   if (ps)
-    std::cout << "\n ps is owner of object\n";
+    std::cout << "\nps is owner of object\n";
   else
-    std::cout << "\n ps is not owner of object\n";
+    std::cout << "\nps is not owner of object\n";
 
   ps = nullptr;
 
   //передача владения 2
   std::unique_ptr<int, void (*)(int *)> up1(new int, [](int *p) {
-    std::cout << "\n deleted up1\n";
+    std::cout << "\ndeleted up1\n";
     delete p;
   });
   *up1 = 2;
 
   std::unique_ptr<int, void (*)(int *)> up2(new int, [](int *p) {
-    std::cout << "\n deleted up2\n";
+    std::cout << "\ndeleted up2\n";
     delete p;
   });
   *up2 = 4;
@@ -583,13 +583,13 @@ void TestUniquePtrs() {
   up2 = std::move(up1); //для потерянного объекта связанного с up2 - будет
                         //вызвана функция удаления
 
-  std::cout << "\n up2 -> " << *up2 << std::endl;
+  std::cout << "\nup2 -> " << *up2 << std::endl;
 
   //пустому unique_ptr<> присваиваем новое значение
   up1 =
       std::unique_ptr<int, void (*)(int *)>(new int, [](int *p) { delete p; });
   *up1 = 10;
-  std::cout << "\n up1 -> " << *up1 << std::endl;
+  std::cout << "\nup1 -> " << *up1 << std::endl;
 
   //исток и сток для unique_ptr<>
   std::unique_ptr<std::string> p = CreateString("America");
@@ -597,74 +597,80 @@ void TestUniquePtrs() {
   PrintString(std::move(p));
 
   //операторы удаления
-  std::unique_ptr<int, void (*)(int *)> up3(new int[4], [](int *p) {
-    std::cout << "\n declaration void(*)(int*)\n";
+  std::unique_ptr<int[], void (*)(int *)> up3(new int[4], [](int *p) -> void {
+    std::cout << "\ndeclaration void(*)(int*)\n";
     delete[] p;
   });
 
-  std::unique_ptr<int, std::function<void(int *)>> up4(new int[10], [](int *p) {
-    std::cout << "\n declaration std::function<void(int*)> \n";
+  std::unique_ptr<int[], std::function<void(int *)>> up4(
+      new int[10], [](int *p) {
+        std::cout << "\ndeclaration std::function<void(int*)> \n";
+        delete[] p;
+      });
+
+  std::function<bool(int *)> smart_deleter = [](int *p) -> bool {
+    if (!p) {
+      std::cout << "\npointer: nullptr\n";
+      return false;
+    }
+    std::cout << "\nsmart_deleter worked\n";
     delete[] p;
-  });
+    return true;
+  };
+
+  std::unique_ptr<int[], decltype(smart_deleter)> upsmart(new int[10],
+                                                          smart_deleter);
 
   auto l = [](int *p) {
-    std::cout << "\n declaration decltype(l)";
+    std::cout << "\ndeclaration decltype(l)\n";
     delete[] p;
   };
 
-  std::unique_ptr<int, decltype(l)> up5(new int[8], l);
+  std::unique_ptr<int[], decltype(l)> up5(new int[8], l);
 
-  std::unique_ptr<int, std::function<void(int *)>> up7(new int[10], Fdeleter);
+  std::unique_ptr<int[], std::function<void(int *)>> up7(new int[10], Fdeleter);
 
-  std::unique_ptr<int, decltype(ArrayDeleter())> up8(new int[2],
-                                                     ArrayDeleter());
+  std::unique_ptr<int[], decltype(ArrayDeleter())> up8(new int[2],
+                                                       ArrayDeleter());
 }
 
+//------------------------------------------------------------------------------
 //тестирование идентификации потоков
-//----------------------------------------------
+//------------------------------------------------------------------------------
 void some_work() {
   std::thread::id id = std::this_thread::get_id();
-  cout << "\nThread id - " << id << endl;
+  cout << "\nThread id: " << id << endl;
 }
 
 void test_threads_id() {
-  //тестирование получения id потока
-  std::thread::id thisId =
-      std::this_thread::get_id(); //получим id текущего потока
 
-  int numThreads =
-      std::thread::hardware_concurrency(); //получаем сколько потоков возможно
-                                           //по настоящему
+  //получим id текущего потока
+  std::thread::id this_thread_id = std::this_thread::get_id();
 
-  cout << "\n System has hardware concurrency - " << numThreads << endl;
-  cout << "\n This thread id - " << thisId << endl;
+  //получаем сколько потоков возможно по настоящему
+  int number_threads = std::thread::hardware_concurrency();
 
-  std::vector<std::thread> poolThreads(
-      numThreads); //резервируем размер вектора для потоков
-  for (int i = 0; i < numThreads; i++) {
-    poolThreads.push_back(std::thread(some_work));
+  cout << "\nSystem has hardware concurrency: " << number_threads << endl;
+  cout << "\nThis thread id: " << this_thread_id << endl;
+
+  //резервируем размер вектора для потоков
+  std::vector<std::thread> pool_threads(number_threads);
+  for (int j = 0; j < number_threads; j++) {
+    pool_threads.emplace_back(some_work);
   }
 
-  std::for_each(poolThreads.begin(), poolThreads.end(),
-                ThreadJointer()); //поочередный вызов join() для каждого потока
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  // std::vector<std::thread>::iterator t;
-  // for (t = poolThreads.begin(); t != poolThreads.end(); ++t )
-  //{
-  //	if ((*t).joinable())
-  //	{
-  //		cout << "\n Thread with id " << (*t).get_id() << " joined" <<
-  // endl;
-  //		(*t).join();
-  //	}
-  //}
+  //поочередный вызов join() для каждого потока
+  std::for_each(pool_threads.begin(), pool_threads.end(), ThreadJoiner());
 
-  poolThreads.clear();
+  pool_threads.clear();
 }
 
-//тестиование мьютексов
-//-----------------------------------------------------------
-void print_rec(string &s, std::recursive_mutex &mut) {
+//------------------------------------------------------------------------------
+//тестирование мьютексов
+//------------------------------------------------------------------------------
+void print_rec(const string &s, std::recursive_mutex &mut) {
   {
     std::lock_guard<std::recursive_mutex> lguard(mut);
 
@@ -675,7 +681,7 @@ void print_rec(string &s, std::recursive_mutex &mut) {
   }
 }
 
-void print(string &s, std::mutex &mut) {
+void print(const string &s, std::mutex &mut) {
   {
     std::lock_guard<std::mutex> lguard(mut);
 
@@ -686,7 +692,7 @@ void print(string &s, std::mutex &mut) {
   }
 }
 
-void reverseString(string &str, std::recursive_mutex &rec_mutex) {
+void ReverseString(string &str, std::recursive_mutex &rec_mutex) {
   {
     std::lock_guard<std::recursive_mutex> lg(rec_mutex);
 
@@ -701,7 +707,7 @@ void reverseString(string &str, std::recursive_mutex &rec_mutex) {
   }
 }
 
-int someWorkWhileMutexBusy() {
+int SomeWorkWhileMutexBusy() {
   static int i = 0;
   i++;
   return i;
@@ -735,9 +741,9 @@ void test_mutex() {
   //и за доступ в консоль)
   std::recursive_mutex rec_mutex;
 
-  std::thread t3(reverseString, std::ref(strhello), std::ref(rec_mutex));
-  std::thread t4(reverseString, std::ref(strhello), std::ref(rec_mutex));
-  std::thread t5(reverseString, std::ref(strhello), std::ref(rec_mutex));
+  std::thread t3(ReverseString, std::ref(strhello), std::ref(rec_mutex));
+  std::thread t4(ReverseString, std::ref(strhello), std::ref(rec_mutex));
+  std::thread t5(ReverseString, std::ref(strhello), std::ref(rec_mutex));
 
   t3.join();
   t4.join();
@@ -751,14 +757,17 @@ void test_mutex() {
   std::thread t6([&]() {
     {
       std::lock_guard<std::mutex> lgd(try_mutex);
-      for (int i = 0; i < 500; i++)
-        cout << "t6";
+      for (int i = 0; i < 500; i++) {
+        cout << "*";
+      }
     }
   });
 
+  std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
   int counter = 0;
   while (try_mutex.try_lock() == false) {
-    counter = someWorkWhileMutexBusy();
+    counter = SomeWorkWhileMutexBusy();
   }
 
   {
@@ -777,12 +786,13 @@ void test_mutex() {
     {
       std::lock_guard<std::timed_mutex> tlg(t_mutex);
       for (int i = 0; i < 3; i++) {
-        cout << "pause 1 sec - "
-             << "t7" << endl;
+        cout << "thread t7 pause 1 sec" << endl;
         std::this_thread::sleep_for(std::chrono::seconds(1)); //пауза в 1 sec
       }
     }
   });
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
   //будем пытаться захватить мьютекс 4 сек
   if (t_mutex.try_lock_for(std::chrono::seconds(4))) {
@@ -812,31 +822,31 @@ void test_mutex() {
 
   auto lambda_swap = [&]() {
     {
-      int index_failure_lock =
-          0; //будет содержать индекс первой неудачной блокировки
-      index_failure_lock =
-          std::try_lock(mut1, mut2, mut3); //попытка блокировки трех мьютексов
+      //будет содержать индекс первой неудачной блокировки
+      int index_failure_lock = 0;
+      //попытка блокировки трех мьютексов
+      index_failure_lock = std::try_lock(mut1, mut2, mut3);
 
       // std::lock(mut1, mut2, mut3);
-      // //запрос на блокировку трех мьютексов
+      // запрос на блокировку трех мьютексов
       if (index_failure_lock < 0) {
         std::lock_guard<std::mutex> lgdMut1(mut1, std::adopt_lock);
         std::lock_guard<std::mutex> lgdMut2(mut2, std::adopt_lock);
         std::lock_guard<std::mutex> lgdMut3(mut3, std::adopt_lock);
 
-        cout << endl << "thread id - " << std::this_thread::get_id() << endl;
-        cout << "before swaping  val_1 = " << val_1 << " val_2 = " << val_2
+        cout << endl << "thread id: " << std::this_thread::get_id() << endl;
+        cout << "before swaping  val_1: " << val_1 << " val_2: " << val_2
              << endl;
 
         swap(val_1, val_2);
 
-        cout << "After swaping   val_1 = " << val_1 << " val_2 = " << val_2
+        cout << "After swaping   val_1: " << val_1 << " val_2: " << val_2
              << endl;
       } else {
         std::lock_guard<std::mutex> lgdMut3(mut3);
         cout << endl
-             << "thread id - " << std::this_thread::get_id()
-             << "  cannot block mutex with index - " << index_failure_lock
+             << "thread id: " << std::this_thread::get_id()
+             << "  cannot block mutex with index: " << index_failure_lock
              << endl;
       }
     }
@@ -857,43 +867,43 @@ void test_unique_lock() {
 
   string s("shared string");
 
+  //создали защиту для мьютекса но не заблокировали
   std::thread t1([&]() {
-    std::unique_lock<std::mutex> l(
-        mut, std::defer_lock); //создали защиту для мьютекса но не заблокировали
+    std::unique_lock<std::mutex> l(mut, std::defer_lock);
 
     l.lock();
-    s.append("_t1_");
-    cout << endl << "our string is - " << s << endl;
+    s.append("_t1");
+    cout << endl << "thread t1 our string is: " << s << endl;
     l.unlock();
   });
 
+  //создали защиту для мьютекса но не заблокировали
   std::thread t2([&]() {
-    std::unique_lock<std::mutex> l(
-        mut, std::defer_lock); //создали защиту для мьютекса но не заблокировали
+    std::unique_lock<std::mutex> l(mut, std::defer_lock);
 
     l.lock(); //блокировка
-    s.append("_t2_");
-    cout << endl << "our string is - " << s << endl;
+    s.append("_t2");
+    cout << endl << "thread t2 our string is: " << s << endl;
     l.unlock(); //разблокировка
   });
 
   std::thread t3([&]() {
     {
-      std::unique_lock<std::mutex> ul(
-          mut, std::try_to_lock); //попытка заблокировать мьютекс
+      //попытка заблокировать мьютекс
+      std::unique_lock<std::mutex> ul(mut, std::try_to_lock);
       if (ul) {
-        s.append("t3");
-        cout << endl << "our string is - " << s << endl;
+        s.append("_t3");
+        cout << endl << "thread t3 our string is: " << s << endl;
       } else
         cout << endl << "t3 can not lock mutex " << endl;
     }
   });
 
   {
-    std::unique_lock<std::mutex> lock(
-        mut); //создали защиту для мьютекса и сразу же заблокировали его
+    //создали защиту для мьютекса и сразу же заблокировали его
+    std::unique_lock<std::mutex> lock(mut);
     s.append("_main_thread_");
-    cout << endl << "our string is - " << s << endl;
+    cout << endl << "our string is: " << s << endl;
   }
 
   t1.join();
@@ -901,8 +911,9 @@ void test_unique_lock() {
   t3.join();
 }
 
+//------------------------------------------------------------------------------
 //тестиование condition  variables
-//--------------------------------------------------
+//------------------------------------------------------------------------------
 void insertValue(int &val, std::queue<int> &qu, std::mutex &mut,
                  std::condition_variable &cv) {
   for (int i = 0; i < 10; i++) {
@@ -1010,10 +1021,10 @@ void test_condition_variable_queue() {
   t6.join();
 }
 
-//----------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //тестирование объектов
 //будущих результатов и асинхронного выполнения функций
-//----------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void AsyncFunction() {
   std::cout << std::endl << "Hello from async thread" << std::endl;
 }
@@ -1160,8 +1171,9 @@ void TestFutureAndAsync() {
   f9.get();
 }
 
+//------------------------------------------------------------------------------
 //тестирование упакованных задач
-//------------------------------------------------------
+//------------------------------------------------------------------------------
 double computeMul(double x, double y) { return x * y; }
 
 void test_packaged_task() {
@@ -1202,8 +1214,9 @@ void test_packaged_task() {
   //упакованная задача сделанная из функции члена класса
 }
 
+//------------------------------------------------------------------------------
 //тестирование размеров указателей
-//--------------------------------------------------------
+//------------------------------------------------------------------------------
 void test_pointers_size() {
   //проверка размерности указателя
   double s = 9.0;
@@ -1226,9 +1239,9 @@ void test_pointers_size() {
        << endl;
 }
 
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //тестирование библиотечки хроно
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 std::string TimeAsString(std::chrono::system_clock::time_point &tp) {
   time_t t = std::chrono::system_clock::to_time_t(tp);
   std::string ts = std::ctime(&t);
@@ -1363,8 +1376,9 @@ void TestChronoLibrary() {
   std::cout << "\ntime from epoch started minutes: " << t_minutes << std::endl;
 }
 
+//------------------------------------------------------------------------------
 //тестирование атомарных операций
-//-------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 std::atomic<bool> bool_data(false);
 
