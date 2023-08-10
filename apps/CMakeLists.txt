@@ -47,6 +47,10 @@ add_executable(variadic_template variadic_template.cpp)
 # u"char16_t string", U"char32_t"
 add_executable(char16_char32_wchar_t char16_char32_wchar_t.cpp)
 
+# vector of packaged_task objects
+add_executable(packaged_task packaged_task.cpp)
+target_link_libraries(packaged_task -lpthread)
+
 # ------------------features of C++14--------------------------------------------
 # feature: variable template
 add_executable(variable_template variable_template.cpp)

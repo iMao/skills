@@ -174,37 +174,25 @@ void test_mutex();
 void test_unique_lock();
 
 //------------------------------------------------------------------------------
-//тестиование condition  variables
+//тестирование condition  variables
 //------------------------------------------------------------------------------
-void insertValue(int &val, std::queue<int> &qu, std::mutex &mut,
-                 std::condition_variable &cv);
+void TestConditionVariables();
 
-void getValue(std::queue<int> &qu, std::mutex &mut,
-              std::condition_variable &cv);
+void TestConditionVariableQueue();
 
-void test_condition_variables();
-
-void test_condition_variable_queue();
+void TestConditionVariablesQueueWaitFor();
 
 //-----------------------------------------------------------------------------
 //тестирование объектов будущих результатов std::future<>
 // и асинхронного выполнения функций std::async()
 //-----------------------------------------------------------------------------
-void AsyncFunction();
-
-void FillArray(std::vector<int> &vec, int size, int init_random_number);
-
-//функция для оборачивания строки
-std::string StringBack(std::string s);
-
 class Xc {
-private:
 public:
-  Xc() {}
-  ~Xc() {}
+  Xc() = default;
+  ~Xc() = default;
 
+  static void PrintString(std::string s){ std::cout << s;}
   void PrintS(std::string s) { std::cout << s; }
-
   void operator()(std::string s) { std::cout << s; }
 };
 
@@ -215,14 +203,10 @@ void TestFutureAndAsync();
 //------------------------------------------------------------------------------
 //тестирование упакованных задач
 //------------------------------------------------------------------------------
-double computeMul(double x, double y);
+template <typename _Tp> _Tp ComputeMul(_Tp x, _Tp y) { return (x * y); }
 
-void test_packaged_task();
+void TestPackagedTask();
 
-//------------------------------------------------------------------------------
-//тестирование размеров указателей
-//------------------------------------------------------------------------------
-void test_pointers_size();
 
 //-----------------------------------------------------------------------------
 //тестирование библиотеки хроно
@@ -254,6 +238,12 @@ template <typename C> void PrintClockData() {
 std::string TimeAsString(std::chrono::system_clock::time_point &tp);
 
 void TestChronoLibrary();
+
+//------------------------------------------------------------------------------
+//тестирование размеров указателей
+//------------------------------------------------------------------------------
+void test_pointers_size();
+
 
 //------------------------------------------------------------------------------
 //тестирование атомарных операций

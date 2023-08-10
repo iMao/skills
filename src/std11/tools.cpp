@@ -912,13 +912,13 @@ void test_unique_lock() {
 }
 
 //------------------------------------------------------------------------------
-//тестиование condition  variables
+//тестирование condition  variables
 //------------------------------------------------------------------------------
-void insertValue(int &val, std::queue<int> &qu, std::mutex &mut,
+void InsertValue(int &val, std::queue<int> &qu, std::mutex &mut,
                  std::condition_variable &cv) {
   for (int i = 0; i < 10; i++) {
     {
-      std::unique_lock<std::mutex> l(mut);
+      std::lock_guard<std::mutex> l(mut);
       qu.push(val);
       val++;
     }
@@ -927,19 +927,17 @@ void insertValue(int &val, std::queue<int> &qu, std::mutex &mut,
   }
 }
 
-void getValue(std::queue<int> &qu, std::mutex &mut,
+void GetValue(std::queue<int> &qu, std::mutex &mut,
               std::condition_variable &cv) {
   for (int i = 0; i < 10; i++) {
-    {
-      std::unique_lock<std::mutex> ul(mut);
-      cv.wait(ul, [&]() -> bool { return !qu.empty(); });
-      cout << "val = " << qu.front() << endl;
-      qu.pop();
-    }
+    std::unique_lock<std::mutex> ul(mut);
+    cv.wait(ul, [&]() -> bool { return !qu.empty(); });
+    cout << "val: " << qu.front() << " queue size: " << qu.size() << endl;
+    qu.pop();
   }
 }
 
-void test_condition_variables() {
+void TestConditionVariables() {
   //простое тестирование условных переменных
   std::condition_variable condVar;
   std::mutex mut;
@@ -950,7 +948,7 @@ void test_condition_variables() {
   std::thread t1([&]() {
     for (int i = 0; i < 10; i++) {
       {
-        std::unique_lock<std::mutex> ul(mut);
+        std::lock_guard<std::mutex> ul(mut);
         s.append("-");
         cout << s << endl;
         ready = true;
@@ -975,45 +973,59 @@ void test_condition_variables() {
   t2.join();
 }
 
-void test_condition_variable_queue() {
-  //более сложный пример с очередью значений std::queue<int> qu
-  // std::queue<int> qu;
-  // std::condition_variable cond_var;
-  // std::mutex qmutex;
+//более сложный пример с очередью значений std::queue<int> qu
+void TestConditionVariableQueue() {
+  std::queue<int> qu;
+  std::condition_variable cond_var;
+  std::mutex qmutex;
 
-  // int value{ 0 };
+  int value{0};
 
-  // std::thread t3(insertValue, std::ref(value), std::ref(qu),
-  // std::ref(qmutex), std::ref(cond_var)); std::thread t4(getValue,
-  // std::ref(qu), std::ref(qmutex), std::ref(cond_var));
+  std::thread t3(InsertValue, std::ref(value), std::ref(qu), std::ref(qmutex),
+                 std::ref(cond_var));
+  std::thread t4(GetValue, std::ref(qu), std::ref(qmutex), std::ref(cond_var));
 
-  // t3.join();
-  // t4.join();
+  t3.join();
+  t4.join();
+}
 
-  //тестирование wait_for()
+//тестирование wait_for()
+void TestConditionVariablesQueueWaitFor() {
   cout << endl << "Test condition_variable.wait_for()" << endl;
   std::queue<int> qu;
   std::condition_variable cvar;
   std::mutex some_mutex;
+  int queue_length = 10;
 
   std::thread t5([&]() {
-    std::unique_lock<std::mutex> lock(some_mutex, std::defer_lock);
-    lock.lock();
-    for (int i = 0; i < 4; i++) {
-      qu.push(i);
+    for (int i = 0; i < queue_length; i++) {
+      {
+        std::lock_guard<std::mutex> lg(some_mutex);
+        qu.push(i);
+      }
+      cvar.notify_one();
+      std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
-    lock.unlock();
-    cvar.notify_one();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   });
 
   std::thread t6([&]() {
-    std::unique_lock<std::mutex> lock(some_mutex);
-    cvar.wait_for(lock, std::chrono::milliseconds(5),
-                  [&]() -> bool { return !(qu.empty()); });
-    for (int i = 0; i < 4; i++) {
-      cout << endl << "val = " << qu.front() << endl;
-      qu.pop();
+    int counter = 0;
+    while (true) {
+      std::unique_lock<std::mutex> lock(some_mutex);
+      cvar.wait_for(lock, std::chrono::milliseconds(1),
+                    [&]() -> bool { return (qu.size() == queue_length); });
+      ++counter;
+      if (qu.size() < queue_length) {
+        std::cout << "counter: " << counter << " early!\n";
+      } else {
+        cout << "\nqueue is filled";
+        cout << "\n";
+        while (!qu.empty()) {
+          cout << qu.front() << " " << endl;
+          qu.pop();
+        }
+        break;
+      }
     }
   });
 
@@ -1038,7 +1050,7 @@ void FillArray(std::vector<int> &vec, int size, int init_random_number) {
   }
 }
 
-std::string StringBack(std::string s) {
+std::string SimpleReverseString(std::string s) {
   char c;
   int size = s.size();
   int half_size = size / 2;
@@ -1048,7 +1060,6 @@ std::string StringBack(std::string s) {
     s[i] = s[size - i - 1];
     s[size - i - 1] = c;
   }
-
   return s;
 }
 
@@ -1066,23 +1077,22 @@ void TestAsyncAndFuture() {
   std::cout << "future<int> intf: " << intf.get() << std::endl;
 
   std::future<std::string> strf =
-      std::async(std::launch::deferred, StringBack,
-                 std::string("Sator Arepo tenet opera rotas"));
+      std::async(std::launch::deferred, SimpleReverseString,
+                 "Sator Arepo tenet opera rotas");
 
   std::cout << "\nstd::future<string> strf: " << strf.get() << std::endl;
 
   Xc x;
-  std::future<void> voidf = std::async(std::launch::deferred, &Xc::PrintS, &x,
-                                       std::string("function member"));
+  std::future<void> voidf0 =
+      std::async(std::launch::deferred, &Xc::PrintS, &x, "function member");
 
-  std::future<void> voidf2 =
-      std::async(std::launch::deferred, Xc(), std::string("123"));
+  std::future<void> voidf1 = std::async(std::launch::deferred, Xc(), "123");
 
-  std::cout << "\nvoidf: ";
-  voidf.get();
+  std::cout << "\nvoidf0: ";
+  voidf0.get();
 
-  std::cout << "\nvoidf2: ";
-  voidf2.get();
+  std::cout << "\nvoidf1: ";
+  voidf1.get();
   std::cout << std::endl;
 }
 
@@ -1106,24 +1116,23 @@ void TestFutureAndAsync() {
 
   std::future<double> f4 = std::async(
       std::launch::async, [](double d) -> double { return pow(d, 3); }, 3.0);
-  std::cout << "\n 3.0^3 = " << f4.get() << std::endl;
+  std::cout << "\n3.0^3 = " << f4.get() << std::endl;
 
   //ожидание будущих результатов, запрос состояния
   std::vector<int> vec;
 
   std::future<void> f5{
-      std::async(std::launch::async, FillArray, std::ref(vec), 10, 5)};
-  std::future_status status;
-  status = f5.wait_for(std::chrono::microseconds(10));
+      std::async(std::launch::async, FillArray, std::ref(vec), 1000, 5)};
+  std::future_status status = f5.wait_for(std::chrono::microseconds(1));
 
   if (status == std::future_status::deferred)
-    std::cout << std::endl << "status - deferred" << std::endl;
+    std::cout << std::endl << "status: deferred" << std::endl;
 
   if (status == std::future_status::ready)
-    std::cout << std::endl << "status - ready" << std::endl;
+    std::cout << std::endl << "status: ready" << std::endl;
 
   if (status == std::future_status::timeout)
-    std::cout << "status - timeout" << std::endl;
+    std::cout << "status: timeout" << std::endl;
 
   std::this_thread::sleep_for(std::chrono::seconds(2));
 
@@ -1134,7 +1143,7 @@ void TestFutureAndAsync() {
 
   std::shared_future<int> shf{std::async([&]() -> int {
     int num{0};
-    std::cout << "\n input num: ";
+    std::cout << "\ninput num: ";
     std::cin >> num;
 
     if (!std::cin) {
@@ -1144,7 +1153,7 @@ void TestFutureAndAsync() {
     return num;
   })};
 
-  auto lam = [&]() {
+  auto lam = [&]() -> void {
     {
       try {
         std::lock_guard<std::mutex> l(mut);
@@ -1174,20 +1183,18 @@ void TestFutureAndAsync() {
 //------------------------------------------------------------------------------
 //тестирование упакованных задач
 //------------------------------------------------------------------------------
-double computeMul(double x, double y) { return x * y; }
-
-void test_packaged_task() {
+void TestPackagedTask() {
   //упакованная задача (сделанная из функции)
   double x = 2.2, y = 2.0;
 
-  std::packaged_task<double(double, double)> pckt(computeMul);
-  std::future<double> fd{pckt.get_future()};
+  std::packaged_task<double(double, double)> packaged_function(
+      ComputeMul<double>);
+  std::future<double> fd{packaged_function.get_future()};
 
-  std::thread t1(std::move(pckt), x, y);
+  std::thread t1(std::move(packaged_function), x, y);
   t1.join();
 
-  cout << endl
-       << "x = " << x << " y = " << y << " x * y = " << fd.get() << endl;
+  cout << '\n' << "x: " << x << " y: " << y << " x * y = " << fd.get() << endl;
 
   //упакованная задача (сделанная из лямбда выражения)
   int a{8};
@@ -1202,41 +1209,23 @@ void test_packaged_task() {
   t2.join();
 
   //упакованная задача сделанная из функтора
-  std::packaged_task<void(string)> pacxc{Xc()};
-  std::future<void> fv{pacxc.get_future()};
+  std::packaged_task<void(string)> packaged_functor{Xc()};
+  std::future<void> fv{packaged_functor.get_future()};
 
-  std::thread t3(std::move(pacxc), std::string("Hello Xc"));
+  cout << "\nXc() -> ";
+  std::thread t3(std::move(packaged_functor), std::string("Hello Xc"));
   t3.join();
 
-  cout << endl << "Xc() - ";
-  fv.get();
+  //упакованная задача сделанная из статической функции члена класса
+  std::packaged_task<void(std::string)> packaged_static_function(
+      Xc::PrintString);
+  std::future<void> fvxc{packaged_static_function.get_future()};
 
-  //упакованная задача сделанная из функции члена класса
-}
+  std::cout << "\npackaged_static_function: ";
+  std::thread t4(std::move(packaged_static_function),
+                 "static function from class Xc");
 
-//------------------------------------------------------------------------------
-//тестирование размеров указателей
-//------------------------------------------------------------------------------
-void test_pointers_size() {
-  //проверка размерности указателя
-  double s = 9.0;
-  double *ptr = &s;
-
-  int a = 9;
-  int *intPtr = &a;
-
-  char c{'h'};
-  char *pc{&c};
-
-  cout << endl
-       << "sizeof(double*) = " << sizeof(ptr)
-       << " sizeof(*double) = " << sizeof(s) << endl;
-  cout << endl
-       << "sizeof(int*)    = " << sizeof(intPtr)
-       << " sizeof(*int) = " << sizeof(a) << endl;
-  cout << endl
-       << "sizeof(char*)   = " << sizeof(pc) << " sizeof(*char) = " << sizeof(c)
-       << endl;
+  t4.join();
 }
 
 //------------------------------------------------------------------------------
@@ -1374,6 +1363,31 @@ void TestChronoLibrary() {
   std::cout << "\ntime from epoch started nanosec: " << tp << std::endl;
 
   std::cout << "\ntime from epoch started minutes: " << t_minutes << std::endl;
+}
+
+//------------------------------------------------------------------------------
+//тестирование размеров указателей
+//------------------------------------------------------------------------------
+void test_pointers_size() {
+  //проверка размерности указателя
+  double s = 9.0;
+  double *ptr = &s;
+
+  int a = 9;
+  int *intPtr = &a;
+
+  char c{'h'};
+  char *pc{&c};
+
+  cout << endl
+       << "sizeof(double*) = " << sizeof(ptr)
+       << " sizeof(*double) = " << sizeof(s) << endl;
+  cout << endl
+       << "sizeof(int*)    = " << sizeof(intPtr)
+       << " sizeof(*int) = " << sizeof(a) << endl;
+  cout << endl
+       << "sizeof(char*)   = " << sizeof(pc) << " sizeof(*char) = " << sizeof(c)
+       << endl;
 }
 
 //------------------------------------------------------------------------------
