@@ -2,9 +2,9 @@
 
 #include <typeinfo>
 
-/**
- * @brief TestArray тестирование массива array<>
- */
+//------------------------------------------------------------------------------
+// TestArray тестирование массива array<>
+//------------------------------------------------------------------------------
 void TestArray() {
   //простой тест массива array<> C style
   std::cout << "C style of usage of std::array<> container stl\n";
@@ -31,22 +31,22 @@ void TestArray() {
 
   PrintArray("d", d);
 
-  b.fill(5);  //заполняем все элементы массива значением 5
+  b.fill(5); //заполняем все элементы массива значением 5
 
   PrintArray("b", b);
   PrintArray("c", c);
   PrintArray("word", word);
 
-  std::array<int, 3> zero;  //содержит мусор
+  std::array<int, 3> zero; //содержит мусор
   PrintArray("zero", zero);
 
-  std::array<int, 5> half_zero{1, 2};  // 0-й и 1-й содержат 1 и 2 остальные -0
+  std::array<int, 5> half_zero{1, 2}; // 0-й и 1-й содержат 1 и 2 остальные -0
   PrintArray("half_zero", half_zero);
 
-  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  //копия массива а
+  std::array<int, 10> a_{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}; //копия массива а
   CompareArrays("a", a, "a_", a_);
 
-  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};  //
+  std::array<int, 10> b_{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; //
   CompareArrays("b", b, "b_", b_);
 
   //обработка исключения при выходе за границы массива
@@ -148,12 +148,12 @@ void TestArray() {
   std::cout << std::endl;
 }
 
-//------------------------------------------------------------------------
-//тестирование std::pair<T1,T2>p
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+// тестирование std::pair<T1,T2>p
+//------------------------------------------------------------------------------
 void TestPairs() {
   //создание пар
-  std::pair<int, std::string> p1;  //пустая пара
+  std::pair<int, std::string> p1; //пустая пара
   std::cout << "p1: " << p1 << std::endl;
 
   //использование std::make_pair()
@@ -206,7 +206,7 @@ void TestPairs() {
   std::cout << "a1: " << a1 << std::endl;
   std::cout << "a2: " << a2 << std::endl;
 
-  std::swap(a1, a2);  //обмен парами
+  std::swap(a1, a2); //обмен парами
   std::cout << std::endl;
   std::cout << "after std::swap(a1,a2)" << std::endl;
   std::cout << "a1: " << a1 << std::endl;
@@ -249,9 +249,9 @@ void TestPairs() {
   }
 }
 
-//------------------------------------------------------------------------
-//тестирование кортежей std::tuple<T1,T2,...Tn> t
-//------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+// тестирование кортежей std::tuple<T1,T2,...Tn> t
+//------------------------------------------------------------------------------
 void TestTuples() {
   auto lam = [&](std::tuple<int, float, std::string> &t) {
     std::cout << std::endl
@@ -392,13 +392,13 @@ std::ostream &operator<<(std::ostream &ostr, Some &s) {
   return ostr << "Some { " << s.GetA() << ", " << s.GetS() << " } ";
 }
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //тестирование контейнера  std::vector<>
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void TestVector() {
   //способы создания контейнера std::vector<>
-  std::vector<int> vec0;  //создание пустого вектора для элементов типа int
-  std::vector<int> vec1(3);  //создание вектора из 3-х элементов
+  std::vector<int> vec0; //создание пустого вектора для элементов типа int
+  std::vector<int> vec1(3); //создание вектора из 3-х элементов
 
   //инициализированных конструкторами по  умолчанию
   //создание вектора из 3-х элементов со значениями 777, 777,  777
@@ -436,12 +436,12 @@ void TestVector() {
 
   PrintVectorInfo(vec5, "vec5");
 
-  vec5.shrink_to_fit();  //уменьшаем емкость до количества элементов
+  vec5.shrink_to_fit(); //уменьшаем емкость до количества элементов
 
   PrintVectorInfo(vec5, "vec5");
 
-  VectorEmptyInfo(vec3, "vec3");  //применение конструктора перемещения оставило
-                                  //вектор vec3 - пустым
+  VectorEmptyInfo(vec3, "vec3"); //применение конструктора перемещения оставило
+                                 //вектор vec3 - пустым
 
   //присваивание элементов
   std::vector<int> vec10 = init_list;
@@ -472,7 +472,7 @@ void TestVector() {
   vec10.at(0) = -1;
 
   try {
-    vec10.at(9) = -1;  //выход за границы диапазона
+    vec10.at(9) = -1; //выход за границы диапазона
   } catch (std::exception &e) {
     std::cerr << "EXCEPTION " << e.what() << std::endl;
   }
@@ -490,23 +490,23 @@ void TestVector() {
   //операции вставки и удаления элементов вектора
   std::vector<int> int_vec;
   for (int i = 0; i < 5; ++i)
-    int_vec.push_back(i);  //добавляем в конец вектора элементы
+    int_vec.push_back(i); //добавляем в конец вектора элементы
 
   PrintVector(int_vec, "int_vec");
 
-  int_vec.pop_back();  //удаляем с конца вектора элемент
-  int_vec.pop_back();  //еще
+  int_vec.pop_back(); //удаляем с конца вектора элемент
+  int_vec.pop_back(); //еще
 
   PrintVector(int_vec, "int_vec");
 
   std::vector<int>::iterator i = int_vec.begin();
   ++i;
-  int_vec.insert(i, 100);  //вставляем один элемент
+  int_vec.insert(i, 100); //вставляем один элемент
   PrintVector(int_vec, "int_vec");
 
   i = int_vec.begin();
   ++i;
-  int_vec.insert(i, 2, 90);  //вставляем 2 элемента 90
+  int_vec.insert(i, 2, 90); //вставляем 2 элемента 90
   PrintVector(int_vec, "int_vec");
 
   //вставляем диапазон значений из другого вектора
@@ -589,8 +589,9 @@ void TestVector() {
   PrintVector(flags, "flags");
 }
 
-//тестирование контейнера std::deque<>
-// ------------------------------------------------
+//------------------------------------------------------------------------------
+// тестирование контейнера std::deque<>
+// -----------------------------------------------------------------------------
 void TestDeque() {
   //методы создания контейнера std::deque<>
 
@@ -693,14 +694,16 @@ void TestDeque() {
   std::deque<std::string>::reverse_iterator ri = dq7.rbegin();
 
   std::cout << std::endl;
-  for (; ci != dq7.end(); ++ci) std::cout << "e - " << (*ci) << std::endl;
+  for (; ci != dq7.end(); ++ci)
+    std::cout << "e - " << (*ci) << std::endl;
 
   std::cout << std::endl;
   for (; it != dq7.end(); ++it)
     std::cout << "e - " << (*it).append("-") << std::endl;
 
   std::cout << std::endl;
-  for (; cri != dq7.crend(); ++cri) std::cout << "e <- " << (*cri) << std::endl;
+  for (; cri != dq7.crend(); ++cri)
+    std::cout << "e <- " << (*cri) << std::endl;
 
   std::cout << std::endl;
   for (; ri != dq7.rend(); ++ri) {
@@ -711,1519 +714,1490 @@ void TestDeque() {
 
 bool rmbig(int a) { return (a > 1000 ? true : false); }
 
-////тестирование контейнера  std::list<>
-////-------------------------------------------------
-// void TestList() {
-//  //методы создание контейнера std::list<>
-//  std::list<int> lst0;     //пустой список
-//  std::list<int> lst1(5);  //список из 5-ти элементов созданных
-//  конструктором их
-
-//  //типа по умолчанию
-//  std::list<int> lst2(5, 5);  //список из 5-ти элементов 5
-//  std::list<int> lst3{1, 9,  3,  7,
-//                      0, 10, 24, 12};  //список на основе списка
-//                      инициализации
-//  std::list<int> lst4({2, 4, 5, 6, 1, 0});  //
-
-//  std::list<int> lst5(
-//      lst3);  //список создан путем вызова конструктора копирования
-//  std::list<int> lst6(
-//      std::move(lst2));  //список создан путем вызова конструктора
-//      перемещения
-//  std::list<int> lst7(lst3.begin(),
-//                      lst3.end());  //список создан на основе интервала
-//                                    //заданного итераторами (begin, end)
-
-//  std::initializer_list<int> ini_list{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-//  std::list<int> lst8 =
-//      ini_list;  //список создан на основе списка инициализации
-//  std::list<int> lst9 = lst8;  //неявный вызов конструктора копирования
-//  std::list<int> lst10 =
-//      std::move(lst9);  //неявный вызов конструктора перемещения
-
-//  print_list(lst0);
-//  print_list(lst8);
-//  print_list_info(lst8);
-
-//  //операции присваивания
-//  lst0.assign(ini_list);
-//  lst1.assign(4, 9990);
-//  lst2.assign(++lst3.begin(), --lst3.end());
-
-//  print_list(lst0);
-//  print_list(lst1);
-//  print_list(lst2);
-
-//  lst9.assign(ini_list);
-//  lst1.swap(lst9);
-
-//  print_list(lst9);
-//  print_list(lst1);
-
-//  //доступ к элементам
-//  cout << "first element - " << lst1.front() << endl;
-//  cout << "last  element - " << lst1.back() << endl;
-
-//  //доступ спомощью итераторов
-//  std::list<int>::const_iterator ci;
-//  std::list<int>::iterator i;
-//  std::list<int>::reverse_iterator ri;
-//  std::list<int>::const_reverse_iterator cri;
-
-//  for (ci = lst9.cbegin(); ci != lst9.cend(); ++ci) cout << (*ci) << " ";
-
-//  cout << endl;
-//  for (i = lst9.begin(); i != lst9.end(); ++i) cout << ((*i) /= 2) << " ";
-
-//  cout << endl;
-//  for (ri = lst1.rbegin(); ri != lst1.rend(); ++ri) cout << ((*ri) *= 2) <<
-//  "
-//  ";
-
-//  cout << endl;
-//  for (cri = lst1.crbegin(); cri != lst1.crend(); ++cri) cout << (*cri) << "
-//  ";
-
-//  cout << endl;
-
-//  //модификация списка
-//  std::initializer_list<int> numbers{7, 7, 7, 5, 5, 5};
-//  std::initializer_list<int> big_numbers{1000, 2000, 3000};
-
-//  std::list<int> l = numbers;
-
-//  l.push_back(10);
-//  l.push_front(10);
-//  l.emplace_back(9);
-//  l.emplace_front(9);
-
-//  auto pos = l.begin();
-
-//  size_t k = l.size();
-//  size_t half = k / 2;
-//  while (k > half) {
-//    --k;
-//    ++pos;
-//  }
-
-//  l.insert(pos, 5000);  //вставка элемента в середину списка
-//  print_list(l);
-
-//  l.insert(l.begin(), big_numbers);
-//  l.insert(l.end(), big_numbers.begin(), big_numbers.end());
-//  print_list(l);
-
-//  cout << endl << "remove all numbers 9 " << endl;
-//  l.remove(9);  //удаляем все числа 9
-//  print_list(l);
-
-//  cout << endl << "remove all numbers >1000 " << endl;
-//  l.remove_if(rmbig);
-//  print_list(l);
-
-//  cout << endl << "remove all even numbers " << endl;
-//  l.remove_if(Rm());
-//  print_list(l);
-
-//  cout << endl << " remove all numbers that can be divided / 5 " << endl;
-//  l.remove_if([](int a) -> bool {
-//    if ((a % 5) == 0)
-//      return true;
-//    else
-//      return false;
-//  });
-
-//  print_list(l);
-
-//  cout << endl << "resize to 10 elements" << endl;
-//  l.resize(10, 3);
-//  print_list(l);
-
-//  cout << endl << "reverse list" << endl;
-//  l.reverse();
-//  print_list(l);
-
-//  cout << endl << "erase core" << endl;
-//  l.erase(++l.begin(), --l.end());
-//  print_list(l);
-
-//  cout << endl << "erase first element" << endl;
-//  l.erase(l.begin());
-//  print_list(l);
-
-//  l.clear();
-//}
-
-////функция предикат для выявления одинаковой целой части вещественных чисел
-// bool same_integral_part(double &first, double &second) {
-//  return (static_cast<int>(first) == static_cast<int>(second));
-//}
-
-// bool compare_pairs(std::pair<int, int> &p1, std::pair<int, int> &p2) {
-//  return (p1.second < p2.second);
-//}
-
-// void TestListSpecial() {
-//  //специальные модифицирующие операции над списками
-//  std::list<int> l{9, 9, 4, 2, 1, 3, 3, 0, 4, 6, 5, 0, 0};
-//  print_list(l);
-
-//  l.unique();  //удаляет дубликаты последовательных элементов
-//  print_list(l);
-
-//  std::list<double> ld{9.3, 9.1, 4.9, 5.0,  6.1,  5.95,
-//                       6.0, 6.5, 7.2, 8.11, 8.21, 9.25};
-//  print_list(ld);
-
-//  ld.unique(same_integral_part);  //удаление элементов у которых равные
-//  целые
-//                                  //части (предикат-функция)
-//  print_list(ld);
-
-//  //  ld.unique(Near());  //удаление элементов для которых /разность/ < 0.5
-//  //                      //(предикат-функтор)
-//  print_list(ld);
-
-//  ld.unique([](const double a,
-//               const double b) -> bool {  //удаление элементов у которых
-//               дробная
-//    //часть отличается менее чем на 0.1
-//    double a_ = a - static_cast<int>(a);
-//    double b_ = b - static_cast<int>(b);
-
-//    return (fabs(a_ - b_) < 0.1);
-//  });
-
-//  print_list(ld);
-
-//  //модификация списков с1 и с2
-//  std::list<int> a{9, 8, 7, 6, 5};
-//  std::list<int> b{5, 5, 6, 6};
-
-//  cout << endl << "lists modifications" << endl;
-//  print_list(a);
-//  print_list(b);
-
-//  a.splice(a.begin(), b);  //перемещаем список b все элементы в список a
-//  print_list(a);
-//  print_list(b);
-
-//  b.splice(b.begin(), a,
-//           a.begin());  //в список b вставляем один элемент	из списка а
-//  print_list(b);
-
-//  b.splice(
-//      ++b.begin(), a, ++a.begin(),
-//      a.end());  //перемещаем все элементы кроме первого из списка а в
-//      список
-//      b
-//  print_list(a);
-//  print_list(b);
-
-//  b.sort();  //сортировка списка с помощью оператора <
-//  print_list(b);
+//------------------------------------------------------------------------------
+// тестирование контейнера  std::list<>
+//------------------------------------------------------------------------------
+void TestList() {
+  //методы создание контейнера std::list<>
+  std::list<int> lst0;    //пустой список
+  std::list<int> lst1(5); //список из 5-ти элементов созданных  конструктором их
+
+  //типа по умолчанию
+  std::list<int> lst2(5, 5); //список из 5-ти элементов 5
+  std::list<int> lst3{1, 9,  3,  7,
+                      0, 10, 24, 12}; //список на основе списка инициализации
+  std::list<int> lst4({2, 4, 5, 6, 1, 0}); //
+
+  std::list<int> lst5(
+      lst3); //список создан путем вызова конструктора копирования
+  std::list<int> lst6(
+      std::move(lst2)); //список создан путем вызова конструктора перемещения
+  std::list<int> lst7(lst3.begin(),
+                      lst3.end()); //список создан на основе интервала
+                                   //заданного итераторами (begin, end)
+
+  std::initializer_list<int> ini_list{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+  std::list<int> lst8 = ini_list; //список создан на основе списка инициализации
+  std::list<int> lst9 = lst8; //неявный вызов конструктора копирования
+  std::list<int> lst10 =
+      std::move(lst9); //неявный вызов конструктора перемещения
+
+  print_list(lst0);
+  print_list(lst8);
+  print_list_info(lst8);
+
+  //операции присваивания
+  lst0.assign(ini_list);
+  lst1.assign(4, 9990);
+  lst2.assign(++lst3.begin(), --lst3.end());
+
+  print_list(lst0);
+  print_list(lst1);
+  print_list(lst2);
+
+  lst9.assign(ini_list);
+  lst1.swap(lst9);
+
+  print_list(lst9);
+  print_list(lst1);
+
+  //доступ к элементам
+  std::cout << "first element - " << lst1.front() << std::endl;
+  std::cout << "last  element - " << lst1.back() << std::endl;
+
+  //доступ спомощью итераторов
+  std::list<int>::const_iterator ci;
+  std::list<int>::iterator i;
+  std::list<int>::reverse_iterator ri;
+  std::list<int>::const_reverse_iterator cri;
+
+  for (ci = lst9.cbegin(); ci != lst9.cend(); ++ci)
+    std::cout << (*ci) << " ";
+
+  std::cout << std::endl;
+  for (i = lst9.begin(); i != lst9.end(); ++i)
+    std::cout << ((*i) /= 2) << " ";
+
+  std::cout << std::endl;
+  for (ri = lst1.rbegin(); ri != lst1.rend(); ++ri) {
+    std::cout << ((*ri) *= 2) << "  ";
+  }
+
+  std::cout << std::endl;
+  for (cri = lst1.crbegin(); cri != lst1.crend(); ++cri) {
+    std::cout << (*cri) << "  ";
+  }
+
+  std::cout << std::endl;
+
+  //модификация списка
+  std::initializer_list<int> numbers{7, 7, 7, 5, 5, 5};
+  std::initializer_list<int> big_numbers{1000, 2000, 3000};
+
+  std::list<int> l = numbers;
+
+  l.push_back(10);
+  l.push_front(10);
+  l.emplace_back(9);
+  l.emplace_front(9);
+
+  auto pos = l.begin();
+
+  size_t k = l.size();
+  size_t half = k / 2;
+  while (k > half) {
+    --k;
+    ++pos;
+  }
+
+  l.insert(pos, 5000); //вставка элемента в середину списка
+  print_list(l);
+
+  l.insert(l.begin(), big_numbers);
+  l.insert(l.end(), big_numbers.begin(), big_numbers.end());
+  print_list(l);
+
+  std::cout << std::endl << "remove all numbers 9 " << std::endl;
+  l.remove(9); //удаляем все числа 9
+  print_list(l);
+
+  std::cout << std::endl << "remove all numbers >1000 " << std::endl;
+  l.remove_if(rmbig);
+  print_list(l);
+
+  std::cout << std::endl << "remove all even numbers " << std::endl;
+  l.remove_if(Rm());
+  print_list(l);
+
+  std::cout << std::endl
+            << " remove all numbers that can be divided / 5 " << std::endl;
+  l.remove_if([](int a) -> bool {
+    if ((a % 5) == 0)
+      return true;
+    else
+      return false;
+  });
+
+  print_list(l);
+
+  std::cout << std::endl << "resize to 10 elements" << std::endl;
+  l.resize(10, 3);
+  print_list(l);
+
+  std::cout << std::endl << "reverse list" << std::endl;
+  l.reverse();
+  print_list(l);
+
+  std::cout << std::endl << "erase core" << std::endl;
+  l.erase(++l.begin(), --l.end());
+  print_list(l);
+
+  std::cout << std::endl << "erase first element" << std::endl;
+  l.erase(l.begin());
+  print_list(l);
+
+  l.clear();
+}
+
+//функция предикат для выявления одинаковой целой части вещественных чисел
+bool same_integral_part(double &first, double &second) {
+  return (static_cast<int>(first) == static_cast<int>(second));
+}
+
+bool compare_pairs(std::pair<int, int> &p1, std::pair<int, int> &p2) {
+  return (p1.second < p2.second);
+}
+
+void TestListSpecial() {
+  //специальные модифицирующие операции над списками
+  std::list<int> l{9, 9, 4, 2, 1, 3, 3, 0, 4, 6, 5, 0, 0};
+  print_list(l);
+
+  l.unique(); //удаляет дубликаты последовательных элементов
+  print_list(l);
+
+  std::list<double> ld{9.3, 9.1, 4.9, 5.0,  6.1,  5.95,
+                       6.0, 6.5, 7.2, 8.11, 8.21, 9.25};
+  print_list(ld);
+
+  ld.unique(same_integral_part); //удаление элементов у которых равные  целые
+                                 //части (предикат-функция)
+  print_list(ld);
+
+  //  ld.unique(Near());  //удаление элементов для которых /разность/ < 0.5
+  //                      //(предикат-функтор)
+  print_list(ld);
+
+  ld.unique([](const double a,
+               const double b) -> bool { //удаление элементов у которых дробная
+    //часть отличается менее чем на 0.1
+    double a_ = a - static_cast<int>(a);
+    double b_ = b - static_cast<int>(b);
+
+    return (fabs(a_ - b_) < 0.1);
+  });
+
+  print_list(ld);
+
+  //модификация списков с1 и с2
+  std::list<int> a{9, 8, 7, 6, 5};
+  std::list<int> b{5, 5, 6, 6};
+
+  std::cout << std::endl << "lists modifications" << std::endl;
+  print_list(a);
+  print_list(b);
+
+  a.splice(a.begin(), b); //перемещаем список b все элементы в список a
+  print_list(a);
+  print_list(b);
+
+  b.splice(b.begin(), a,
+           a.begin()); //в список b вставляем один элемент	из списка а
+  print_list(b);
+
+  b.splice(
+      ++b.begin(), a, ++a.begin(),
+      a.end()); //перемещаем все элементы кроме первого из списка а в список b
+  print_list(a);
+  print_list(b);
 
-//  std::list<std::pair<int, int>> lp;  //создаем список пар
-//  std::pair<int,int> std::list<std::pair<int, int>> lp2; for (int i = 0; i <
-//  5; i++) {
-//    lp.push_back(std::make_pair(5 - i, i));
-//    lp2.push_back(std::make_pair(i, 7 - i));
-//  }
+  b.sort(); //сортировка списка с помощью оператора <
+  print_list(b);
+
+  std::list<std::pair<int, int>> lp; //создаем список пар  std::pair<int,int>
+  std::list<std::pair<int, int>> lp2;
+  for (int i = 0; i < 5; i++) {
+    lp.push_back(std::make_pair(5 - i, i));
+    lp2.push_back(std::make_pair(i, 7 - i));
+  }
 
-//  lp.push_back(std::make_pair(4, 4));
-//  lp.push_back(std::make_pair(4, 4));
-
-//  print_list(lp);
+  lp.push_back(std::make_pair(4, 4));
+  lp.push_back(std::make_pair(4, 4));
 
-//  lp.sort();
-//  print_list(lp);
+  print_list(lp);
 
-//  lp.sort(compare_pairs);  //сортируем при помощи предиката
-//  print_list(lp);
+  lp.sort();
+  print_list(lp);
 
-//  lp2.sort(compare_pairs);
-//  print_list(lp2);
+  lp.sort(compare_pairs); //сортируем при помощи предиката
+  print_list(lp);
 
-//  lp.merge(lp2, compare_pairs);  //объединяю два отсортированных списка на
-//                                 //основе функции-предиката
-//  print_list(lp);
-//}
+  lp2.sort(compare_pairs);
+  print_list(lp2);
 
-////тестирование контейнера  std::forward_list<>
-////----------------------------------------------
-// bool compare_strings_lower(string s1, string s2) {
-//  std::transform(s1.begin(), s1.end(), s1.begin(), tolower);
-//  std::transform(s2.begin(), s2.end(), s2.begin(), tolower);
+  lp.merge(lp2, compare_pairs); //объединяю два отсортированных списка на
+                                //основе функции-предиката
+  print_list(lp);
+}
 
-//  if (0 == s1.compare(s2))
-//    return true;
-//  else
-//    return false;
-//}
+//------------------------------------------------------------------------------
+// тестирование контейнера  std::forward_list<>
+//------------------------------------------------------------------------------
+bool compare_strings_lower(std::string s1, std::string s2) {
+  std::transform(s1.begin(), s1.end(), s1.begin(), tolower);
+  std::transform(s2.begin(), s2.end(), s2.begin(), tolower);
 
-// bool cmp_abs(int a, int b) { return (abs(a) < abs(b)); }
+  if (0 == s1.compare(s2))
+    return true;
+  else
+    return false;
+}
 
-// void TestForwardList() {
-//  //методы создания контейнера std::forward_list<>
-//  std::forward_list<int> frwd0;
-//  std::forward_list<int> frwd1(5);
-//  std::forward_list<int> frwd2(5, 5);
-//  std::forward_list<int> frwd3{5, 6, 7, 8, 9};
-//  std::forward_list<int> frwd4(frwd3);
-//  std::forward_list<int> frwd5(std::move(frwd3));
+bool cmp_abs(int a, int b) { return (abs(a) < abs(b)); }
 
-//  std::initializer_list<int> init_list{1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
-//  std::forward_list<int> frwd6(init_list);
-//  std::forward_list<int> frwd7({55, 66, 77, 88, 99});
+void TestForwardList() {
+  //методы создания контейнера std::forward_list<>
+  std::forward_list<int> frwd0;
+  std::forward_list<int> frwd1(5);
+  std::forward_list<int> frwd2(5, 5);
+  std::forward_list<int> frwd3{5, 6, 7, 8, 9};
+  std::forward_list<int> frwd4(frwd3);
+  std::forward_list<int> frwd5(std::move(frwd3));
 
-//  std::forward_list<int> frwd8 = frwd2;
-//  std::forward_list<int> frwd9 = std::move(frwd7);
-//  std::forward_list<int> frwd10 = init_list;
+  std::initializer_list<int> init_list{1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
+  std::forward_list<int> frwd6(init_list);
+  std::forward_list<int> frwd7({55, 66, 77, 88, 99});
 
-//  std::forward_list<int> frwd11(frwd9.begin(), frwd9.end());
+  std::forward_list<int> frwd8 = frwd2;
+  std::forward_list<int> frwd9 = std::move(frwd7);
+  std::forward_list<int> frwd10 = init_list;
 
-//  print_forward_list(frwd6);
-//  print_forward_list(frwd11);
+  std::forward_list<int> frwd11(frwd9.begin(), frwd9.end());
 
-//  //немодифицирующие операци
-//  print_forward_list_info(frwd6);
-//  print_forward_list_info(frwd11);
+  print_forward_list(frwd6);
+  print_forward_list(frwd11);
 
-//  //операции присваивания
-//  std::initializer_list<string> str_list{"Ivan", "Lena", "Ksenia"};
+  //немодифицирующие операци
+  print_forward_list_info(frwd6);
+  print_forward_list_info(frwd11);
 
-//  std::forward_list<string> frwds0{"Maria", "Nico", "Pico"};
-//  std::forward_list<string> frwds1 = frwds0;
+  //операции присваивания
+  std::initializer_list<std::string> str_list{"Ivan", "Lena", "Ksenia"};
 
-//  std::forward_list<string> frwds2 = std::move(frwds1);
-//  std::forward_list<string> frwds3 = {"Jack", "Bruce", "Andrew"};
+  std::forward_list<std::string> frwds0{"Maria", "Nico", "Pico"};
+  std::forward_list<std::string> frwds1 = frwds0;
 
-//  print_forward_list(frwds2);
-//  print_forward_list(frwds3);
+  std::forward_list<std::string> frwds2 = std::move(frwds1);
+  std::forward_list<std::string> frwds3 = {"Jack", "Bruce", "Andrew"};
 
-//  frwds2.assign(5, "jambo");
-//  frwds3.assign(++frwds0.begin(), frwds0.end());
-//  frwds0.assign(str_list);
+  print_forward_list(frwds2);
+  print_forward_list(frwds3);
 
-//  print_forward_list(frwds2);
-//  print_forward_list(frwds3);
-//  print_forward_list(frwds0);
+  frwds2.assign(5, "jambo");
+  frwds3.assign(++frwds0.begin(), frwds0.end());
+  frwds0.assign(str_list);
 
-//  //вставка и удаление элементов
-//  std::forward_list<double> fd0{9.1, 9.6, 9.8, 9.9, 2.3, 2.4};
-//  fd0.push_front(0.3);
-//  fd0.emplace_front(0.5);
+  print_forward_list(frwds2);
+  print_forward_list(frwds3);
+  print_forward_list(frwds0);
 
-//  print_forward_list(fd0);
+  //вставка и удаление элементов
+  std::forward_list<double> fd0{9.1, 9.6, 9.8, 9.9, 2.3, 2.4};
+  fd0.push_front(0.3);
+  fd0.emplace_front(0.5);
 
-//  std::forward_list<double> fd1{5.5, 6.6, 7.7};
+  print_forward_list(fd0);
 
-//  fd0.insert_after(fd0.before_begin(), 100.01);
-//  fd0.insert_after(fd0.before_begin(), fd1.begin(), fd1.end());
-//  fd0.insert_after(fd0.before_begin(), 3, 500.05);
+  std::forward_list<double> fd1{5.5, 6.6, 7.7};
 
-//  fd0.emplace_after(fd0.before_begin(), 99.9);
+  fd0.insert_after(fd0.before_begin(), 100.01);
+  fd0.insert_after(fd0.before_begin(), fd1.begin(), fd1.end());
+  fd0.insert_after(fd0.before_begin(), 3, 500.05);
 
-//  print_forward_list(fd0);
+  fd0.emplace_after(fd0.before_begin(), 99.9);
 
-//  //нахождение позиции итератора
-//  auto pos_before = fd0.before_begin();
-//  for (auto pos = fd0.begin(); pos != fd0.end(); ++pos, ++pos_before) {
-//    if ((*pos) < 3.0)  //находим первое число, которое меньше 3
-//      break;
-//  }
+  print_forward_list(fd0);
 
-//  fd0.erase_after(pos_before);  //удаляем элемент стоящий после позиции на
-//                                //которую указывает pos_before
+  //нахождение позиции итератора
+  auto pos_before = fd0.before_begin();
+  for (auto pos = fd0.begin(); pos != fd0.end(); ++pos, ++pos_before) {
+    if ((*pos) < 3.0) //находим первое число, которое меньше 3
+      break;
+  }
 
-//  print_forward_list(fd0);
+  fd0.erase_after(pos_before); //удаляем элемент стоящий после позиции на
+                               //которую указывает pos_before
 
-//  fd0.remove_if(
-//      [](double &a) -> bool { return (a - static_cast<int>(a) > 0.4); });
+  print_forward_list(fd0);
 
-//  print_forward_list(fd0);
+  fd0.remove_if(
+      [](double &a) -> bool { return (a - static_cast<int>(a) > 0.4); });
 
-//  fd0.erase_after(fd0.begin(), fd0.end());  //удаляем все элементы из
-//  интервала
+  print_forward_list(fd0);
 
-//  //(beg, end) не включая границы
+  fd0.erase_after(fd0.begin(), fd0.end()); //удаляем все элементы из интервала
+                                           //(beg, end) не включая границы
 
-//  print_forward_list(fd0);
+  print_forward_list(fd0);
 
-//  //нахождение позиции итератора при помощи функции next()
-//  std::forward_list<int> f{1, 3, 5, 6, 7, 8, 9, 10};
-//  print_forward_list(f);
+  //нахождение позиции итератора при помощи функции next()
+  std::forward_list<int> f{1, 3, 5, 6, 7, 8, 9, 10};
+  print_forward_list(f);
 
-//  auto posBefore = f.before_begin();
-//  for (; next(posBefore) != f.end(); ++posBefore) {
-//    if ((*next(posBefore)) % 2 == 0) break;
-//  }
+  auto posBefore = f.before_begin();
+  for (; next(posBefore) != f.end(); ++posBefore) {
+    if ((*next(posBefore)) % 2 == 0)
+      break;
+  }
 
-//  f.erase_after(posBefore);  //хотим удалить первый четный элемент
+  f.erase_after(posBefore); //хотим удалить первый четный элемент
 
-//  print_forward_list(f);
+  print_forward_list(f);
 
-//  auto position =
-//      findBefore(f.begin(), f.end(), 8);  //ищем итератор указывающий на
-//      позицию
+  auto position =
+      findBefore(f.begin(), f.end(), 8); //ищем итератор указывающий на позицию
 
-//  //элемента предшествующего искомому
-//  f.erase_after(position);
+  //элемента предшествующего искомому
+  f.erase_after(position);
 
-//  print_forward_list(f);
+  print_forward_list(f);
 
-//  auto pos_insertion = findBefore_if(
-//      f.begin(), f.end(), [](int a) -> bool { return ((a % 2) == 0); });
-//  f.insert_after(pos_insertion, 1000);
+  auto pos_insertion = findBefore_if(
+      f.begin(), f.end(), [](int a) -> bool { return ((a % 2) == 0); });
+  f.insert_after(pos_insertion, 1000);
 
-//  print_forward_list(f);
+  print_forward_list(f);
 
-//  //модификация списков
-//  std::forward_list<string> strlist{"hello",   "HELLO",        "BAY-BAY",
-//                                    "bay-bay", "good morning", "GOOD MORNING
-//                                    "};
-//  print_forward_list(strlist);
+  //модификация списков
+  std::forward_list<std::string> strlist{
+      "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING"};
+  print_forward_list(strlist);
 
-//  cout << endl << "unique(op)" << endl;
-//  strlist.unique(compare_strings_lower);
-//  print_forward_list(strlist);
+  std::cout << std::endl << "unique(op)" << std::endl;
+  strlist.unique(compare_strings_lower);
+  print_forward_list(strlist);
 
-//  std::forward_list<string> strlist2{
-//      "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING
-//      "};
-//  print_forward_list(strlist2);
+  std::forward_list<std::string> strlist2{
+      "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING "};
+  print_forward_list(strlist2);
 
-//  // strlist2.unique(CompUpper());
-//  print_forward_list(strlist2);
+  // strlist2.unique(CompUpper());
+  print_forward_list(strlist2);
 
-//  std::forward_list<string> additional{"1234", "9876"};
+  std::forward_list<std::string> additional{"1234", "9876"};
 
-//  strlist.splice_after(strlist.before_begin(), additional);
-//  print_forward_list(strlist);
+  strlist.splice_after(strlist.before_begin(), additional);
+  print_forward_list(strlist);
 
-//  strlist.splice_after(strlist.before_begin(), strlist2,
-//                       strlist2.before_begin());
-//  print_forward_list(strlist);
+  strlist.splice_after(strlist.before_begin(), strlist2,
+                       strlist2.before_begin());
+  print_forward_list(strlist);
 
-//  cout << endl << "Payment cards" << endl;
-//  std::forward_list<string> cards{"Visa", "Mastercard"};
-//  std::forward_list<string> vip_cards{"Visa Gold", "Visa Classic",
-//                                      "Visa Platinum", "Mastercard Black"};
+  std::cout << std::endl << "Payment cards" << std::endl;
+  std::forward_list<std::string> cards{"Visa", "Mastercard"};
+  std::forward_list<std::string> vip_cards{"Visa Gold", "Visa Classic",
+                                           "Visa Platinum", "Mastercard Black"};
 
-//  cards.splice_after(
-//      findBefore(cards.begin(), cards.end(), "Mastercard"), vip_cards,
-//      vip_cards.before_begin(),
-//      findIterator(vip_cards.begin(), vip_cards.end(), "Mastercard Black"));
-//  print_forward_list(cards);
+  cards.splice_after(
+      findBefore(cards.begin(), cards.end(), "Mastercard"), vip_cards,
+      vip_cards.before_begin(),
+      findIterator(vip_cards.begin(), vip_cards.end(), "Mastercard Black"));
+  print_forward_list(cards);
 
-//  cout << endl << "sort() with abs() " << endl;
-//  std::forward_list<int> digits{5, 6, -4, -5, -6, 3, 0, -1, 2, 1, 10, -9};
-//  digits.sort(cmp_abs);
-//  print_forward_list(digits);
+  std::cout << std::endl << "sort() with abs() " << std::endl;
+  std::forward_list<int> digits{5, 6, -4, -5, -6, 3, 0, -1, 2, 1, 10, -9};
+  digits.sort(cmp_abs);
+  print_forward_list(digits);
 
-//  std::forward_list<int> digits_{2, 3, 1, -2, -7, -11, -34, 23, -6, 8};
-//  digits_.sort(cmp_abs);
-//  print_forward_list(digits_);
+  std::forward_list<int> digits_{2, 3, 1, -2, -7, -11, -34, 23, -6, 8};
+  digits_.sort(cmp_abs);
+  print_forward_list(digits_);
 
-//  cout << endl << "merge forward_lists" << endl;
-//  digits.merge(digits_, cmp_abs);
-//  digits.reverse();
+  std::cout << std::endl << "merge forward_lists" << std::endl;
+  digits.merge(digits_, cmp_abs);
+  digits.reverse();
 
-//  print_forward_list(digits);
-//}
+  print_forward_list(digits);
+}
 
-////тестирование множеств  std::set<>
-////-----------------------------------------------------------------
+//------------------------------------------------------------------------------
+// тестирование множеств  std::set<>
+//------------------------------------------------------------------------------
 
-// std::ostream &operator<<(std::ostream &os, Num &num) {
-//  return os << "[ 0x" << std::hex << num.get_a() << " ]";
-//}
+std::ostream &operator<<(std::ostream &os, Num &num) {
+  return os << "[ 0x" << std::hex << num.get_a() << " ]";
+}
 
-// void test_sets() {
-//  //методы создания и инициализации
-//  std::set<int> set1;  //пустое множество элементов типа int, с критерием
-//                       //сортировки заданным по умолчанию std::less<>
-//  std::set<int, std::less<int>> set2;
-//  //пустое множество элементов типа int, с явно заданным критерием
-//  сортировки
+void test_sets() {
+  //методы создания и инициализации
+  std::set<int> set1; //пустое множество элементов типа int, с критерием
+                      //сортировки заданным по умолчанию std::less<>
+  std::set<int, std::less<int>> set2;
+  //пустое множество элементов типа int, с явно заданным критерием  сортировки
 
-//  std::set<int, std::greater<int>> set3;  //пустое множество элементов типа
-//  int,
-//                                          //с явно заданным критерием
-//                                          сортировки
+  std::set<int, std::greater<int>> set3; //пустое множество элементов типа  int,
+                                         //с явно заданным критерием сортировки
 
-//  //
+  //
 
-//  //	std::set<int> set4(std::less<int>());
-//  //пустое
-//  //множество элементов типа int, но критерий сортировки задан как параметр
-//  в
-//  //конструкторе
+  std::set<int> set4(std::less<int>());
+  //пустое множество элементов типа int, но критерий сортировки задан как
+  //параметр  в конструкторе
 
-//  //
+  std::initializer_list<int> ilst{9, 3, 10, 2, 5, 1, 0, 7};
 
-//  std::initializer_list<int> ilst{9, 3, 10, 2, 5, 1, 0, 7};
+  //множество элементов типа int c заданным критерием сортровки,
+  ////инициализированное списком инициализации
 
-//  //множество элементов типа int c заданным критерием сортровки,
-//  ////инициализированное списком инициализации
+  std::set<int, std::less<int>> set5(ilst);
 
-//  std::set<int, std::less<int>> set5(ilst);
+  std::set<int> set6(set5); //множество созданное конструктором копирования
+                            //множество созданное конструктором перемещения
+  std::set<int> set7(std::move(set5));
 
-//  std::set<int> set6(set5);  //множество созданное конструктором копирования
-//                             //множество созданное конструктором перемещения
-//  std::set<int> set7(std::move(set5));
+  std::list<int> list0{8, 5, 6, 1, 4, 2, 9, 0};
+  //множество элементов созданное на основе элементов из интервала заданного
+  //итераторами, с критерием сортировки по умолчанию
+  std::set<int> set8(list0.begin(), list0.end());
 
-//  std::list<int> list0{8, 5, 6, 1, 4, 2, 9, 0};
-//  //множество элементов созданное на основе элементов из интервала заданного
-//  //итераторами, с критерием сортировки по умолчанию
-//  std::set<int> set8(list0.begin(), list0.end());
+  std::set<int, std::greater<int>> set9(
+      set8.begin(), set8.end(),
+      std::greater<int>()); //множество созданное на основе элементов
+                            //из
+  //интервала другого множества но с другим
+  //критерием
+  //сортировки
 
-//  std::set<int, std::greater<int>> set9(
-//      set8.begin(), set8.end(),
-//      std::greater<int>());  //множество созданное на основе элементов
-//                             //из
-//  //интервала другого множества но с другим
-//  //критерием
-//  //сортировки
+  //методы присваивания
+  std::set<int> set10 = set8;
+  std::set<int> set11 = std::move(set8);
+  std::set<int> set12 = {9, 7, 1, 3, 2, 5, 6};
+  std::set<int> set13 = ilst;
 
-//  //методы присваивания
-//  std::set<int> set10 = set8;
-//  std::set<int> set11 = std::move(set8);
-//  std::set<int> set12 = {9, 7, 1, 3, 2, 5, 6};
-//  std::set<int> set13 = ilst;
+  print_set(set7);
+  print_set_info(set7);
+  // print_cmp_criteria(set7);
 
-//  print_set(set7);
-//  print_set_info(set7);
-//  // print_cmp_criteria(set7);
+  print_set(set9);
+  print_set_info(set9);
+  // print_cmp_criteria(set9);
 
-//  print_set(set9);
-//  print_set_info(set9);
-//  // print_cmp_criteria(set9);
+  //специальные операции поиска элемента во множестве std::set<>
+  std::set<int, std::less<int>> set01{3, 5, 7, 0, 1, 10, 8, 6};
+  std::cout << std::endl << "set.count(7) = " << set01.count(7) << std::endl;
 
-//  //специальные операции поиска элемента во множестве std::set<>
-//  std::set<int, std::less<int>> set01{3, 5, 7, 0, 1, 10, 8, 6};
-//  cout << endl << "set.count(7) = " << set01.count(7) << endl;
+  std::set<int, std::less<int>>::const_iterator pos1 = set01.find(7);
+  std::set<int, std::less<int>>::const_iterator pos2 = set01.find(8);
 
-//  std::set<int, std::less<int>>::const_iterator pos1 = set01.find(7);
-//  std::set<int, std::less<int>>::const_iterator pos2 = set01.find(8);
+  print_set_beg_end(pos1, pos2, set01);
 
-//  print_set_beg_end(pos1, pos2, set01);
+  print_set(set01);
+  bounds(set01, 4);
+  bounds(set01, 7);
 
-//  print_set(set01);
-//  bounds(set01, 4);
-//  bounds(set01, 7);
+  //вставка и удаление элементов
+  auto result = set01.insert(9);
+  if (result.second)
+    print_set(set01);
 
-//  //вставка и удаление элементов
-//  auto result = set01.insert(9);
-//  if (result.second) print_set(set01);
+  //  auto result2 = set01.insert(set01.find(10), 11);
+  //  print_set(set01);
 
-//  //  auto result2 = set01.insert(set01.find(10), 11);
-//  //  print_set(set01);
+  std::list<int> l{-5, 2, 15, 25};
+  std::initializer_list<int> intlist{-6, -7, -8, -9};
 
-//  std::list<int> l{-5, 2, 15, 25};
-//  std::initializer_list<int> intlist{-6, -7, -8, -9};
+  set01.insert(l.begin(), l.end());
+  set01.insert(intlist);
+  print_set(set01);
 
-//  set01.insert(l.begin(), l.end());
-//  set01.insert(intlist);
-//  print_set(set01);
+  std::set<Num, NumLess<Num>> numbers{Num(8), Num(10), Num(11), Num(7)};
+  print_set(numbers);
 
-//  std::set<Num, NumLess<Num>> numbers{Num(8), Num(10), Num(11), Num(7)};
-//  print_set(numbers);
+  numbers.emplace(15);
+  numbers.emplace_hint(numbers.find(Num(7)), 3);
+  print_set(numbers);
 
-//  numbers.emplace(15);
-//  numbers.emplace_hint(numbers.find(Num(7)), 3);
-//  print_set(numbers);
+  numbers.erase(Num(7));
+  print_set(numbers);
 
-//  numbers.erase(Num(7));
-//  print_set(numbers);
+  numbers.erase(numbers.find(Num(0xF)));
+  print_set(numbers);
 
-//  numbers.erase(numbers.find(Num(0xF)));
-//  print_set(numbers);
-
-//  numbers.erase(++numbers.begin(), --numbers.end());
-//  print_set(numbers);
+  numbers.erase(++numbers.begin(), --numbers.end());
+  print_set(numbers);
+
+  numbers.clear();
+  print_set_info(numbers);
+}
+
+//------------------------------------------------------------------------------
+// тестирование мультимножеств  std::multiset<>
+//------------------------------------------------------------------------------
+void test_multisets() {
+  //методы создания
+  std::multiset<int> mset0;
+  std::multiset<int, std::greater<int>> mset1;
+  // std::multiset<int, std::greater<int>> mset3(std::greater<int>);
+  std::multiset<int> mset4{5, 6, 1, 0, 2, 5};
 
-//  numbers.clear();
-//  print_set_info(numbers);
-//}
+  std::initializer_list<int> ls{9, 2, 1, 7, 5, 3, 4, 7};
+  std::multiset<int, std::greater<int>> mset5(ls);
+  std::multiset<int, std::greater<int>> mset6(mset5);
+  std::multiset<int> mset7(std::move(mset4));
 
-////тестирование мультимножеств  std::multiset<>
-////-----------------------------------------------
-// void test_multisets() {
-//  //методы создания
-//  std::multiset<int> mset0;
-//  std::multiset<int, std::greater<int>> mset1;
-//  // std::multiset<int, std::greater<int>> mset3(std::greater<int>);
-//  std::multiset<int> mset4{5, 6, 1, 0, 2, 5};
+  std::vector<int> vec{0, 5, 3, 2, 7, 8, 8, 9, 9};
+  std::multiset<int> mset8(vec.begin(), vec.end());
+  std::multiset<int, std::greater<int>> mset9(vec.begin(), vec.end(),
+                                              std::greater<int>());
+
+  //методы присваивания
+  std::multiset<int> mset10{9, 3, 3, 3, 4, 4, 4, 5, 5, 5};
+
+  std::multiset<int> mset11 = mset10;
+  std::multiset<int> mset12 = std::move(mset11);
+  std::multiset<int> mset13 = ls;
+  std::multiset<int> mset14 = {4, 3, 1, 8, 7, 7, 7, 8, 8, 8};
+
+  //поиск элементов
+  std::cout << std::endl
+            << "number 7    - " << mset14.count(7) << " times" << std::endl;
+  std::cout << std::endl << "number 1    - " << *mset14.find(1) << std::endl;
+  std::cout << std::endl
+            << "lower_bound(7) - " << *mset14.lower_bound(7) << std::endl;
+  std::cout << std::endl
+            << "upper_bound(7) - " << *mset14.upper_bound(7) << std::endl;
+  std::cout << std::endl
+            << "equal_range(7) - " << *mset14.equal_range(7).first << " - "
+            << *mset14.equal_range(7).second << std::endl;
+
+  //методы модификации множества
+  mset14.insert(1);
+  std::cout << std::endl << "insert 1 " << std::endl;
+  print_multiset(mset14);
+
+  mset14.insert(mset14.find(4), 5);
+  std::cout << std::endl << "insert 5 " << std::endl;
+  print_multiset(mset14);
+
+  mset14.insert(mset12.begin(), mset12.end());
+  std::cout << std::endl << "insert [beg, end) " << std::endl;
+  print_multiset(mset14);
+
+  mset14.insert(ls);
+  std::cout << std::endl << "insert (initlist) " << std::endl;
+  print_multiset(mset14);
+
+  mset14.emplace(-1);
+  mset14.emplace_hint(mset14.find(-1), 0);
+  print_multiset(mset14);
+
+  std::cout << std::endl << "erase all numbers 7 " << std::endl;
+  mset14.erase(7);
+  print_multiset(mset14);
+
+  mset14.erase(mset14.find(8));
+  print_multiset(mset14);
+
+  mset14.erase(++mset14.begin(), --mset14.end());
+  print_multiset(mset14);
+}
+
+//------------------------------------------------------------------------------
+// тестирование отображений  std::map<>
+//------------------------------------------------------------------------------
+void test_maps() {
+  //методы создания
+  //пустое отображение с элементами std::pair<int, string> и критерием
+  //упорядочивания по умолчанию std::less<>
+  std::map<int, std::string> mp0;
 
-//  std::initializer_list<int> ls{9, 2, 1, 7, 5, 3, 4, 7};
-//  std::multiset<int, std::greater<int>> mset5(ls);
-//  std::multiset<int, std::greater<int>> mset6(mset5);
-//  std::multiset<int> mset7(std::move(mset4));
+  std::map<int, std::string, std::greater<int>> mp1;
 
-//  std::vector<int> vec{0, 5, 3, 2, 7, 8, 8, 9, 9};
-//  std::multiset<int> mset8(vec.begin(), vec.end());
-//  std::multiset<int, std::greater<int>> mset9(vec.begin(), vec.end(),
-//                                              std::greater<int>());
-
-//  //методы присваивания
-//  std::multiset<int> mset10{9, 3, 3, 3, 4, 4, 4, 5, 5, 5};
-
-//  std::multiset<int> mset11 = mset10;
-//  std::multiset<int> mset12 = std::move(mset11);
-//  std::multiset<int> mset13 = ls;
-//  std::multiset<int> mset14 = {4, 3, 1, 8, 7, 7, 7, 8, 8, 8};
-
-//  //поиск элементов
-//  cout << endl << "number 7    - " << mset14.count(7) << " times" << endl;
-//  cout << endl << "number 1    - " << *mset14.find(1) << endl;
-//  cout << endl << "lower_bound(7) - " << *mset14.lower_bound(7) << endl;
-//  cout << endl << "upper_bound(7) - " << *mset14.upper_bound(7) << endl;
-//  cout << endl
-//       << "equal_range(7) - " << *mset14.equal_range(7).first << " - "
-//       << *mset14.equal_range(7).second << endl;
-
-//  //методы модификации множества
-//  mset14.insert(1);
-//  cout << endl << "insert 1 " << endl;
-//  print_multiset(mset14);
-
-//  mset14.insert(mset14.find(4), 5);
-//  cout << endl << "insert 5 " << endl;
-//  print_multiset(mset14);
-
-//  mset14.insert(mset12.begin(), mset12.end());
-//  cout << endl << "insert [beg, end) " << endl;
-//  print_multiset(mset14);
-
-//  mset14.insert(ls);
-//  cout << endl << "insert (initlist) " << endl;
-//  print_multiset(mset14);
-
-//  mset14.emplace(-1);
-//  mset14.emplace_hint(mset14.find(-1), 0);
-//  print_multiset(mset14);
+  std::map<int, std::string> mp2{
+      std::make_pair(5, "Tom"), std::make_pair(8, "Jack"),
+      std::make_pair(1, "Kate"), std::make_pair(7, "Tim")};
+  std::map<int, std::string> mp02{{22, "Pico"}, {55, "Sergo"}, {90, "Siri"}};
+  std::map<int, std::string> mp3(mp2);
+  std::map<int, std::string> mp4(std::move(mp2));
 
-//  cout << endl << "erase all numbers 7 " << endl;
-//  mset14.erase(7);
-//  print_multiset(mset14);
+  std::initializer_list<std::pair<const int, std::string>> ilp{
+      std::make_pair(4, std::string("Andrew")),
+      std::make_pair(9, std::string("Timur")),
+      std::make_pair(2, std::string("Nico")),
+      std::make_pair(6, std::string("Peter"))};
+  std::initializer_list<std::pair<const int, std::string>> ls{{77, "Valio"},
+                                                              {97, "Julio"}};
 
-//  mset14.erase(mset14.find(8));
-//  print_multiset(mset14);
+  std::map<int, std::string> mp7(ls);
+  std::map<int, std::string> mp8(ilp);
 
-//  mset14.erase(++mset14.begin(), --mset14.end());
-//  print_multiset(mset14);
-//}
+  std::deque<std::pair<int, std::string>> dq{
+      std::make_pair(0, "Andrew"), std::make_pair(10, "Timur"),
+      std::make_pair(3, "Nico"), std::make_pair(11, "Peter")};
 
-////тестирование отображений  std::map<>
-////------------------------------------------------
-// void test_maps() {
-//  //методы создания
-//  //пустое отображение с элементами std::pair<int, string> и критерием
-//  //упорядочивания по умолчанию std::less<>
-//  std::map<int, string> mp0;
+  std::map<int, std::string> mp5(dq.begin(), dq.end());
+  std::map<int, std::string, std::greater<int>> mp6(dq.begin(), dq.end(),
+                                                    std::greater<int>());
 
-//  std::map<int, string, std::greater<int>> mp1;
+  print_map(mp3);
+  print_map(mp02);
+  print_map(mp4);
 
-//  std::map<int, string> mp2{std::make_pair(5, "Tom"), std::make_pair(8,
-//  "Jack"),
-//                            std::make_pair(1, "Kate"),
-//                            std::make_pair(7, "Tim")};
-//  std::map<int, string> mp02{{22, "Pico"}, {55, "Sergo"}, {90, "Siri"}};
-//  std::map<int, string> mp3(mp2);
-//  std::map<int, string> mp4(std::move(mp2));
+  print_map(mp7);
+  print_map(mp8);
+  print_map(mp5);
+  print_map(mp6);
 
-//  std::initializer_list<std::pair<const int, string>> ilp{
-//      std::make_pair(4, string("Andrew")), std::make_pair(9,
-//      string("Timur")), std::make_pair(2, string("Nico")), std::make_pair(6,
-//      string("Peter"))};
-//  std::initializer_list<std::pair<const int, string>> ls{{77, "Valio"},
-//                                                         {97, "Julio"}};
+  //операции присваивания
+  std::map<int, std::string> mp9 = mp5;
+  std::map<int, std::string> mp10 = std::move(mp7);
+  std::map<int, std::string> mp11 = ls;
+  std::map<int, std::string> mp12 = {
+      {3, "Hello"}, {9, "Bay"}, {5, "Afternoon"}};
 
-//  std::map<int, string> mp7(ls);
-//  std::map<int, string> mp8(ilp);
+  std::cout << std::endl << "maps after operation = " << std::endl;
+  print_map(mp9);
+  print_map(mp10);
+  print_map(mp11);
+  print_map(mp12);
 
-//  std::deque<std::pair<int, string>> dq{
-//      std::make_pair(0, "Andrew"), std::make_pair(10, "Timur"),
-//      std::make_pair(3, "Nico"), std::make_pair(11, "Peter")};
+  //операции поиска
+  mapbounds(mp12, 5);
 
-//  std::map<int, string> mp5(dq.begin(), dq.end());
-//  std::map<int, string, std::greater<int>> mp6(dq.begin(), dq.end(),
-//                                               std::greater<int>());
+  std::cout << std::endl
+            << "Number elements with key 3 = " << mp12.count(3) << std::endl;
+  std::cout << std::endl
+            << "Find element wih key 3, val = " << (*mp12.find(3)).second
+            << std::endl;
 
-//  print_map(mp3);
-//  print_map(mp02);
-//  print_map(mp4);
+  //итераторы
+  std::map<int, std::string>::iterator i;
+  std::map<int, std::string>::const_iterator ci;
+  std::map<int, std::string>::reverse_iterator ri;
+  std::map<int, std::string>::const_reverse_iterator cri;
 
-//  print_map(mp7);
-//  print_map(mp8);
-//  print_map(mp5);
-//  print_map(mp6);
+  for (i = mp12.begin(); i != mp12.end(); ++i)
+    i->second = i->second.append(" word");
 
-//  //операции присваивания
-//  std::map<int, string> mp9 = mp5;
-//  std::map<int, string> mp10 = std::move(mp7);
-//  std::map<int, string> mp11 = ls;
-//  std::map<int, string> mp12 = {{3, "Hello"}, {9, "Bay"}, {5, "Afternoon"}};
+  print_map(mp12);
 
-//  cout << endl << "maps after operation = " << endl;
-//  print_map(mp9);
-//  print_map(mp10);
-//  print_map(mp11);
-//  print_map(mp12);
+  std::cout << std::endl;
+  for (ci = mp12.cbegin(); ci != mp12.cend(); ++ci)
+    std::cout << (*ci).first << " , " << (*ci).second << std::endl;
 
-//  //операции поиска
-//  mapbounds(mp12, 5);
+  for (ri = mp12.rbegin(); ri != mp12.rend(); ++ri)
+    ri->second.insert(ri->second.begin(), '-');
 
-//  cout << endl << "Number elements with key 3 = " << mp12.count(3) << endl;
-//  cout << endl
-//       << "Find element wih key 3, val = " << (*mp12.find(3)).second <<
-//       endl;
+  print_map(mp12);
 
-//  //итераторы
-//  std::map<int, string>::iterator i;
-//  std::map<int, string>::const_iterator ci;
-//  std::map<int, string>::reverse_iterator ri;
-//  std::map<int, string>::const_reverse_iterator cri;
+  for (cri = mp12.crbegin(); cri != mp12.crend(); ++cri)
+    std::cout << (*cri).first << std::endl;
 
-//  for (i = mp12.begin(); i != mp12.end(); ++i)
-//    i->second = i->second.append(" word");
+  //модифицирующие операции
+  std::map<std::string, std::string> dictionary{{"black", "черный"},
+                                                {"white", "белый"}};
 
-//  print_map(mp12);
+  dictionary.insert(std::make_pair("red", "красный"));
 
-//  cout << endl;
-//  for (ci = mp12.cbegin(); ci != mp12.cend(); ++ci)
-//    cout << (*ci).first << " , " << (*ci).second << endl;
+  dictionary.insert(
+      std::map<std::string, std::string>::value_type("blue", "синий"));
 
-//  for (ri = mp12.rbegin(); ri != mp12.rend(); ++ri)
-//    ri->second.insert(ri->second.begin(), '-');
+  dictionary.insert(std::pair<std::string, std::string>("green", "зеленый"));
 
-//  print_map(mp12);
+  dictionary.insert(
+      std::pair<const std::string, std::string>("green", "зеленый"));
 
-//  for (cri = mp12.crbegin(); cri != mp12.crend(); ++cri)
-//    cout << (*cri).first << endl;
+  print_map(dictionary);
 
-//  //модифицирующие операции
-//  std::map<string, string> dictionary{{"black", "черный"}, {"white",
-//  "белый"}};
+  dictionary.insert(dictionary.find("black"), std::make_pair("be", "быть"));
 
-//  dictionary.insert(std::make_pair("red", "красный"));
+  std::vector<std::pair<std::string, std::string>> vec{{"do", "делать"},
+                                                       {"make", "производить"},
+                                                       {"get", "получить"},
+                                                       {"go", "идти"}};
+  std::initializer_list<std::pair<const std::string, std::string>> words{
+      {"word", "слово"}, {"world", "мир"}, {"hello", "привет"}};
 
-//  dictionary.insert(std::map<string, string>::value_type("blue", "синий"));
+  dictionary.insert(vec.begin(), vec.end());
+  dictionary.insert(words);
 
-//  dictionary.insert(std::pair<string, string>("green", "зеленый"));
+  print_map(dictionary);
 
-//  dictionary.insert(std::pair<const string, string>("green", "зеленый"));
+  dictionary.emplace("house", "дом");
+  dictionary.emplace_hint(dictionary.find("green"), "good", "хороший");
+
+  print_map(dictionary);
 
-//  print_map(dictionary);
+  dictionary.erase("hello");
+  print_map(dictionary);
 
-//  dictionary.insert(dictionary.find("black"), std::make_pair("be", "быть"));
+  // dictionary.erase(dictionary.find("green"));
+  // print_map(dictionary);
+
+  // dictionary.erase(dictionary.find("get"), dictionary.find("word"));
+  // print_map(dictionary);
+
+  //использование отображений как ассоциативных массивов
+
+  dictionary["name"] = "имя";
+  dictionary["sex"] = "пол";
+  dictionary["family"] = "семья";
+
+  print_map(dictionary);
+
+  std::cout << std::endl << dictionary.at("sex") << std::endl;
+  std::cout << std::endl << dictionary.at("name") << std::endl;
+  std::cout << std::endl << dictionary.at("family") << std::endl;
+
+  // replace_key(dictionary, string("make"), string("produce"));
+  print_map(dictionary);
+
+  //применение алгоритмов
+
+  std::map<std::string, float> pp;
+  pp["BASF"] = 70.3f;
+  pp["TSL"] = 90.9f;
+  pp["NVDIA"] = 100.0f;
+  pp["UBS"] = 78.2f;
+  pp["VW"] = 45.7f;
+
+  std::for_each(
+      pp.begin(), pp.end(),
+      [](std::map<std::string, float>::value_type &e) { e.second *= 2.0; });
+
+  std::cout << std::endl;
+  std::for_each(pp.begin(), pp.end(),
+                [](const std::map<std::string, float>::value_type &e) {
+                  std::cout << "(" << e.first << "," << e.second << ")"
+                            << std::endl;
+                });
+
+  pp["Volkswagen"] = pp["VW"];
+  pp.erase("VW");
+
+  std::cout << std::endl;
+  std::for_each(pp.begin(), pp.end(),
+                [](const std::map<std::string, float>::value_type &e) {
+                  std::cout << "(" << e.first << "," << e.second << ")"
+                            << std::endl;
+                });
+
+  //поиск по значению
+
+  std::cout << std::endl;
+  auto pos = std::find_if(pp.begin(), pp.end(),
+                          [](std::pair<const std::string, float> &p) {
+                            return abs(p.second - (90.9 * 2)) < 0.1;
+                          });
+
+  if (pos != pp.end())
+    std::cout << "(" << pos->first << " , " << pos->second << ")" << std::endl;
+
+  //динамическое изменение критерия сравнения
+  std::map<std::string, int, RealTimeCmp> currencies;
+  currencies["DOL"] = 100;
+  currencies["EUR"] = 50;
+  currencies["CHF"] = 150;
+  currencies["RUB"] = 20;
+  currencies["YUP"] = 100;
+  currencies["BPS"] = 150;
+  currencies["UAN"] = 20;
+  currencies["dollar"] = 100;
+  currencies["euro"] = 50;
+  currencies["swichss"] = 150;
+  currencies["rubles"] = 20;
+
+  print_map(currencies);
+
+  RealTimeCmp nocase_cmp(RealTimeCmp::nocase);
+
+  std::map<std::string, int, RealTimeCmp> dng(
+      nocase_cmp); //создание контейнера с тем же типом но другим критерием
+                   //сравнения
+
+  dng["DOL"] = 100;
+  dng["EUR"] = 50;
+  dng["CHF"] = 150;
+  dng["RUB"] = 20;
+  dng["YUP"] = 100;
+  dng["BPS"] = 150;
+  dng["UAN"] = 20;
+  dng["dollar"] = 100;
+  dng["euro"] = 50;
+  dng["swichss"] = 150;
+  dng["rubles"] = 20;
+
+  print_map(dng);
+}
+
+//тестирование неупорядоченных множеств и мультимножеств
+// std::unordered_set<> and std::unordered_multiset<>
+std::ostream &operator<<(std::ostream &ostr, const Customer &c) {
+  return ostr << "Customer: [" << std::setw(10) << std::left << c.get_name()
+              << " - " << c.get_check_sum() << "]";
+}
+
+//------------------------------------------------------------------------------
+// Тестирование неупорядоченных множеств
+//------------------------------------------------------------------------------
+void test_unordered_sets() {
+  //методы создания и инициализации
+  std::unordered_set<int>
+      uset0; //создание пустой hash таблицы для элементов типа int, с hash
+             //функцией std::hash() и критерием эквивалентности equal_to()
+  std::unordered_set<int> uset1(
+      10); //создание пустой hash таблицы для элементов типа int, и с заданным
+           //количеством сегментов
+  std::unordered_set<int, std::size_t (*)(int)> uset01(10, hashf<int>);
+
+  std::initializer_list<int> intlist{9, 3, 1, 7, 5, 4, 2, 8};
 
-//  std::vector<std::pair<string, string>> vec{{"do", "делать"},
-//                                             {"make", "производить"},
-//                                             {"get", "получить"},
-//                                             {"go", "идти"}};
-//  std::initializer_list<std::pair<const string, string>> words{
-//      {"word", "слово"}, {"world", "мир"}, {"hello", "привет"}};
+  std::unordered_set<int> uset2{
+      7, 4, 1, 8,
+      9}; //создание неупорядоченного контейнера на основе списка инициализации
+  std::unordered_set<int> uset3(intlist); //
 
-//  dictionary.insert(vec.begin(), vec.end());
-//  dictionary.insert(words);
+  std::unordered_set<int> uset4(uset2); //с помощью конструктора  копирования
+  std::unordered_set<int> uset5(
+      std::move(uset2)); //использование конструктора перемещения
 
-//  print_map(dictionary);
+  std::unordered_set<int, std::hash<int>, std::equal_to<int>> uset6{
+      8, 12, 4,
+      5}; //явное указание функции хеширования и проверки на эквивалентность
 
-//  dictionary.emplace("house", "дом");
-//  dictionary.emplace_hint(dictionary.find("green"), "good", "хороший");
+  std::forward_list<int> flist{89, 34, 12, 35, 56, 78, 87};
 
-//  print_map(dictionary);
+  std::unordered_set<int> uset7(flist.begin(), flist.end());
+  std::unordered_set<int> uset8(flist.begin(), flist.end(), 10);
 
-//  dictionary.erase("hello");
-//  print_map(dictionary);
+  print_unordered_set(uset4);
+  print_unordered_set_info(uset4);
 
-//  // dictionary.erase(dictionary.find("green"));
-//  // print_map(dictionary);
+  print_unordered_set(uset8);
+  print_unordered_set_info(uset8);
 
-//  // dictionary.erase(dictionary.find("get"), dictionary.find("word"));
-//  // print_map(dictionary);
+  std::unordered_set<int, std::size_t (*)(int)> uset9(
+      flist.begin(), flist.end(), 10, hashf<int>);
+  print_unordered_set(uset9);
+  print_unordered_set_info(uset9);
 
-//  //использование отображений как ассоциативных массивов
-
-//  dictionary["name"] = "имя";
-//  dictionary["sex"] = "пол";
-//  dictionary["family"] = "семья";
-
-//  print_map(dictionary);
-
-//  cout << endl << dictionary.at("sex") << endl;
-//  cout << endl << dictionary.at("name") << endl;
-//  cout << endl << dictionary.at("family") << endl;
-
-//  // replace_key(dictionary, string("make"), string("produce"));
-//  print_map(dictionary);
-
-//  //применение алгоритмов
-
-//  std::map<string, float> pp;
-//  pp["BASF"] = 70.3f;
-//  pp["TSL"] = 90.9f;
-//  pp["NVDIA"] = 100.0f;
-//  pp["UBS"] = 78.2f;
-//  pp["VW"] = 45.7f;
-
-//  std::for_each(
-//      pp.begin(), pp.end(),
-//      [](std::map<string, float>::value_type &e) { e.second *= 2.0; });
-
-//  cout << endl;
-//  std::for_each(pp.begin(), pp.end(),
-//                [](const std::map<string, float>::value_type &e) {
-//                  cout << "(" << e.first << "," << e.second << ")" << endl;
-//                });
-
-//  pp["Volkswagen"] = pp["VW"];
-//  pp.erase("VW");
-
-//  cout << endl;
-//  std::for_each(pp.begin(), pp.end(),
-//                [](const std::map<string, float>::value_type &e) {
-//                  cout << "(" << e.first << "," << e.second << ")" << endl;
-//                });
-
-//  //поиск по значению
-
-//  cout << endl;
-//  auto pos =
-//      std::find_if(pp.begin(), pp.end(), [](std::pair<const string, float>
-//      &p)
-//      {
-//        return abs(p.second - (90.9 * 2)) < 0.1;
-//      });
-
-//  if (pos != pp.end())
-//    cout << "(" << pos->first << " , " << pos->second << ")" << endl;
-
-//динамическое изменение критерия сравнения
-//  std::map<string, int, RealTimeCmp> currencies;
-//  currencies["DOL"] = 100;
-//  currencies["EUR"] = 50;
-//  currencies["CHF"] = 150;
-//  currencies["RUB"] = 20;
-//  currencies["YUP"] = 100;
-//  currencies["BPS"] = 150;
-//  currencies["UAN"] = 20;
-//  currencies["dollar"] = 100;
-//  currencies["euro"] = 50;
-//  currencies["swichss"] = 150;
-//  currencies["rubles"] = 20;
-
-//  print_map(currencies);
-
-//  RealTimeCmp nocase_cmp(RealTimeCmp::nocase);
-
-//  std::map<string, int, RealTimeCmp> dng(
-//      nocase_cmp);  //создание контейнера с тем же типом но другим критерием
-//                    //сравнения
-
-//  dng["DOL"] = 100;
-//  dng["EUR"] = 50;
-//  dng["CHF"] = 150;
-//  dng["RUB"] = 20;
-//  dng["YUP"] = 100;
-//  dng["BPS"] = 150;
-//  dng["UAN"] = 20;
-//  dng["dollar"] = 100;
-//  dng["euro"] = 50;
-//  dng["swichss"] = 150;
-//  dng["rubles"] = 20;
-
-//  print_map(dng);
-//}
-
-////тестирование неупорядоченных множеств и мультимножеств
-//// std::unordered_set<> and std::unordered_multiset<>
-// std::ostream &operator<<(std::ostream &ostr, const Customer &c) {
-//  return ostr << "Customer: [" << std::setw(10) << std::left <<
-//  c.get_name()
-//              << " - " << c.get_check_sum() << "]";
-//}
-
-// void test_unordered_sets() {
-//  //методы создания и инициализации
-//  std::unordered_set<int>
-//      uset0;  //создание пустой hash таблицы для элементов типа int, с
-//      hash
-//              //функцией std::hash() и критерием эквивалентности
-//              equal_to()
-//  std::unordered_set<int> uset1(
-//      10);  //создание пустой hash таблицы для элементов типа int, и с
-//      заданным
-//            //количеством сегментов
-//  std::unordered_set<int, std::size_t (*)(int)> uset01(10, hashf<int>);
-
-//  std::initializer_list<int> intlist{9, 3, 1, 7, 5, 4, 2, 8};
-
-//  std::unordered_set<int> uset2{
-//      7, 4, 1, 8,
-//      9};  //создание неупорядоченного контейнера на основе списка
-//      инициализации
-//  std::unordered_set<int> uset3(intlist);  //
-
-//  std::unordered_set<int> uset4(uset2);  //с помощью конструктора
-//  копирования std::unordered_set<int> uset5(
-//      std::move(uset2));  //использование конструктора перемещения
-
-//  std::unordered_set<int, std::hash<int>, std::equal_to<int>> uset6{
-//      8, 12, 4,
-//      5};  //явное указание функции хеширования и проверки на
-//      эквивалентность
-
-//  std::forward_list<int> flist{89, 34, 12, 35, 56, 78, 87};
-
-//  std::unordered_set<int> uset7(flist.begin(), flist.end());
-//  std::unordered_set<int> uset8(flist.begin(), flist.end(), 10);
-
-//  print_unordered_set(uset4);
-//  print_unordered_set_info(uset4);
-
-//  print_unordered_set(uset8);
-//  print_unordered_set_info(uset8);
-
-//  std::unordered_set<int, std::size_t (*)(int)> uset9(
-//      flist.begin(), flist.end(), 10, hashf<int>);
-//  print_unordered_set(uset9);
-//  print_unordered_set_info(uset9);
-
-//  std::unordered_set<Customer, CustomerHash, CustomerEqual> restoran{
-//      Customer("Jack", 50), Customer("Jon", 70), Customer("Tim", 89),
-//      Customer()};
-//  print_unordered_set(restoran);
-//  print_unordered_set_info(restoran);
-
-//  std::unordered_set<Customer, CustomerHash> bar{
-//      Customer("Nico", 50), Customer("Linda", 70), Customer("Jim", 89),
-//      Customer("Silver", 90)};
-//  print_unordered_set(bar);
-
-//  //операторы присваивания
-//  uset0 = uset3;
-//  uset1 = std::move(uset3);
-
-//  std::unordered_set<int> uset10 = intlist;
-//  std::unordered_set<int> uset11 = {45, 12, 46};
-
-//  //специальные операции поиска
-//  print_unordered_set(uset1);
-//  cout << endl
-//       << "Сколько элементов со значением " << 8 << "  " << uset1.count(8)
-//       << endl;
-//  cout << endl << "Элемент 8 " << *(uset1.find(8)) << endl;
-//  cout << endl
-//       << "Находим интервал для элемента 1 " <<
-//       *(uset1.equal_range(1).first)
-//       << " - " << *(uset1.equal_range(1).second) << endl;
-
-//  std::unordered_set<int> uset12(intlist);
-
-//  std::unordered_set<int>::const_iterator pos1, pos2;
-
-//  std::tie(pos1, pos2) = uset12.equal_range(8);
-
-//  if (pos1 == uset12.end()) cout << "pos1 is bad" << endl;
-
-//  if (pos2 == uset12.end()) cout << "pos2 is bad" << endl;
-
-//  //итераторы существуют только однонаправленные, модифицировать значения
-//  НЕЛЬЗЯ std::unordered_set<int>::const_iterator ci;
-//  std::unordered_set<int>::iterator i;
-
-//  for (i = uset12.begin(); i != uset12.end(); ++i) cout << (*i) << " ";
-
-//  //модифицирующие операции
-//  uset12.insert(100);
-//  print_unordered_set(uset12);
-
-//  uset12.insert(uset12.find(100), 101);
-//  print_unordered_set(uset12);
-
-//  uset12.insert(uset11.begin(), uset11.end());
-//  print_unordered_set(uset12);
-
-//  uset12.insert({200, 230});
-//  print_unordered_set(uset12);
-
-//  bar.emplace("Edvard", 345);
-//  print_unordered_set(bar);
-
-//  bar.emplace_hint(bar.find(Customer("Edvard", 345)), "Donn Diego", 300);
-//  print_unordered_set(bar);
-
-//  bar.erase(Customer("Edvard", 345));
-//  print_unordered_set(bar);
-
-//  bar.erase(bar.find(Customer("Nico", 50)));
-//  print_unordered_set(bar);
-
-//  bar.erase(++bar.begin(), bar.end());
-//  print_unordered_set(bar);
-
-//  bar.clear();
-//  print_unordered_set(bar);
-//}
-
-////тестирование потоков ввода вывода
-////------------------------------------------------------------
-
-// void cin_properties(std::istream &cin_) {
-//  std::ios::iostate cin_state =
-//      cin_.rdstate();  //запрос флагов состояния потока
-
-//  cout << "-------------------------------------------------------";
-//  cout << endl << "прверка битов состояния потока cin " << endl;
-
-//  //проверка отдельных флагов
-//  if (cin_state & std::ios::goodbit)
-//    cout << "cin has \'goodbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'goodbit\' " << endl;
-
-//  if (cin_state & std::ios::eofbit)
-//    cout << "cin has \'eofbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'eofbit\' " << endl;
-
-//  if (cin_state & std::ios::failbit)
-//    cout << "cin has \'failbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'failbit\' " << endl;
-
-//  if (cin_state & std::ios::badbit)
-//    cout << "cin has \'badbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'badbit\' " << endl;
-
-//  cout << endl
-//       << "проверка битов состояния с помощью функций good(), eof(),
-//       fail(), "
-//          "bad() "
-//       << endl;
-
-//  //проверка отдельных битов с помощью функций
-//  if (cin_.good())
-//    cout << "cin has \'goodbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'goodbit\' " << endl;
-
-//  if (cin_.eof())
-//    cout << "cin has \'eofbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'eofbit\' " << endl;
-
-//  if (cin_.fail())
-//    cout << "cin has \'failbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'failbit\' " << endl;
-
-//  if (cin_.bad())
-//    cout << "cin has \'badbit\' " << endl;
-//  else
-//    cout << "cin does not has  \'badbit\' " << endl;
-
-//  //проверка битов состояний которые генерируют исключения
-//  cout << endl
-//       << "Проверка битов состояний которые генерируют исключения" <<
-//       endl;
-
-//  int flags =
-//      cin_.exceptions();  //получаем флаги установка которых вызывает
-//      исключения
-
-//  if (flags & std::ios::goodbit) cout << "cin не генерирует исключений" <<
-//  endl;
-
-//  if (flags & std::ios::eofbit)
-//    cout << "cin генерирует исключения при достижении конца файла EOF" <<
-//    endl;
-
-//  if (flags & std::ios::failbit)
-//    cout << "cin генерирует исключения при ошибке ввода failbit" << endl;
-
-//  if (flags & std::ios::badbit)
-//    cout << "cin генерирует исключения при ошибке ввода badbit" << endl;
-//}
-
-// void set_locale(LANG lang) {
-//  switch (lang) {
-//    case C:
-//      setlocale(LC_ALL, "C");
-//      break;
-//    case ENG:
-//      setlocale(LC_ALL, "en-US");
-//      break;
-//    case ENG_UTF8:
-//      setlocale(LC_ALL, "en_US.UTF-8");
-//      break;
-//    case RUS:
-//      setlocale(LC_ALL, "Russian");
-//      break;
-//    case RUS_UTF8:
-//      setlocale(LC_ALL, "ru_RU.utf8");
-//      break;
-//    case DE:
-//      setlocale(LC_ALL, "de_DE");
-//      break;
-//    case DE_UTF8:
-//      setlocale(LC_ALL, "de_DE.utf8");
-//      break;
-//    case FR:
-//      setlocale(LC_ALL, "fr-FR");
-//      break;
-//    default:
-//      cout << "You chosed wrong language. Reset locale." << endl;
-//      break;
-//  }
-
-//  std::cout << "User preffered local:" << std::locale().name() << endl;
-//}
-
-// void test_ithreads() {
-//  //проверка свойств потока ввода std:cin
-//  // cin_properties(cin);
-//  // cin.exceptions(std::ios::badbit | std::ios::failbit |
-//  std::ios::eofbit);
-//  // //установка бит состояний в которых будут генерироваться исключения
-
-//  // cin_properties(cin);
-//  // cin.exceptions(std::ios::goodbit);
-//  // //сброс всех флагов
-
-//  // cin_properties(cin);
-
-//  //ввод данных с консоли
-//  char c;
-//  wchar_t wc;
-
-//  // cout << "input char - ";
-//  // cin.get(c);
-//  // //функция istream & istream::get(char & c) срабатывает по событию
-//  ввода
-//  // <Enter> cout <<endl<< "You input " << c << endl;
-
-//  // cout << "input char - ";
-//  // c = cin.get();
-//  // //функция int istream::get() просто возвращает следующий символ из
-//  потока
-//  // ввода cout << "char - " << c << endl;
-
-//  //нужно использовать либо cin либо wcin
-
-//  // wcout << "input wchar_t - ";
-//  // wcin.get(wc);
-//  // // wcout <<endl <<"You input " << wc << endl;
-
-//  // wcout << "input wchar_t - ";
-//  // wc = wcin.get();
-//  // // wcout << "wchar - " << wc << endl;
-
-//  const int N{10};
-//  char buffer[N]{'\0'};
-//  char buffer2[N]{'\0'};
-//  char buffer3[N]{'\0'};
-//  char buffer4[N]{'\0'};
-
-//  // cout << endl << "input string - ";
-//  // cin.get(buffer, 10);
-//  // //функция istream & istream::get(char*, streamsize n) считывает n-1
-//  // символов, \n - оставляет в потоке cout << endl << "You input: " <<
-//  buffer
-//  // << endl;
-
-//  // cout << endl << "input string - ";
-//  // cin.get(buffer, 9, '-');
-//  // //функция istream & istream::get(char*, streamsize n, char delim)
-//  cout <<
-//  // endl << "You input: " << buffer << endl;
-
-//  // memset(buffer, '\0', N);
-//  // cout << endl << "Input string - ";
-//  // cin.getline(buffer, 6);
-//  // //функция istream& istream::getline(char*, streamsize n) символ \n -
-//  // извлекается из потока но не вставляется в буфер cout << endl << "You
-//  input:
-//  // " << buffer << endl;
-
-//  // memset(buffer, '\0', N);
-//  // cout << endl << "Input string - ";
-//  // cin.getline(buffer, 6, '\\');
-//  // //функция istream& istream::getline(char*, streamsize n, char delim)
-//  cout
-//  // << endl << "You input: " << buffer << endl;
-
-//  // memset(buffer, '\0', N);
-//  // cout << endl << "Input string - ";
-//  // cin.read(buffer, 9);
-//  // //считывает указанное колличество не добавляя \0 в конце cout << "You
-//  // input: " << buffer
-//  // << endl;
-
-//  // memset(buffer, '\0', N);
-//  // cout << endl << "Input string - ";
-//  // cin.get(c);
-//  // int countchar = cin.readsome(buffer, 5);
-//  // //считывает указанное колличество не добавляя \0 в конце, возвращает
-//  // количество прочитанных символов cout << "You input: " <<countchar<<"
-//  chars
-//  // "<< buffer
-//  // << endl;
-//  //
-//  // int gc = cin.gcount();
-//  // //возвращает количество символов считанных в последнии раз cout <<
-//  // "gcount() = " << gc << endl;
-
-//  //игнорирование символов с извлечением из потока cin.ignore()
-//  // 123456789123*5678
-//  // memset(buffer, '\0', N);
-//  // cin.get(buffer, 4);
-//  // //считываем 123 cin.ignore();
-//  // //игнорируем 4 cin.ignore(6);
-//  // //игнорируем 567891 cin.ignore(4, '*');
-//  // //игнорируем 4 пока не встретится '*' cin.get(c);
-//  // //потом считываем один символ char next_char = cin.peek();
-//  // //возвращаем следующий символ без его извлечения
-
-//  // cout << "You input: " << buffer << " " << c << " nextchar -
-//  // "<<next_char<<endl;
-
-//  // cin.unget();
-//  // cin.get(c);
-//  // cout << "Last readed char: " << c << endl;
-//  //
-//  // cin_properties(cin.putback('9'));
-//  // //пытаемся вернуть назад в поток символ, который не считывали
-//  //
-//  // cin.get(c);
-//  // cout << "Last returned char: " << c << endl;
-
-//  //манипуляторы ввода-вывода
-//  // memset(buffer, '\0', N);
-//  //
-//  // cout << "Input char chain with \' \'" << std::ends;
-//  // //добавляем символ \0 в конец вывода cin >> std::noskipws;
-//  // //отключаем игнорирование пробельных символов при вводе >>123 234 356
-//  ->123
-//  // 234 356 cin.get(buffer, 10); cout << "You input: " << buffer <<
-//  std::endl;
-
-//  // cout << "Input char chain with \' \'" << std::ends;
-//  // //добавляем символ \0 в конец вывода cin >> std::ws;
-//  // //включаем игнорирование пробельных символов cin.get(buffer2, 10);
-//  cout
-//  <<
-//  // "You input: " << buffer2 << std::endl;
-
-//  //манипуляторы для вывода вещественных чисел
-//  double num = 90.34567;
-//  // cout << '|' << std::setw(15) << std::showpos << std::left << num
-//  //	 << '|' <<std::setw(15) << std::noshowpos << std::left << num <<
-//  '|' <<
-//  // endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::right << num
-//  //	 << '|' << std::setw(15) << std::noshowpos << std::right << num
-//  << '|'
-//  //<< endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::internal << num
-//  //		 << '|' << std::setw(15) << std::noshowpos << std::right
-//  << num
-//  //<<
-//  //'|' << endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::right <<
-//  // std::setfill('_') << num
-//  //	 << '|' << std::setw(15) << std::showpos << std::right <<
-//  // std::setfill('*') << num << '|' << endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::right <<
-//  // std::setfill(' ') << num
-//  //	 << '|' << std::setw(15) << std::showpos << std::right <<
-//  std::setfill('
-//  //') << num << '|' << endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::right <<
-//  // std::scientific << num
-//  //		 << '|' << std::setw(15) << std::showpos << std::right
-//  <<
-//  // std::scientific << num << '|' << endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::right <<
-//  // std::defaultfloat << num
-//  //	 << '|' << std::setw(15) << std::showpos << std::right <<
-//  // std::defaultfloat << num << '|' << endl;
-
-//  // cout << '|' << std::setw(15) << std::showpos << std::right <<
-//  std::hexfloat
-//  // << num
-//  //		 << '|' << std::setw(15) << std::showpos << std::right
-//  <<
-//  // std::hexfloat << num << '|' << endl;
-
-//  ////std::setprecision(n) совместно с std::defaultfloat задает общее
-//  количество
-//  ///знаков числа
-//  // cout << '|' << std::setw(15) <<std::setprecision(3) <<
-//  std::defaultfloat
-//  <<
-//  // std::showpos << std::right << num
-//  //	<< '|' << std::setw(15) << std::setprecision(4) <<
-//  std::defaultfloat <<
-//  // std::showpos << std::right  << num << '|' << endl;
-
-//  ////std::setprecision(n) совместно с std::fixed задает количество знаков
-//  после
-//  ///запятой
-//  // cout << '|' << std::setw(15) << std::setprecision(6) << std::fixed <<
-//  // std::showpos << std::right << num
-//  //	<< '|' << std::setw(15) << std::setprecision(7) << std::fixed <<
-//  // std::showpos << std::right << num << '|' << endl;
-
-//  //манипуляторы для вывода целых чисел
-//  int intnum = 255;
-//  // cout << endl;
-//  // cout << '|' << std::setw(17) << std::dec << std::showpos <<
-//  std::right <<
-//  // intnum << '|' << endl; cout << '|' << std::setw(17) << std::hex <<
-//  // std::showpos << std::right << intnum << '|' << endl; cout << '|' <<
-//  // std::setw(17) << std::uppercase<< std::hex << std::showpos <<
-//  std::right
-//  <<
-//  // intnum << '|' << endl; cout << '|' << std::setw(17) << std::oct <<
-//  // std::showpos << std::right << intnum << '|' << endl; cout << '|' <<
-//  // std::setw(17) << std::dec <<std::showbase<< std::showpos <<
-//  std::right <<
-//  // intnum << '|' << endl;
-
-//  //установка кодировки символов
-//  set_locale(RUS);
-
-//  cout << myendl;
-//  cout << "Hello ostream" << myendl << "I am glad to see You again" <<
-//  myendl
-//       << "I am happy" << myendl;
-//  cout << "Привет ostream" << myendl << "Я рад видеть тебя снова" <<
-//  myendl
-//       << "Я счастлив" << myendl;
-
-//  //игнорирование строк при вводе
-//  string instr;
-
-//  cout << "Input n - strings:" << endl;
-//  cin >> ignoreLine(3) >> instr;
-//  cout << "You have input: " << instr << endl;
-//}
-
-////тестирование файловых потоков
-////---------------------------------------------------
-// void test_fstreams() {
-//  set_locale(RUS);
-
-//  cout << "Работа с файловыми потоками вывода" << endl;
-
-//  //тестирование простого вывода ASCI кодов в файл
-//  cout << "вывод таблицы кодов ASCI" << endl;
-
-//  std::ofstream ofs;
-//  ofs.open("asci.txt", std::ios::out | std::ios::trunc);
-
-//  for (int i = 0; i < 256; i++) {
-//    ofs << static_cast<char>(i);
-//  }
-//  ofs.close();
-
-//  //вывод текста в файл
-//  cout << "вывод текста в файл" << endl;
-
-//  char text[]{
-//      "hello C++11, \n I am glad to see new C++ standart* - \n I hope "
-//      "that \n + I can find new excelent job with big salary, "};
-
-//  ofs.open("text.txt", std::ios::out | std::ios::trunc);
-//  ofs << text;
-//  ofs.close();
-
-//  //вывод чисел в файл
-//  ofs.open("numbers.txt", std::ios::out | std::ios::trunc);
-
-//  for (int i = 0; i < 16; i++) {
-//    ofs.width(5);
-//    ofs.setf(std::ios::uppercase | std::ios::showpos |
-//    std::ios::showbase); ofs.setf(std::ios::hex, std::ios::basefield);
-//    ofs.fill('_');
-//    ofs << i << endl;
-//  }
-
-//  for (int j = 0; j < 10; j++) {
-//    ofs << "|" << std::setw(10) << std::setprecision(5)
-//        << static_cast<double>(j) * 3.14 << "|" << std::setw(10) << j <<
-//        "|"
-//        << endl;
-//  }
-//  ofs.close();
-
-//  //комбинированный вывод
-//  std::ofstream cmb_ofs("cmb.txt", std::ios::out | std::ios::trunc);
-//  cmb_ofs.write(text, strlen(text));
-//  cmb_ofs.put('\n');
-
-//  std::array<int, 10> M{34, -12, 45, 67, -14, 59, 23, -18, 13, 90};
-
-//  for (auto i = M.begin(); i != M.end(); ++i) {
-//    cmb_ofs.width(4);
-//    cmb_ofs.setf(std::ios::showpos);
-//    cmb_ofs.setf(std::ios::internal, std::ios::adjustfield);
-//    cmb_ofs << (*i) << "<-" << endl;
-//  }
-
-//  cmb_ofs.close();
-
-//  //тестирование файлового ввода посимвольное чтение
-//  cout << endl << "Чтение данных из файла" << endl;
-
-//  std::ifstream ifs("cmb.txt", std::ios::in);
-
-//  while (!ifs.eof()) {
-//    char c = ifs.get();
-//    cout << c;
-//  }
-//  ifs.close();
-
-//  //чтение из файла с помощью разных функций ввода
-//  char strbuffer[512];
-//  memset(strbuffer, '\0', 512);
-//  int len = strlen(text);
-
-//  cout << endl << "length of text: " << len << endl;
-
-//  std::ifstream strm("cmb.txt", std::ios::in);
-//  strm.get(strbuffer, len);  //читаем (len-1) символов до символа '\n'
-//  cout << endl << "Прочитано из файла: " << strbuffer;
-
-//  memset(strbuffer, '\0', 512);
-//  strm.get(strbuffer, len, '*');  //читаем (len-1) символов до символа '*'
-//  cout << endl << "Прочитано из файла: " << strbuffer;
-
-//  strm.getline(strbuffer, len);
-//  cout << endl << "Прочитано из файла: " << strbuffer;
-
-//  strm.getline(strbuffer, len, '+');
-//  cout << endl << "Прочитано из файла: " << strbuffer;
-
-//  memset(strbuffer, '\0', 512);
-//  strm.read(strbuffer, 11);
-//  cout << endl << "Прочитано из файла функцией read(): " << strbuffer;
-
-//  memset(strbuffer, '\0', 512);
-//  std::streamsize s = strm.readsome(strbuffer, 35);
-//  cout << endl
-//       << "Прочитано из файла функцией readsome(): " << s
-//       << " символов:" << strbuffer;
-
-//  strm.close();
-
-//  //работа с позициями
-//  std::ifstream ifstrm("numbers.txt", std::ios::in);
-//  ifstrm.seekg(0, std::ios::beg);
-
-//  char num[3];
-//  do {
-//    switch (ifstrm.peek()) {
-//      case '_':
-//      case '0':
-//      case 'Xincrementator':
-//        ifstrm.ignore();
-//        break;
-//      default: {
-//        ifstrm.getline(num, 3);
-//        int a = atoi(num);
-//        cout << endl << "a = " << a;
-//      } break;
-//    }
-//  } while (ifstrm.peek() != '|');
-
-//  ifstrm.seekg(-25, std::ios::end);
-//  ifstrm.getline(strbuffer, 25);
-
-//  cout << endl << "Last row: " << strbuffer;
-
-//  ifstrm.close();
-
-//  //создание потока для чтения и записи в файл
-//  cout << endl;
-//  cout << endl << "work with std::fstream class" << endl;
-
-//  std::fstream fs("text.txt", std::ios::in | std::ios::out);
-//  fs.seekp(0, std::ios::end);
-
-//  fs << "I like big salary CHF 5000-10000 or US dollar $";
-
-//  fs.seekg(0, std::ios::beg);
-//  fs.getline(strbuffer, 512, '$');
-
-//  cout << "Text from file text.txt: " << strbuffer << endl;
-//  fs.close();
-//}
-
-////тестирование строковыых потоков
-////------------------------------------------------------
-// void test_string_streams() {
-//  //вывод в строковой поток
-//  std::ostringstream oss;
-//  oss << std::setw(5) << std::right << std::showpos << 53;
-//  oss << std::setw(5) << std::right << std::showpos << 7 << '\n';
-
-//  cout << endl;
-//  cout << "String from std::ostringstream: " << oss.str();
-
-//  //форматированый вывод чисел в строковый поток
-//  std::ostringstream os;
-//  int i = 10;
-//  while (--i) {
-//    os.width(7);
-//    os.fill('_');
-//    os.setf(std::ios::hex, std::ios::basefield);
-//    os.setf(std::ios::uppercase | std::ios::showbase);
-//    os << i << " ";
-//  }
-
-//  cout << endl << "String from string stream: " << os.str();
-
-//  //ввод данных из строкового потока
-//  string s("6   7 8 9.2");
-//  int a, b, c;
-//  float d;
-
-//  std::istringstream ist;
-//  ist.str(s);
-//  ist >> a >> b >> c >> d;
-
-//  cout << endl
-//       << "a = " << a << " b = " << b << " c = " << c << " d = " << d <<
-//       endl;
-
-//  //ввод данных в кортеж
-//  string str{"Hello 5 6.5 $"};
-
-//  string hello;
-//  int num;
-//  float f;
-//  char ch;
-
-//  std::istringstream is(str);
-//  is >> hello >> num >> f >> ch;
-
-//  std::tuple<string &, int &, float &, char &> tp = std::tie(hello, num,
-//  f, ch);
-
-//  cout << endl;
-//  cout << "Tuple<>: " << std::get<0>(tp) << " " << std::get<1>(tp) << " "
-//       << std::get<2>(tp) << " " << std::get<3>(tp) << endl;
-//}
+  std::unordered_set<Customer, CustomerHash, CustomerEqual> restoran{
+      Customer("Jack", 50), Customer("Jon", 70), Customer("Tim", 89),
+      Customer()};
+  print_unordered_set(restoran);
+  print_unordered_set_info(restoran);
+
+  std::unordered_set<Customer, CustomerHash> bar{
+      Customer("Nico", 50), Customer("Linda", 70), Customer("Jim", 89),
+      Customer("Silver", 90)};
+  print_unordered_set(bar);
+
+  //операторы присваивания
+  uset0 = uset3;
+  uset1 = std::move(uset3);
+
+  std::unordered_set<int> uset10 = intlist;
+  std::unordered_set<int> uset11 = {45, 12, 46};
+
+  //специальные операции поиска
+  print_unordered_set(uset1);
+  std::cout << std::endl
+            << "Сколько элементов со значением " << 8 << "  " << uset1.count(8)
+            << std::endl;
+  std::cout << std::endl << "Элемент 8 " << *(uset1.find(8)) << std::endl;
+  std::cout << std::endl
+            << "Находим интервал для элемента 1 "
+            << *(uset1.equal_range(1).first) << " - "
+            << *(uset1.equal_range(1).second) << std::endl;
+
+  std::unordered_set<int> uset12(intlist);
+
+  std::unordered_set<int>::const_iterator pos1, pos2;
+
+  std::tie(pos1, pos2) = uset12.equal_range(8);
+
+  if (pos1 == uset12.end())
+    std::cout << "pos1 is bad" << std::endl;
+
+  if (pos2 == uset12.end())
+    std::cout << "pos2 is bad" << std::endl;
+
+  //итераторы существуют только однонаправленные, модифицировать значения НЕЛЬЗЯ
+  std::unordered_set<int>::const_iterator ci;
+  std::unordered_set<int>::iterator i;
+
+  for (i = uset12.begin(); i != uset12.end(); ++i)
+    std::cout << (*i) << " ";
+
+  //модифицирующие операции
+  uset12.insert(100);
+  print_unordered_set(uset12);
+
+  uset12.insert(uset12.find(100), 101);
+  print_unordered_set(uset12);
+
+  uset12.insert(uset11.begin(), uset11.end());
+  print_unordered_set(uset12);
+
+  uset12.insert({200, 230});
+  print_unordered_set(uset12);
+
+  bar.emplace("Edvard", 345);
+  print_unordered_set(bar);
+
+  bar.emplace_hint(bar.find(Customer("Edvard", 345)), "Donn Diego", 300);
+  print_unordered_set(bar);
+
+  bar.erase(Customer("Edvard", 345));
+  print_unordered_set(bar);
+
+  bar.erase(bar.find(Customer("Nico", 50)));
+  print_unordered_set(bar);
+
+  bar.erase(++bar.begin(), bar.end());
+  print_unordered_set(bar);
+
+  bar.clear();
+  print_unordered_set(bar);
+}
+
+//------------------------------------------------------------------------------
+//тестирование потоков ввода вывода
+//------------------------------------------------------------------------------
+
+void cin_properties(std::istream &cin_) {
+  std::ios::iostate cin_state = cin_.rdstate(); //запрос флагов состояния потока
+
+  std::cout << "-------------------------------------------------------";
+  std::cout << std::endl << "прверка битов состояния потока cin " << std::endl;
+
+  //проверка отдельных флагов
+  if (cin_state & std::ios::goodbit)
+    std::cout << "cin has \'goodbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'goodbit\' " << std::endl;
+
+  if (cin_state & std::ios::eofbit)
+    std::cout << "cin has \'eofbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'eofbit\' " << std::endl;
+
+  if (cin_state & std::ios::failbit)
+    std::cout << "cin has \'failbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'failbit\' " << std::endl;
+
+  if (cin_state & std::ios::badbit)
+    std::cout << "cin has \'badbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'badbit\' " << std::endl;
+
+  std::cout << std::endl
+            << "проверка битов состояния с помощью функций good(), "
+               "eof(),fail(),  bad() "
+            << std::endl;
+
+  //проверка отдельных битов с помощью функций
+  if (cin_.good())
+    std::cout << "cin has \'goodbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'goodbit\' " << std::endl;
+
+  if (cin_.eof())
+    std::cout << "cin has \'eofbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'eofbit\' " << std::endl;
+
+  if (cin_.fail())
+    std::cout << "cin has \'failbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'failbit\' " << std::endl;
+
+  if (cin_.bad())
+    std::cout << "cin has \'badbit\' " << std::endl;
+  else
+    std::cout << "cin does not has  \'badbit\' " << std::endl;
+
+  //проверка битов состояний которые генерируют исключения
+  std::cout << std::endl
+            << "Проверка битов состояний которые генерируют исключения"
+            << std::endl;
+
+  int flags =
+      cin_.exceptions(); //получаем флаги установка которых вызывает исключения
+
+  if (flags & std::ios::goodbit)
+    std::cout << "cin не генерирует исключений" << std::endl;
+
+  if (flags & std::ios::eofbit)
+    std::cout << "cin генерирует исключения при достижении конца файла EOF"
+              << std::endl;
+
+  if (flags & std::ios::failbit)
+    std::cout << "cin генерирует исключения при ошибке ввода failbit"
+              << std::endl;
+
+  if (flags & std::ios::badbit)
+    std::cout << "cin генерирует исключения при ошибке ввода badbit"
+              << std::endl;
+}
+
+void set_locale(LANG lang) {
+  switch (lang) {
+  case C:
+    setlocale(LC_ALL, "C");
+    break;
+  case ENG:
+    setlocale(LC_ALL, "en-US");
+    break;
+  case ENG_UTF8:
+    setlocale(LC_ALL, "en_US.UTF-8");
+    break;
+  case RUS:
+    setlocale(LC_ALL, "Russian");
+    break;
+  case RUS_UTF8:
+    setlocale(LC_ALL, "ru_RU.utf8");
+    break;
+  case DE:
+    setlocale(LC_ALL, "de_DE");
+    break;
+  case DE_UTF8:
+    setlocale(LC_ALL, "de_DE.utf8");
+    break;
+  case FR:
+    setlocale(LC_ALL, "fr-FR");
+    break;
+  default:
+    std::cout << "You chosed wrong language. Reset locale." << std::endl;
+    break;
+  }
+
+  std::cout << "User preffered local:" << std::locale().name() << std::endl;
+}
+
+//------------------------------------------------------------------------------
+// Тестирование потоков ввода
+//------------------------------------------------------------------------------
+void test_ithreads() {
+  //проверка свойств потока ввода std:cin
+  cin_properties(std::cin);
+  std::cin.exceptions(std::ios::badbit | std::ios::failbit | std::ios::eofbit);
+  //установка бит состояний в которых будут генерироваться исключения
+
+  cin_properties(std::cin);
+  std::cin.exceptions(std::ios::goodbit);
+  //сброс всех флагов
+
+  cin_properties(std::cin);
+
+  //ввод данных с консоли
+  char c;
+  wchar_t wc;
+
+  std::cout << "input char - ";
+  std::cin.get(c);
+  //функция istream & istream::get(char & c) срабатывает по событию  ввода
+  //<Enter>
+  std::cout << std::endl << "You input " << c << std::endl;
+
+  std::cout << "input char - ";
+  c = std::cin.get();
+  //функция int istream::get() просто возвращает следующий символ из  потока
+  //ввода
+  std::cout << "char - " << c << std::endl;
+
+  //нужно использовать либо cin либо wcin
+
+  std::wcout << "input wchar_t - ";
+  std::wcin.get(wc);
+  std::wcout << std::endl << "You input " << wc << std::endl;
+
+  std::wcout << "input wchar_t - ";
+  wc = std::wcin.get();
+  std::wcout << "wchar - " << wc << std::endl;
+
+  const int N{10};
+  char buffer[N]{'\0'};
+  char buffer2[N]{'\0'};
+  char buffer3[N]{'\0'};
+  char buffer4[N]{'\0'};
+
+  std::cout << std::endl << "input string - ";
+  std::cin.get(buffer, 10);
+  //функция istream & istream::get(char*, streamsize n) считывает n-1 символов,
+  //\n - оставляет в потоке
+  std::cout << std::endl << "You input: " << buffer << std::endl;
+
+  std::cout << std::endl << "input string - ";
+  std::cin.get(buffer, 9, '-');
+  //функция istream & istream::get(char*, streamsize n, char delim)
+  std::cout << std::endl << "You input: " << buffer << std::endl;
+
+  memset(buffer, '\0', N);
+  std::cout << std::endl << "Input string - ";
+  std::cin.getline(buffer, 6);
+  //функция istream& istream::getline(char*, streamsize n) символ \n -
+  //извлекается из потока но не вставляется в буфер
+  std::cout << std::endl << "You  input:   " << buffer << std::endl;
+
+  memset(buffer, '\0', N);
+  std::cout << std::endl << "Input string - ";
+  std::cin.getline(buffer, 6, '\\');
+  //функция istream& istream::getline(char*, streamsize n, char delim)
+  std::cout << std::endl << "You input: " << buffer << std::endl;
+
+  memset(buffer, '\0', N);
+  std::cout << std::endl << "Input string - ";
+  std::cin.read(buffer, 9);
+  //считывает указанное колличество не добавляя \0 в конце
+  std::cout << "You   input: " << buffer << std::endl;
+
+  memset(buffer, '\0', N);
+  std::cout << std::endl << "Input string - ";
+  std::cin.get(c);
+  int countchar = std::cin.readsome(buffer, 5);
+  //считывает указанное колличество не добавляя \0 в конце, возвращает
+  //количество прочитанных символов
+  std::cout << "You input: " << countchar << "  chars   " << buffer
+            << std::endl;
+
+  int gc = std::cin.gcount();
+  //возвращает количество символов считанных в последнии раз
+  std::cout << "gcount() = " << gc << std::endl;
+
+  //игнорирование символов с извлечением из потока cin.ignore()
+  //123456789123*5678
+  memset(buffer, '\0', N);
+  std::cin.get(buffer, 4);
+  //считываем 123 cin.ignore();
+  //игнорируем 4 cin.ignore(6);
+  //игнорируем 567891 cin.ignore(4, '*');
+  //игнорируем 4 пока не встретится '*' cin.get(c);
+  //потом считываем один символ
+  char next_char = std::cin.peek();
+  //возвращаем следующий символ без его извлечения
+
+  std::cout << "You input: " << buffer << " " << c << " nextchar - "
+            << next_char << std::endl;
+
+  std::cin.unget();
+  std::cin.get(c);
+  std::cout << "Last readed char: " << c << std::endl;
+
+  cin_properties(std::cin.putback('9'));
+  //пытаемся вернуть назад в поток символ, который не считывали
+
+  std::cin.get(c);
+  std::cout << "Last returned char: " << c << std::endl;
+
+  //манипуляторы ввода-вывода
+  memset(buffer, '\0', N);
+
+  std::cout << "Input char chain with \' \'" << std::ends;
+  //добавляем символ \0 в конец вывода cin >> std::noskipws;
+  //отключаем игнорирование пробельных символов при вводе >>123 234 356  ->123
+  //234 356
+  std::cin.get(buffer, 10);
+  std::cout << "You input: " << buffer << std::endl;
+
+  std::cout << "Input char chain with \' \'" << std::ends;
+  //добавляем символ \0 в конец вывода cin >> std::ws;
+  //включаем игнорирование пробельных символов cin.get(buffer2, 10);
+  std::cout << "You input: " << buffer2 << std::endl;
+
+  //манипуляторы для вывода вещественных чисел
+  double num = 90.34567;
+  std::cout << '|' << std::setw(15) << std::showpos << std::left << num << '|'
+            << std::setw(15) << std::noshowpos << std::left << num << '|'
+            << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::right << num << '|'
+            << std::setw(15) << std::noshowpos << std::right << num << '|'
+            << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::internal << num
+            << '|' << std::setw(15) << std::noshowpos << std::right << num
+            << '|' << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::right
+            << std::setfill('_') << num << '|' << std::setw(15) << std::showpos
+            << std::right << std::setfill('*') << num << '|' << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::right
+            << std::setfill(' ') << num << '|' << std::setw(15) << std::showpos
+            << std::right << std::setfill(' ') << num << '|' << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::right
+            << std::scientific << num << '|' << std::setw(15) << std::showpos
+            << std::right << std::scientific << num << '|' << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::right
+            << std::defaultfloat << num << '|' << std::setw(15) << std::showpos
+            << std::right << std::defaultfloat << num << '|' << std::endl;
+
+  std::cout << '|' << std::setw(15) << std::showpos << std::right
+            << std::hexfloat << num << '|' << std::setw(15) << std::showpos
+            << std::right << std::hexfloat << num << '|' << std::endl;
+
+  // std::setprecision(n) совместно с std::defaultfloat задает общее  количество
+  // знаков числа
+  std::cout << '|' << std::setw(15) << std::setprecision(3) << std::defaultfloat
+            << std::showpos << std::right << num << '|' << std::setw(15)
+            << std::setprecision(4) << std::defaultfloat << std::showpos
+            << std::right << num << '|' << std::endl;
+
+  // std::setprecision(n) совместно с std::fixed задает количество знаков  после
+  // запятой
+  std::cout << '|' << std::setw(15) << std::setprecision(6) << std::fixed
+            << std::showpos << std::right << num << '|' << std::setw(15)
+            << std::setprecision(7) << std::fixed << std::showpos << std::right
+            << num << '|' << std::endl;
+
+  //манипуляторы для вывода целых чисел
+  int intnum = 255;
+  std::cout << std::endl;
+  std::cout << '|' << std::setw(17) << std::dec << std::showpos << std::right
+            << intnum << '|' << std::endl;
+  std::cout << '|' << std::setw(17) << std::hex << std::showpos << std::right
+            << intnum << '|' << std::endl;
+  std::cout << '|' << std::setw(17) << std::uppercase << std::hex
+            << std::showpos << std::right << intnum << '|' << std::endl;
+  std::cout << '|' << std::setw(17) << std::oct << std::showpos << std::right
+            << intnum << '|' << std::endl;
+  std::cout << '|' << std::setw(17) << std::dec << std::showbase << std::showpos
+            << std::right << intnum << '|' << std::endl;
+
+  //установка кодировки символов
+  set_locale(RUS);
+
+  std::cout << myendl;
+  std::cout << "Hello ostream" << myendl << "I am glad to see You again"
+            << myendl << "I am happy" << myendl;
+  std::cout << "Привет ostream" << myendl << "Я рад видеть тебя снова" << myendl
+            << "Я счастлив" << myendl;
+
+  //игнорирование строк при вводе
+  std::string instr;
+
+  std::cout << "Input n - strings:" << std::endl;
+  std::cin >> ignoreLine(3) >> instr;
+  std::cout << "You have input: " << instr << std::endl;
+}
+
+//------------------------------------------------------------------------------
+// тестирование файловых потоков
+//------------------------------------------------------------------------------
+void test_fstreams() {
+  set_locale(RUS);
+
+  std::cout << "Работа с файловыми потоками вывода" << std::endl;
+
+  //тестирование простого вывода ASCI кодов в файл
+  std::cout << "вывод таблицы кодов ASCI" << std::endl;
+
+  std::ofstream ofs;
+  ofs.open("asci.txt", std::ios::out | std::ios::trunc);
+
+  for (int i = 0; i < 256; i++) {
+    ofs << static_cast<char>(i);
+  }
+  ofs.close();
+
+  //вывод текста в файл
+  std::cout << "вывод текста в файл" << std::endl;
+
+  char text[]{"hello C++11, \n I am glad to see new C++ standart* - \n I hope "
+              "that \n + I can find new excelent job with big salary, "};
+
+  ofs.open("text.txt", std::ios::out | std::ios::trunc);
+  ofs << text;
+  ofs.close();
+
+  //вывод чисел в файл
+  ofs.open("numbers.txt", std::ios::out | std::ios::trunc);
+
+  for (int i = 0; i < 16; i++) {
+    ofs.width(5);
+    ofs.setf(std::ios::uppercase | std::ios::showpos | std::ios::showbase);
+    ofs.setf(std::ios::hex, std::ios::basefield);
+    ofs.fill('_');
+    ofs << i << std::endl;
+  }
+
+  for (int j = 0; j < 10; j++) {
+    ofs << "|" << std::setw(10) << std::setprecision(5)
+        << static_cast<double>(j) * 3.14 << "|" << std::setw(10) << j << "|"
+        << std::endl;
+  }
+  ofs.close();
+
+  //комбинированный вывод
+  std::ofstream cmb_ofs("cmb.txt", std::ios::out | std::ios::trunc);
+  cmb_ofs.write(text, strlen(text));
+  cmb_ofs.put('\n');
+
+  std::array<int, 10> M{34, -12, 45, 67, -14, 59, 23, -18, 13, 90};
+
+  for (auto i = M.begin(); i != M.end(); ++i) {
+    cmb_ofs.width(4);
+    cmb_ofs.setf(std::ios::showpos);
+    cmb_ofs.setf(std::ios::internal, std::ios::adjustfield);
+    cmb_ofs << (*i) << "<-" << std::endl;
+  }
+
+  cmb_ofs.close();
+
+  //тестирование файлового ввода посимвольное чтение
+  std::cout << std::endl << "Чтение данных из файла" << std::endl;
+
+  std::ifstream ifs("cmb.txt", std::ios::in);
+
+  while (!ifs.eof()) {
+    char c = ifs.get();
+    std::cout << c;
+  }
+  ifs.close();
+
+  //чтение из файла с помощью разных функций ввода
+  char strbuffer[512];
+  memset(strbuffer, '\0', 512);
+  int len = strlen(text);
+
+  std::cout << std::endl << "length of text: " << len << std::endl;
+
+  std::ifstream strm("cmb.txt", std::ios::in);
+  strm.get(strbuffer, len); //читаем (len-1) символов до символа '\n'
+  std::cout << std::endl << "Прочитано из файла: " << strbuffer;
+
+  memset(strbuffer, '\0', 512);
+  strm.get(strbuffer, len, '*'); //читаем (len-1) символов до символа '*'
+  std::cout << std::endl << "Прочитано из файла: " << strbuffer;
+
+  strm.getline(strbuffer, len);
+  std::cout << std::endl << "Прочитано из файла: " << strbuffer;
+
+  strm.getline(strbuffer, len, '+');
+  std::cout << std::endl << "Прочитано из файла: " << strbuffer;
+
+  memset(strbuffer, '\0', 512);
+  strm.read(strbuffer, 11);
+  std::cout << std::endl << "Прочитано из файла функцией read(): " << strbuffer;
+
+  memset(strbuffer, '\0', 512);
+  std::streamsize s = strm.readsome(strbuffer, 35);
+  std::cout << std::endl
+            << "Прочитано из файла функцией readsome(): " << s
+            << " символов:" << strbuffer;
+
+  strm.close();
+
+  //работа с позициями
+  std::ifstream ifstrm("numbers.txt", std::ios::in);
+  ifstrm.seekg(0, std::ios::beg);
+
+  char num[3];
+  do {
+    switch (ifstrm.peek()) {
+    case '_':
+    case '0':
+    case 'Xincrementator':
+      ifstrm.ignore();
+      break;
+    default: {
+      ifstrm.getline(num, 3);
+      int a = atoi(num);
+      std::cout << std::endl << "a = " << a;
+    } break;
+    }
+  } while (ifstrm.peek() != '|');
+
+  ifstrm.seekg(-25, std::ios::end);
+  ifstrm.getline(strbuffer, 25);
+
+  std::cout << std::endl << "Last row: " << strbuffer;
+
+  ifstrm.close();
+
+  //создание потока для чтения и записи в файл
+  std::cout << std::endl;
+  std::cout << std::endl << "work with std::fstream class" << std::endl;
+
+  std::fstream fs("text.txt", std::ios::in | std::ios::out);
+  fs.seekp(0, std::ios::end);
+
+  fs << "I like big salary CHF 5000-10000 or US dollar $";
+
+  fs.seekg(0, std::ios::beg);
+  fs.getline(strbuffer, 512, '$');
+
+  std::cout << "Text from file text.txt: " << strbuffer << std::endl;
+  fs.close();
+}
+
+//------------------------------------------------------------------------------
+// тестирование строковыых потоков
+//------------------------------------------------------------------------------
+void test_string_streams() {
+  //вывод в строковой поток
+  std::ostringstream oss;
+  oss << std::setw(5) << std::right << std::showpos << 53;
+  oss << std::setw(5) << std::right << std::showpos << 7 << '\n';
+
+  std::cout << std::endl;
+  std::cout << "String from std::ostringstream: " << oss.str();
+
+  //форматированый вывод чисел в строковый поток
+  std::ostringstream os;
+  int i = 10;
+  while (--i) {
+    os.width(7);
+    os.fill('_');
+    os.setf(std::ios::hex, std::ios::basefield);
+    os.setf(std::ios::uppercase | std::ios::showbase);
+    os << i << " ";
+  }
+
+  std::cout << std::endl << "String from string stream: " << os.str();
+
+  //ввод данных из строкового потока
+  std::string s("6   7 8 9.2");
+  int a, b, c;
+  float d;
+
+  std::istringstream ist;
+  ist.str(s);
+  ist >> a >> b >> c >> d;
+
+  std::cout << std::endl
+            << "a = " << a << " b = " << b << " c = " << c << " d = " << d
+            << std::endl;
+
+  //ввод данных в кортеж
+  std::string str{"Hello 5 6.5 $"};
+
+  std::string hello;
+  int num;
+  float f;
+  char ch;
+
+  std::istringstream is(str);
+  is >> hello >> num >> f >> ch;
+
+  std::tuple<std::string &, int &, float &, char &> tp =
+      std::tie(hello, num, f, ch);
+
+  std::cout << std::endl;
+  std::cout << "Tuple<>: " << std::get<0>(tp) << " " << std::get<1>(tp) << " "
+            << std::get<2>(tp) << " " << std::get<3>(tp) << std::endl;
+}

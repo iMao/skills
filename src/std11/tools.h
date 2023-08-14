@@ -191,7 +191,7 @@ public:
   Xc() = default;
   ~Xc() = default;
 
-  static void PrintString(std::string s){ std::cout << s;}
+  static void PrintString(std::string s) { std::cout << s; }
   void PrintS(std::string s) { std::cout << s; }
   void operator()(std::string s) { std::cout << s; }
 };
@@ -207,7 +207,6 @@ template <typename _Tp> _Tp ComputeMul(_Tp x, _Tp y) { return (x * y); }
 
 void TestPackagedTask();
 
-
 //-----------------------------------------------------------------------------
 //тестирование библиотеки хроно
 //-----------------------------------------------------------------------------
@@ -221,7 +220,7 @@ std::ostream &operator<<(std::ostream &s,
 template <typename C> void PrintClockData() {
   using namespace std;
 
-  std::cout << " -precision: ";
+  cout << " -precision: ";
 
   typedef typename C::period P;
 
@@ -235,25 +234,74 @@ template <typename C> void PrintClockData() {
   cout << "-is steady: " << boolalpha << C::is_steady << endl;
 }
 
-std::string TimeAsString(std::chrono::system_clock::time_point &tp);
-
 void TestChronoLibrary();
 
 //------------------------------------------------------------------------------
 //тестирование размеров указателей
 //------------------------------------------------------------------------------
-void test_pointers_size();
+class A {
+public:
+  A() = default;
+  virtual ~A() = default;
+  virtual void Print() = 0;
+  virtual int Sum() = 0;
+  virtual void Avg() = 0;
+};
 
+class B : public A {
+public:
+  B() = default;
+  ~B() = default;
+  void Print() override { std::cout << "class B\n"; }
+  int Sum() override { return 0; };
+  void Avg() override { std::cout <<"avg\n";}
+};
+
+class C : public A {
+public:
+  C() {
+    for (int i = 0; i < 64; i++) {
+      c[i] = i;
+    }
+  }
+  ~C() = default;
+  void Print() override { std::cout << "class C c: " << c << std::endl; }
+  int Sum() override {
+    int s = 0;
+    for (int i = 0; i < 64; i++) {
+      s += c[i];
+    }
+    return s;
+  };
+  void Avg() override { std::cout <<"avg\n";}
+
+private:
+  double c[64];
+};
+
+struct DataStruct{
+  int a;
+  double b;
+  char c;
+};
+
+struct NextDataStruct : public DataStruct{
+  void Hello(){
+    std::cout <<"Hello\n";
+  }
+};
+
+void TestPointersSize();
 
 //------------------------------------------------------------------------------
 //тестирование атомарных операций
 //------------------------------------------------------------------------------
 
-template <typename atom_t> void get_atomic_info(std::atomic<atom_t> &atom_var) {
+template <typename atomic_type> void get_atomic_info(std::atomic<atomic_type> &atom_var) {
   cout << "atomic variable information: " << endl;
   cout << "is_lock_free(): " << std::boolalpha << atom_var.is_lock_free()
        << endl;
-  cout << "atomic value:   " << static_cast<atom_t>(atom_var.load()) << endl;
+  cout << "atomic value:   " << static_cast<atomic_type>(atom_var.load()) << endl;
   cout << endl;
 }
 
@@ -269,6 +317,6 @@ struct data_Ty {
   }
 };
 
-void test_atomic();
+void TestAtomic();
 
 #endif

@@ -51,6 +51,12 @@ add_executable(char16_char32_wchar_t char16_char32_wchar_t.cpp)
 add_executable(packaged_task packaged_task.cpp)
 target_link_libraries(packaged_task -lpthread)
 
+
+#atomic mailbox example
+add_executable(atomic_mailbox atomic_mailbox.cpp)
+target_link_libraries(atomic_mailbox -lpthread)
+
+
 # ------------------features of C++14--------------------------------------------
 # feature: variable template
 add_executable(variable_template variable_template.cpp)

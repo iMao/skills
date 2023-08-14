@@ -1261,7 +1261,7 @@ void TestChronoLibrary() {
   std::chrono::duration<int, std::pico> picosec(10);
 
   //интервал 2 секунды
-  std::chrono::seconds seconds_(2);
+  std::chrono::seconds two_seconds(2);
 
   //интервал 1 минута
   std::chrono::minutes minutes(1);
@@ -1281,13 +1281,13 @@ void TestChronoLibrary() {
             << std::endl;
 
   auto dur_3_4_max = std::chrono::duration<int, std::ratio<3, 4>>::max();
-  std::cout << std::endl << "max() " << dur_3_4_max.count() << std::endl;
+  std::cout << std::endl << "3/4 max() " << dur_3_4_max.count() << std::endl;
 
   auto dur_3_4_min = std::chrono::duration<int, std::ratio<3, 4>>::min();
-  std::cout << std::endl << "min() " << dur_3_4_min.count() << std::endl;
+  std::cout << std::endl << "3/4 min() " << dur_3_4_min.count() << std::endl;
 
   std::cout << std::endl;
-  std::cout << seconds_ << std::endl;
+  std::cout << two_seconds << std::endl;
   std::cout << millisec_100 << std::endl;
   std::cout << microsec_10 << std::endl;
   std::cout << minutes << std::endl;
@@ -1295,9 +1295,9 @@ void TestChronoLibrary() {
   std::cout << std::endl;
 
   // duration_cast<>
-  std::chrono::seconds ffive(62);
+  std::chrono::seconds six_two(62);
   std::chrono::minutes m =
-      std::chrono::duration_cast<std::chrono::minutes>(ffive);
+      std::chrono::duration_cast<std::chrono::minutes>(six_two);
   std::cout << m << std::endl;
 
   std::chrono::seconds sec_dur =
@@ -1368,7 +1368,7 @@ void TestChronoLibrary() {
 //------------------------------------------------------------------------------
 //тестирование размеров указателей
 //------------------------------------------------------------------------------
-void test_pointers_size() {
+void TestPointersSize() {
   //проверка размерности указателя
   double s = 9.0;
   double *ptr = &s;
@@ -1379,6 +1379,11 @@ void test_pointers_size() {
   char c{'h'};
   char *pc{&c};
 
+  A *object_ptr;
+  B object_b;
+  C object_c;
+  object_ptr = &object_b;
+
   cout << endl
        << "sizeof(double*) = " << sizeof(ptr)
        << " sizeof(*double) = " << sizeof(s) << endl;
@@ -1388,6 +1393,38 @@ void test_pointers_size() {
   cout << endl
        << "sizeof(char*)   = " << sizeof(pc) << " sizeof(*char) = " << sizeof(c)
        << endl;
+  cout << endl
+       << "sizeof(A*)   = " << sizeof(object_ptr)
+       << " sizeof(*object_ptr) = " << sizeof(A) << endl;
+
+  cout << endl
+       << "sizeof(A*)   = " << sizeof(object_ptr)
+       << " sizeof(*object_ptr) = " << sizeof(B) << endl;
+
+  object_ptr = &object_c;
+  cout << endl
+       << "sizeof(A*)   = " << sizeof(object_ptr)
+       << " sizeof(*object_ptr) = " << sizeof(C) << endl;
+
+  DataStruct *data_struct_ptr;
+  DataStruct ds{.a = 10, .b = 3.14, .c = 'c'};
+
+  data_struct_ptr = &ds;
+
+  cout << endl
+       << "sizeof(DataStruct*)   = " << sizeof(data_struct_ptr)
+       << " sizeof(*data_struct_ptr) = " << sizeof(DataStruct) << endl;
+
+  NextDataStruct *next_data_struct_ptr;
+  NextDataStruct nds;
+  nds.a = 10;
+  nds.b = 2.1;
+  nds.c = 'h';
+  next_data_struct_ptr = &nds;
+
+  cout << endl
+       << "sizeof(NextDataStruct*)   = " << sizeof(next_data_struct_ptr)
+       << " sizeof(*next_data_struct_ptr) = " << sizeof(NextDataStruct) << endl;
 }
 
 //------------------------------------------------------------------------------
@@ -1413,9 +1450,11 @@ std::atomic<unsigned long long> ullong_data(0);
 
 std::atomic<uint32_t> uint32var;
 
+std::atomic<int *> atomic_ptr;
+
 std::atomic_flag flag(ATOMIC_FLAG_INIT);
 
-void test_atomic() {
+void TestAtomic() {
   //получение характеристик атомарных переменных
   std::thread t1([]() {
     get_atomic_info(bool_data);
@@ -1521,7 +1560,7 @@ void test_atomic() {
           " - "
        << uint32var.load() << endl;
 
-  //упорядочение доступа к памяти для атомарных операций
+  // упорядочение доступа к памяти для атомарных операций
 
   // memory_order_relaxed - ослабленное упорядочение
 
@@ -1533,4 +1572,30 @@ void test_atomic() {
   // memory_order_seq_cst - последовательно согласованное упорядочение
 
   // flag.test_and_set(std::memory_order_seq_cst);
+
+  int *ptr = nullptr;
+  std::atomic_init(&atomic_ptr, ptr);
+
+  ptr = (int *)malloc(16);
+
+  std::thread t7([&]() {
+    for (int i = 0; i < 16; i++) {
+      ptr[i] = i;
+    }
+    atomic_ptr.store(ptr);
+  });
+
+  std::thread t8([&]() {
+    while (!atomic_ptr.load()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    for (int i = 0; i < 16; i++) {
+      std::cout <<"0x"<< std::hex << ptr[i] << std::endl;
+    }
+  });
+
+  t7.join();
+  t8.join();
+
+  free(ptr);
 }
