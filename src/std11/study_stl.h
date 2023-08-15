@@ -1,38 +1,41 @@
 #ifndef SRC_CPP11_STL_STUDY_STL_
 #define SRC_CPP11_STL_STUDY_STL_
 
-#include <math.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <algorithm>
-#include <array>
-#include <cctype>
-#include <deque>
-#include <exception>
-#include <forward_list>
 #include <fstream>
-#include <functional>
-#include <initializer_list>
 #include <iomanip>
 #include <iosfwd>
 #include <iostream>
 #include <istream>
-#include <list>
-#include <locale>
-#include <map>
-#include <numeric>
 #include <ostream>
-#include <random>
-#include <set>
 #include <sstream>
+
+#include <array>
+#include <deque>
+#include <forward_list>
+#include <initializer_list>
+#include <list>
+#include <map>
+#include <set>
 #include <string>
 #include <tuple>
-#include <typeinfo>
 #include <unordered_set>
-#include <utility>
 #include <vector>
+
+#include <algorithm>
+#include <numeric>
+#include <typeinfo>
+#include <utility>
+
+#include <cctype>
+#include <exception>
+#include <functional>
+#include <locale>
+#include <random>
+
+#include <math.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 //------------------------------------------------------------------------------
 //тестирование массива std::array<>
@@ -174,7 +177,7 @@ void TestTuples();
 //тестирование контейнера std::vector<>
 //------------------------------------------------------------------------------
 template <typename t>
-void PrintVectorInfo(std::vector<t> &vec, const char *vec_name) {
+void PrintVectorInfo(const std::vector<t> &vec, const char *vec_name) {
   std::cout << std::endl;
   //текущее количество элементов
   std::cout << vec_name << ".size() = " << vec.size() << std::endl;
@@ -188,7 +191,7 @@ void PrintVectorInfo(std::vector<t> &vec, const char *vec_name) {
 }
 
 template <typename t>
-void VectorEmptyInfo(std::vector<t> &v, const char *vector_name) {
+void VectorEmptyInfo(const std::vector<t> &v, const char *vector_name) {
   std::cout << std::endl;
   if (v.empty())
     std::cout << vector_name << " - empty" << std::endl;
@@ -197,12 +200,12 @@ void VectorEmptyInfo(std::vector<t> &v, const char *vector_name) {
 }
 
 template <typename t>
-void PrintVector(std::vector<t> &v, const char *vector_name) {
+void PrintVector(const std::vector<t> &v, const char *vector_name) {
   std::cout << vector_name << ":  ";
   if (v.empty())
     std::cout << "vector is empty" << std::endl;
   else {
-    for (auto &e : v) {
+    for (auto e : v) {
       std::cout << e << " ";
     }
     std::cout << std::endl;
@@ -235,7 +238,6 @@ template <typename t> void TestIterators(std::vector<t> &vec) {
   for (l = vec.crbegin(); l != vec.crend(); ++l) {
     std::cout << (*l) << " ";
   }
-
   std::cout << std::endl;
 }
 

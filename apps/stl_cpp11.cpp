@@ -7,11 +7,11 @@
 
 int main() {
 
-   TestArray();
+  // TestArray();
   // TestPairs();
   // TestTuples();
   // TestVector();
-  // TestDeque();
+   TestDeque();
   // test_list();
   // test_list_special();
   // test_forward_list();

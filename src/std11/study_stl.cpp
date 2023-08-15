@@ -1,11 +1,11 @@
-#include "study_stl.h"
 
-#include <typeinfo>
+#include "study_stl.h"
 
 //------------------------------------------------------------------------------
 // TestArray тестирование массива array<>
 //------------------------------------------------------------------------------
 void TestArray() {
+
   //простой тест массива array<> C style
   std::cout << "C style of usage of std::array<> container stl\n";
   std::array<char, 19> word{};
@@ -15,8 +15,7 @@ void TestArray() {
 
   //тестирование конструкторов
   //инициализация при объявлении списком инициализации
-  std::cout << "\n";
-  std::cout << "std::array's constructors \n";
+  std::cout << "\nstd::array's constructors\n";
 
   std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
@@ -54,11 +53,11 @@ void TestArray() {
     for (std::size_t i = 0; i < 12; i++)
       std::cout << std::endl << "a[" << i << "] = " << a.at(i);
   } catch (std::exception &e) {
-    std::cerr << std::endl << "exeption " << e.what() << std::endl;
+    std::cerr << std::endl << "exeption: " << e.what() << std::endl;
   }
 
   //тестирование семантики перемещения
-  std::cout << "Test std::move() semantics\n";
+  std::cout << "\nTest std::move() semantics\n";
 
   std::array<int, 5> s{9, 9, 9, 9, 9};
   //происходит простое копирование исходного массива
@@ -87,7 +86,7 @@ void TestArray() {
   std::array<float, 5> transformed_flt{};
 
   float sum = std::accumulate(flt.begin(), flt.end(), 0.0f);
-  std::cout << std::endl << "sum = " << sum << std::endl;
+  std::cout << std::endl << "sum: " << sum << std::endl;
 
   //изменим элементы и результаты положим в другой массив
   std::transform(flt.begin(), flt.end(), transformed_flt.begin(),
@@ -103,16 +102,15 @@ void TestArray() {
   //запрос информации о массиве
 
   std::cout << std::endl
-            << (flt.empty() == true ? "array is empty" : "array is full")
-            << std::endl;
+            << (flt.empty() ? "array is empty" : "array is full") << std::endl;
   std::cout << std::endl
-            << "flt array max size = " << flt.max_size() << std::endl;
+            << "flt array max size: " << flt.max_size() << std::endl;
   std::cout << std::endl
-            << "half_zero array max size = " << half_zero.max_size()
+            << "half_zero array max size: " << half_zero.max_size()
             << std::endl;
 
-  std::cout << std::endl << "get front element = " << flt.front() << std::endl;
-  std::cout << std::endl << "get back element = " << flt.back() << std::endl;
+  std::cout << std::endl << "get front element: " << flt.front() << std::endl;
+  std::cout << std::endl << "get back  element: " << flt.back() << std::endl;
 
   //интерфейс кортежа для контейнера std::array<>
   typedef std::array<std::string, 3> text;
@@ -141,7 +139,7 @@ void TestArray() {
 
   tools::HistSortArray(numbers);
 
-  std::cout << "\n  Sorted: ";
+  std::cout << "\nSorted: ";
   std::for_each(numbers.begin(), numbers.end(),
                 [](unsigned char &c) { std::cout << (int)c << " "; });
 
@@ -263,8 +261,7 @@ void TestTuples() {
   //создание кортежа из 3-х элементов с инициализацией
   std::tuple<int, float, std::string> t0;
 
-  //кортеж из 3-х элементов с инициализацией заданными
-  //значениями
+  //кортеж из 3-х элементов с инициализацией заданными значениями
   std::tuple<int, float, std::string> t1(5, 4.2f, "string");
 
   //кортеж из 3-х элементов с инициализацией списком
@@ -277,10 +274,8 @@ void TestTuples() {
   //кортеж из 3-х элементов с инициализацией конструктором копирования
   std::tuple<int, float, std::string> t3(t1);
 
-  //создание кортежа с выводом типов
+  //создание кортежа с выводом типов из инициализирующих значений
   auto t4 = std::make_tuple(0, 0.1f, std::string("auto"));
-
-  //из инициализирующих значений
 
   lam(t0);
   lam(t1);
@@ -376,15 +371,18 @@ void TestTuples() {
             << std::get<1>(complex_t) << std::endl;
 }
 
+//------------------------------------------------------------------------------
+//тестирование контейнера  std::vector<>
+//------------------------------------------------------------------------------
+
 //частичная специализация шаблона для типа bool
 template <>
-void PrintVector<bool>(std::vector<bool> &v, const char *vector_name) {
+void PrintVector<bool>(const std::vector<bool> &v, const char *vector_name) {
   std::cout << vector_name << ": " << std::endl;
   uint32_t i = 0;
   for (const auto &e : v) {
     std::cout << "bit[" << i++ << "]: " << std::boolalpha << e << "\n";
   }
-
   std::cout << std::endl;
 }
 
@@ -392,15 +390,16 @@ std::ostream &operator<<(std::ostream &ostr, Some &s) {
   return ostr << "Some { " << s.GetA() << ", " << s.GetS() << " } ";
 }
 
-//------------------------------------------------------------------------------
-//тестирование контейнера  std::vector<>
-//------------------------------------------------------------------------------
 void TestVector() {
   //способы создания контейнера std::vector<>
-  std::vector<int> vec0; //создание пустого вектора для элементов типа int
-  std::vector<int> vec1(3); //создание вектора из 3-х элементов
 
+  //создание пустого вектора для элементов типа int
+  std::vector<int> vec0;
+
+  //создание вектора из 3-х элементов
   //инициализированных конструкторами по  умолчанию
+  std::vector<int> vec1(3);
+
   //создание вектора из 3-х элементов со значениями 777, 777,  777
   std::vector<int> vec2(3, 777);
 
@@ -440,8 +439,8 @@ void TestVector() {
 
   PrintVectorInfo(vec5, "vec5");
 
-  VectorEmptyInfo(vec3, "vec3"); //применение конструктора перемещения оставило
-                                 //вектор vec3 - пустым
+  //применение конструктора перемещения оставило вектор vec3 - пустым
+  VectorEmptyInfo(vec3, "vec3");
 
   //присваивание элементов
   std::vector<int> vec10 = init_list;
@@ -473,13 +472,13 @@ void TestVector() {
 
   try {
     vec10.at(9) = -1; //выход за границы диапазона
-  } catch (std::exception &e) {
+  } catch (const std::exception &e) {
     std::cerr << "EXCEPTION " << e.what() << std::endl;
   }
   PrintVector(vec10, "vec10");
 
   std::cout << std::endl
-            << "front e = " << vec10.front() << " back e = " << vec10.back()
+            << "front e: " << vec10.front() << " back e: " << vec10.back()
             << std::endl;
 
   //тестирование итераторов
@@ -529,7 +528,7 @@ void TestVector() {
   std::cout << std::endl;
   PrintVector(vec_some, "vec_some");
 
-  //операция erase()
+
   vec_some.emplace_back(9, "Hero");
   vec_some.emplace_back(10, "Niger");
   vec_some.emplace_back(12, "Bigger");
@@ -537,6 +536,7 @@ void TestVector() {
   std::cout << std::endl;
   PrintVector(vec_some, "vec_some");
 
+  //операция erase()
   vec_some.erase(vec_some.end() - 1);
 
   std::cout << std::endl;
@@ -1877,7 +1877,7 @@ void test_ithreads() {
   std::cout << "gcount() = " << gc << std::endl;
 
   //игнорирование символов с извлечением из потока cin.ignore()
-  //123456789123*5678
+  // 123456789123*5678
   memset(buffer, '\0', N);
   std::cin.get(buffer, 4);
   //считываем 123 cin.ignore();
@@ -1907,7 +1907,7 @@ void test_ithreads() {
   std::cout << "Input char chain with \' \'" << std::ends;
   //добавляем символ \0 в конец вывода cin >> std::noskipws;
   //отключаем игнорирование пробельных символов при вводе >>123 234 356  ->123
-  //234 356
+  // 234 356
   std::cin.get(buffer, 10);
   std::cout << "You input: " << buffer << std::endl;
 
