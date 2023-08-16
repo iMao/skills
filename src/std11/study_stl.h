@@ -262,19 +262,21 @@ void TestVector();
 //------------------------------------------------------------------------------
 //тестирование контейнера std::deque<>
 //------------------------------------------------------------------------------
-template <typename t> void PrintDequeInfo(std::deque<t> &dq) {
+template <typename t> void PrintDequeInfo(const std::deque<t> &dq) {
   std::cout << std::endl;
-  std::cout << "size - " << dq.size() << std::endl;
-  std::cout << "max_size - " << dq.max_size() << std::endl;
+  std::cout << "    size: " << dq.size() << std::endl;
+  std::cout << "max_size: " << dq.max_size() << std::endl;
 }
 
-template <typename t> void PrintDeque(std::deque<t> &dq) {
+template <typename t> void PrintDeque(const std::deque<t> &dq) {
   std::cout << std::endl;
   if (dq.empty())
     std::cout << "deque is empty" << std::endl;
   else {
-    for (auto &s : dq)
-      std::cout << "dq - " << s << std::endl;
+    std::cout << "deque: ";
+    for (auto s : dq)
+      std::cout << s << " ";
+    std::cout << std::endl;
   }
 }
 
@@ -283,58 +285,59 @@ void TestDeque();
 //------------------------------------------------------------------------------
 // тестирование контейнера  std::list<>
 //------------------------------------------------------------------------------
-template <typename t> void print_list(std::list<t> &lst) {
+template <typename t> void PrintList(const std::list<t> &lst) {
   std::cout << std::endl;
-  if (!lst.empty()) {
-    for (t x : lst)
-      std::cout << "x = " << x << std::endl;
-  } else
+  if (lst.empty()) {
     std::cout << "List is empty" << std::endl;
+  } else {
+    std::cout << "list: ";
+    for (auto x : lst)
+      std::cout << x << " ";
+    std::cout << std::endl;
+  }
 }
 
-template <typename t> void print_list_info(std::list<t> &lst) {
+template <typename t> void PrintListInfo(const std::list<t> &lst) {
   std::cout << std::endl;
-  std::cout << "list.size()     = " << lst.size() << std::endl;
-  std::cout << "list.max_size() = " << lst.max_size() << std::endl;
+  std::cout << "    list.size(): " << lst.size() << std::endl;
+  std::cout << "list.max_size(): " << lst.max_size() << std::endl;
 }
 
 class Rm {
 public:
-  Rm(){};
-
+  Rm() = default;
+  ~Rm() = default;
   bool operator()(int a) { return ((a % 2) == 0); }
 };
 
-bool rmbig(int a);
-
-void TestList();
-
-bool same_integral_part(double &first, double &second);
-
 class Near {
 public:
+  Near() = default;
+  ~Near() = default;
   bool operator()(double &a, double &b) { return (std::fabs(a - b) < 0.5); }
 };
 
-bool compare_pairs(std::pair<int, int> &p1, std::pair<int, int> &p2);
+void TestList();
 
 void TestListSpecial();
 
 //------------------------------------------------------------------------------
 //тестирование контейнера  std::forward_list<>
 //------------------------------------------------------------------------------
-
-template <typename t> void print_forward_list(std::forward_list<t> &frwd) {
+template <typename t> void PrintForwardList(const std::forward_list<t> &frwd) {
   std::cout << std::endl;
-  if (!frwd.empty()) {
-    for (t x : frwd)
-      std::cout << "x = " << x << std::endl;
-  } else {
+  if (frwd.empty()) {
     std::cout << std::endl << "forward_list is empty" << std::endl;
+  } else {
+    std::cout << "forward_list: ";
+    for (t x : frwd)
+      std::cout << x << " ";
+    std::cout << std::endl;
   }
 }
 
-template <typename t> void print_forward_list_info(std::forward_list<t> &frwd) {
+template <typename t>
+void PrintForwardListInfo(const std::forward_list<t> &frwd) {
   std::cout << std::endl;
   std::cout << "frwd.empty()    " << std::boolalpha << frwd.empty()
             << std::endl;
@@ -386,22 +389,15 @@ inline InputIterator findIterator(InputIterator first, InputIterator last,
 }
 
 //сравнение строк вне зависимости от регистра
-bool compare_strings_lower(std::string s1, std::string s2);
-
 class CompUpper {
 public:
   bool operator()(std::string s1, std::string s2) {
     std::transform(s1.begin(), s1.end(), s1.begin(), toupper);
     std::transform(s2.begin(), s2.end(), s2.begin(), toupper);
 
-    if (0 == s1.compare(s2))
-      return true;
-    else
-      return false;
+    return (0 == s1.compare(s2));
   }
 };
-
-bool cmp_abs(int a, int b);
 
 void TestForwardList();
 

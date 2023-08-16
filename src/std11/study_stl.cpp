@@ -528,7 +528,6 @@ void TestVector() {
   std::cout << std::endl;
   PrintVector(vec_some, "vec_some");
 
-
   vec_some.emplace_back(9, "Hero");
   vec_some.emplace_back(10, "Niger");
   vec_some.emplace_back(12, "Bigger");
@@ -612,15 +611,13 @@ void TestDeque() {
   //создание контейнера с помощью конструктора копирования
   std::deque<std::string> dq4(dq2);
 
-  //создание контейнера при помощи перемещающего конструктора
+  //создание контейнера при помощи конструктора перемещения
   std::deque<std::string> dq5(std::move(dq3));
 
-  //создание контейнера на основе  диапазона
-  //значений другого контейнера
+  //создание контейнера на основе  диапазона значений другого контейнера
   std::deque<std::string> dq6((++dq5.cbegin()), dq5.cend());
 
-  //создание контейнера на основе присвоения
-  //списка инициализации	{}
+  //создание контейнера на основе присвоения списка инициализации {}
   std::initializer_list<std::string> text{
       "BMW", "Audi", "Opel", "Toyota", "Volvo", "Mercedes", "Porshe"};
 
@@ -629,8 +626,7 @@ void TestDeque() {
   //создание контейнера на основе оператора копирующего  присваивания
   std::deque<std::string> dq8 = dq2;
 
-  //создание контейнера на оснопе оператора  перемещающего
-  //присваивания
+  //создание контейнера на основе оператора  перемещающего присваивания
   std::deque<std::string> dq9 = std::move(dq5);
 
   //запрос информации о контейнере
@@ -678,92 +674,96 @@ void TestDeque() {
 
   PrintDeque(dq7);
 
-  dq7.resize(5, std::string("some string"));
+  dq7.resize(5, std::string("some_string"));
   PrintDeque(dq7);
 
-  dq7.resize(7, std::string("something else"));
+  dq7.resize(7, std::string("something_else"));
   PrintDeque(dq7);
 
   dq7.resize(3);
   PrintDeque(dq7);
 
   //итераторы для обхода контейнера std::deque<>
-  std::deque<std::string>::const_iterator ci = dq7.begin();
+  std::deque<std::string>::const_iterator ci = dq7.cbegin();
   std::deque<std::string>::iterator it = dq7.begin();
   std::deque<std::string>::const_reverse_iterator cri = dq7.crbegin();
   std::deque<std::string>::reverse_iterator ri = dq7.rbegin();
 
+  std::cout << std::endl << "e: ";
+  for (; ci != dq7.cend(); ++ci)
+    std::cout << (*ci) << " ";
   std::cout << std::endl;
-  for (; ci != dq7.end(); ++ci)
-    std::cout << "e - " << (*ci) << std::endl;
 
-  std::cout << std::endl;
+  std::cout << "e: ";
   for (; it != dq7.end(); ++it)
-    std::cout << "e - " << (*it).append("-") << std::endl;
-
+    std::cout << (*it).append("-") << " ";
   std::cout << std::endl;
+
+  std::cout << "e <- ";
   for (; cri != dq7.crend(); ++cri)
-    std::cout << "e <- " << (*cri) << std::endl;
-
+    std::cout << (*cri) << " ";
   std::cout << std::endl;
+
+  std::cout << "e <- ";
   for (; ri != dq7.rend(); ++ri) {
     (*ri).at((*ri).size() - 1) = '+';
-    std::cout << "e <- " << (*ri) << std::endl;
+    std::cout << (*ri) << " ";
   }
+  std::cout << std::endl;
 }
-
-bool rmbig(int a) { return (a > 1000 ? true : false); }
 
 //------------------------------------------------------------------------------
 // тестирование контейнера  std::list<>
 //------------------------------------------------------------------------------
+bool rmbig(int a) { return (a > 1000); }
+
 void TestList() {
   //методы создание контейнера std::list<>
-  std::list<int> lst0;    //пустой список
-  std::list<int> lst1(5); //список из 5-ти элементов созданных  конструктором их
+  std::list<int> lst0; //пустой список
 
-  //типа по умолчанию
+  //список из 5-ти элементов созданных  конструктором их типа по умолчанию
+  std::list<int> lst1(5);
+
   std::list<int> lst2(5, 5); //список из 5-ти элементов 5
-  std::list<int> lst3{1, 9,  3,  7,
-                      0, 10, 24, 12}; //список на основе списка инициализации
+  //список на основе списка инициализации
+  std::list<int> lst3{1, 9, 3, 7, 0, 10, 24, 12};
   std::list<int> lst4({2, 4, 5, 6, 1, 0}); //
 
-  std::list<int> lst5(
-      lst3); //список создан путем вызова конструктора копирования
-  std::list<int> lst6(
-      std::move(lst2)); //список создан путем вызова конструктора перемещения
-  std::list<int> lst7(lst3.begin(),
-                      lst3.end()); //список создан на основе интервала
-                                   //заданного итераторами (begin, end)
+  //список создан путем вызова конструктора копирования
+  std::list<int> lst5(lst3);
+  //список создан путем вызова конструктора перемещения
+  std::list<int> lst6(std::move(lst2));
+
+  //список создан на основе интервала заданного итераторами (begin, end)
+  std::list<int> lst7(lst3.begin(), lst3.end());
 
   std::initializer_list<int> ini_list{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
   std::list<int> lst8 = ini_list; //список создан на основе списка инициализации
   std::list<int> lst9 = lst8; //неявный вызов конструктора копирования
-  std::list<int> lst10 =
-      std::move(lst9); //неявный вызов конструктора перемещения
+  //неявный вызов конструктора перемещения
+  std::list<int> lst10 = std::move(lst9);
 
-  print_list(lst0);
-  print_list(lst8);
-  print_list_info(lst8);
+  PrintList(lst0);
+  PrintList(lst8);
+  PrintListInfo(lst8);
 
   //операции присваивания
   lst0.assign(ini_list);
   lst1.assign(4, 9990);
   lst2.assign(++lst3.begin(), --lst3.end());
 
-  print_list(lst0);
-  print_list(lst1);
-  print_list(lst2);
+  PrintList(lst0);
+  PrintList(lst1);
+  PrintList(lst2);
 
-  lst9.assign(ini_list);
   lst1.swap(lst9);
 
-  print_list(lst9);
-  print_list(lst1);
+  PrintList(lst9);
+  PrintList(lst1);
 
   //доступ к элементам
-  std::cout << "first element - " << lst1.front() << std::endl;
-  std::cout << "last  element - " << lst1.back() << std::endl;
+  std::cout << "first element: " << lst1.front() << std::endl;
+  std::cout << "last  element: " << lst1.back() << std::endl;
 
   //доступ спомощью итераторов
   std::list<int>::const_iterator ci;
@@ -779,12 +779,12 @@ void TestList() {
     std::cout << ((*i) /= 2) << " ";
 
   std::cout << std::endl;
-  for (ri = lst1.rbegin(); ri != lst1.rend(); ++ri) {
+  for (ri = lst9.rbegin(); ri != lst9.rend(); ++ri) {
     std::cout << ((*ri) *= 2) << "  ";
   }
 
   std::cout << std::endl;
-  for (cri = lst1.crbegin(); cri != lst1.crend(); ++cri) {
+  for (cri = lst9.crbegin(); cri != lst9.crend(); ++cri) {
     std::cout << (*cri) << "  ";
   }
 
@@ -811,56 +811,51 @@ void TestList() {
   }
 
   l.insert(pos, 5000); //вставка элемента в середину списка
-  print_list(l);
+  PrintList(l);
 
   l.insert(l.begin(), big_numbers);
   l.insert(l.end(), big_numbers.begin(), big_numbers.end());
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "remove all numbers 9 " << std::endl;
   l.remove(9); //удаляем все числа 9
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "remove all numbers >1000 " << std::endl;
   l.remove_if(rmbig);
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "remove all even numbers " << std::endl;
   l.remove_if(Rm());
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl
             << " remove all numbers that can be divided / 5 " << std::endl;
-  l.remove_if([](int a) -> bool {
-    if ((a % 5) == 0)
-      return true;
-    else
-      return false;
-  });
+  l.remove_if([](int a) -> bool { return ((a % 5) == 0); });
 
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "resize to 10 elements" << std::endl;
   l.resize(10, 3);
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "reverse list" << std::endl;
   l.reverse();
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "erase core" << std::endl;
   l.erase(++l.begin(), --l.end());
-  print_list(l);
+  PrintList(l);
 
   std::cout << std::endl << "erase first element" << std::endl;
   l.erase(l.begin());
-  print_list(l);
+  PrintList(l);
 
   l.clear();
 }
 
 //функция предикат для выявления одинаковой целой части вещественных чисел
-bool same_integral_part(double &first, double &second) {
+bool same_integer_part(double &first, double &second) {
   return (static_cast<int>(first) == static_cast<int>(second));
 }
 
@@ -871,83 +866,83 @@ bool compare_pairs(std::pair<int, int> &p1, std::pair<int, int> &p2) {
 void TestListSpecial() {
   //специальные модифицирующие операции над списками
   std::list<int> l{9, 9, 4, 2, 1, 3, 3, 0, 4, 6, 5, 0, 0};
-  print_list(l);
+  PrintList(l);
 
   l.unique(); //удаляет дубликаты последовательных элементов
-  print_list(l);
+  PrintList(l);
 
   std::list<double> ld{9.3, 9.1, 4.9, 5.0,  6.1,  5.95,
                        6.0, 6.5, 7.2, 8.11, 8.21, 9.25};
-  print_list(ld);
+  PrintList(ld);
 
-  ld.unique(same_integral_part); //удаление элементов у которых равные  целые
-                                 //части (предикат-функция)
-  print_list(ld);
+  ld.unique(same_integer_part); //удаление элементов у которых равные  целые
+                                //части (предикат-функция)
+  PrintList(ld);
 
   //  ld.unique(Near());  //удаление элементов для которых /разность/ < 0.5
   //                      //(предикат-функтор)
-  print_list(ld);
+  PrintList(ld);
 
-  ld.unique([](const double a,
-               const double b) -> bool { //удаление элементов у которых дробная
-    //часть отличается менее чем на 0.1
+  //удаление элементов у которых дробная
+  //часть отличается менее чем на 0.1
+  ld.unique([](const double a, const double b) -> bool {
     double a_ = a - static_cast<int>(a);
     double b_ = b - static_cast<int>(b);
-
     return (fabs(a_ - b_) < 0.1);
   });
 
-  print_list(ld);
+  PrintList(ld);
 
   //модификация списков с1 и с2
   std::list<int> a{9, 8, 7, 6, 5};
   std::list<int> b{5, 5, 6, 6};
 
   std::cout << std::endl << "lists modifications" << std::endl;
-  print_list(a);
-  print_list(b);
+  PrintList(a);
+  PrintList(b);
 
-  a.splice(a.begin(), b); //перемещаем список b все элементы в список a
-  print_list(a);
-  print_list(b);
+  a.splice(a.begin(), b); //перемещаем список b (все элементы) в список a
+  PrintList(a);
+  PrintList(b);
 
-  b.splice(b.begin(), a,
-           a.begin()); //в список b вставляем один элемент	из списка а
-  print_list(b);
+  //в список b вставляем один элемент	из списка а
+  b.splice(b.begin(), a, a.begin());
+  PrintList(b);
 
-  b.splice(
-      ++b.begin(), a, ++a.begin(),
-      a.end()); //перемещаем все элементы кроме первого из списка а в список b
-  print_list(a);
-  print_list(b);
+  //перемещаем все элементы кроме первого из списка а в список b
+  b.splice(++b.begin(), a, ++a.begin(), a.end());
+  PrintList(a);
+  PrintList(b);
 
   b.sort(); //сортировка списка с помощью оператора <
-  print_list(b);
+  PrintList(b);
 
-  std::list<std::pair<int, int>> lp; //создаем список пар  std::pair<int,int>
-  std::list<std::pair<int, int>> lp2;
+  //создаем список пар  std::pair<int,int>
+  typedef std::pair<int, int> twonumbers;
+  std::list<twonumbers> lp;
+  std::list<twonumbers> lp2;
   for (int i = 0; i < 5; i++) {
-    lp.push_back(std::make_pair(5 - i, i));
-    lp2.push_back(std::make_pair(i, 7 - i));
+    lp.push_back(std::make_pair((5 - i), i));
+    lp2.push_back(std::make_pair(i, (7 - i)));
   }
 
   lp.push_back(std::make_pair(4, 4));
   lp.push_back(std::make_pair(4, 4));
 
-  print_list(lp);
+  PrintList(lp);
 
   lp.sort();
-  print_list(lp);
+  PrintList(lp);
 
   lp.sort(compare_pairs); //сортируем при помощи предиката
-  print_list(lp);
+  PrintList(lp);
 
   lp2.sort(compare_pairs);
-  print_list(lp2);
+  PrintList(lp2);
 
-  lp.merge(lp2, compare_pairs); //объединяю два отсортированных списка на
-                                //основе функции-предиката
-  print_list(lp);
+  //объединяю два отсортированных списка на основе функции-предиката
+  lp.merge(lp2, compare_pairs);
+  PrintList(lp);
 }
 
 //------------------------------------------------------------------------------
@@ -957,10 +952,7 @@ bool compare_strings_lower(std::string s1, std::string s2) {
   std::transform(s1.begin(), s1.end(), s1.begin(), tolower);
   std::transform(s2.begin(), s2.end(), s2.begin(), tolower);
 
-  if (0 == s1.compare(s2))
-    return true;
-  else
-    return false;
+  return (0 == s1.compare(s2));
 }
 
 bool cmp_abs(int a, int b) { return (abs(a) < abs(b)); }
@@ -984,12 +976,12 @@ void TestForwardList() {
 
   std::forward_list<int> frwd11(frwd9.begin(), frwd9.end());
 
-  print_forward_list(frwd6);
-  print_forward_list(frwd11);
+  PrintForwardList(frwd6);
+  PrintForwardList(frwd11);
 
   //немодифицирующие операци
-  print_forward_list_info(frwd6);
-  print_forward_list_info(frwd11);
+  PrintForwardListInfo(frwd6);
+  PrintForwardListInfo(frwd11);
 
   //операции присваивания
   std::initializer_list<std::string> str_list{"Ivan", "Lena", "Ksenia"};
@@ -1000,23 +992,23 @@ void TestForwardList() {
   std::forward_list<std::string> frwds2 = std::move(frwds1);
   std::forward_list<std::string> frwds3 = {"Jack", "Bruce", "Andrew"};
 
-  print_forward_list(frwds2);
-  print_forward_list(frwds3);
+  PrintForwardList(frwds2);
+  PrintForwardList(frwds3);
 
   frwds2.assign(5, "jambo");
   frwds3.assign(++frwds0.begin(), frwds0.end());
   frwds0.assign(str_list);
 
-  print_forward_list(frwds2);
-  print_forward_list(frwds3);
-  print_forward_list(frwds0);
+  PrintForwardList(frwds2);
+  PrintForwardList(frwds3);
+  PrintForwardList(frwds0);
 
   //вставка и удаление элементов
   std::forward_list<double> fd0{9.1, 9.6, 9.8, 9.9, 2.3, 2.4};
   fd0.push_front(0.3);
   fd0.emplace_front(0.5);
 
-  print_forward_list(fd0);
+  PrintForwardList(fd0);
 
   std::forward_list<double> fd1{5.5, 6.6, 7.7};
 
@@ -1026,9 +1018,9 @@ void TestForwardList() {
 
   fd0.emplace_after(fd0.before_begin(), 99.9);
 
-  print_forward_list(fd0);
+  PrintForwardList(fd0);
 
-  //нахождение позиции итератора
+  //нахождение позиции итератора перед искомым элементом
   auto pos_before = fd0.before_begin();
   for (auto pos = fd0.begin(); pos != fd0.end(); ++pos, ++pos_before) {
     if ((*pos) < 3.0) //находим первое число, которое меньше 3
@@ -1038,21 +1030,21 @@ void TestForwardList() {
   fd0.erase_after(pos_before); //удаляем элемент стоящий после позиции на
                                //которую указывает pos_before
 
-  print_forward_list(fd0);
+  PrintForwardList(fd0);
 
   fd0.remove_if(
       [](double &a) -> bool { return (a - static_cast<int>(a) > 0.4); });
 
-  print_forward_list(fd0);
+  PrintForwardList(fd0);
 
   fd0.erase_after(fd0.begin(), fd0.end()); //удаляем все элементы из интервала
                                            //(beg, end) не включая границы
 
-  print_forward_list(fd0);
+  PrintForwardList(fd0);
 
   //нахождение позиции итератора при помощи функции next()
   std::forward_list<int> f{1, 3, 5, 6, 7, 8, 9, 10};
-  print_forward_list(f);
+  PrintForwardList(f);
 
   auto posBefore = f.before_begin();
   for (; next(posBefore) != f.end(); ++posBefore) {
@@ -1062,46 +1054,44 @@ void TestForwardList() {
 
   f.erase_after(posBefore); //хотим удалить первый четный элемент
 
-  print_forward_list(f);
+  PrintForwardList(f);
 
-  auto position =
-      findBefore(f.begin(), f.end(), 8); //ищем итератор указывающий на позицию
-
-  //элемента предшествующего искомому
+  //ищем итератор указывающий на позицию элемента предшествующего искомому
+  auto position = findBefore(f.begin(), f.end(), 8);
   f.erase_after(position);
 
-  print_forward_list(f);
+  PrintForwardList(f);
 
   auto pos_insertion = findBefore_if(
       f.begin(), f.end(), [](int a) -> bool { return ((a % 2) == 0); });
   f.insert_after(pos_insertion, 1000);
 
-  print_forward_list(f);
+  PrintForwardList(f);
 
   //модификация списков
   std::forward_list<std::string> strlist{
       "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING"};
-  print_forward_list(strlist);
+  PrintForwardList(strlist);
 
   std::cout << std::endl << "unique(op)" << std::endl;
   strlist.unique(compare_strings_lower);
-  print_forward_list(strlist);
+  PrintForwardList(strlist);
 
   std::forward_list<std::string> strlist2{
-      "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING "};
-  print_forward_list(strlist2);
+      "hello", "HELLO", "BAY-BAY", "bay-bay", "good morning", "GOOD MORNING"};
+  PrintForwardList(strlist2);
 
-  // strlist2.unique(CompUpper());
-  print_forward_list(strlist2);
+  strlist2.unique(CompUpper());
+  PrintForwardList(strlist2);
 
   std::forward_list<std::string> additional{"1234", "9876"};
 
   strlist.splice_after(strlist.before_begin(), additional);
-  print_forward_list(strlist);
+  PrintForwardList(strlist);
 
   strlist.splice_after(strlist.before_begin(), strlist2,
                        strlist2.before_begin());
-  print_forward_list(strlist);
+  PrintForwardList(strlist);
 
   std::cout << std::endl << "Payment cards" << std::endl;
   std::forward_list<std::string> cards{"Visa", "Mastercard"};
@@ -1112,22 +1102,22 @@ void TestForwardList() {
       findBefore(cards.begin(), cards.end(), "Mastercard"), vip_cards,
       vip_cards.before_begin(),
       findIterator(vip_cards.begin(), vip_cards.end(), "Mastercard Black"));
-  print_forward_list(cards);
+  PrintForwardList(cards);
 
   std::cout << std::endl << "sort() with abs() " << std::endl;
   std::forward_list<int> digits{5, 6, -4, -5, -6, 3, 0, -1, 2, 1, 10, -9};
   digits.sort(cmp_abs);
-  print_forward_list(digits);
+  PrintForwardList(digits);
 
   std::forward_list<int> digits_{2, 3, 1, -2, -7, -11, -34, 23, -6, 8};
   digits_.sort(cmp_abs);
-  print_forward_list(digits_);
+  PrintForwardList(digits_);
 
   std::cout << std::endl << "merge forward_lists" << std::endl;
   digits.merge(digits_, cmp_abs);
   digits.reverse();
 
-  print_forward_list(digits);
+  PrintForwardList(digits);
 }
 
 //------------------------------------------------------------------------------
@@ -2111,7 +2101,7 @@ void test_fstreams() {
     switch (ifstrm.peek()) {
     case '_':
     case '0':
-    case 'Xincrementator':
+    case 'X':
       ifstrm.ignore();
       break;
     default: {

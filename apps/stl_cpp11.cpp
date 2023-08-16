@@ -11,10 +11,11 @@ int main() {
   // TestPairs();
   // TestTuples();
   // TestVector();
-   TestDeque();
-  // test_list();
-  // test_list_special();
-  // test_forward_list();
+  // TestDeque();
+  // TestList();
+  // TestListSpecial();
+
+   TestForwardList();
   // test_sets();
   // test_multisets();
   // test_maps();
