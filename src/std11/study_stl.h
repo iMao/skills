@@ -404,36 +404,42 @@ void TestForwardList();
 //------------------------------------------------------------------------------
 //тестирование множеств  std::set<>
 //------------------------------------------------------------------------------
-template <typename t, typename cmp> void print_set(std::set<t, cmp> &st) {
+template <typename t, typename cmp> void PrintSet(const std::set<t, cmp> &st) {
   std::cout << std::endl;
-  if (!st.empty()) {
-    for (t x : st)
-      std::cout << "x = " << x << std::endl;
-  } else {
+  if (st.empty()) {
     std::cout << "set is empty" << std::endl;
+  } else {
+    std::cout << "set: ";
+    for (t x : st)
+      std::cout << x << " ";
+    std::cout << std::endl;
   }
 }
 
 template <typename InputIterator, typename t, typename cmp>
 void print_set_beg_end(InputIterator beg, InputIterator end,
-                       std::set<t, cmp> &st) {
+                       const std::set<t, cmp> &st) {
   if (end != st.end())
     ++end;
 
+  std::cout << "set: ";
   for (auto i = beg; i != end; ++i)
-    std::cout << "x = " << (*i) << std::endl;
+    std::cout << (*i) << " ";
+  std::cout << std::endl;
 }
 
-template <typename t, typename cmp> void bounds(std::set<t, cmp> &st, t val) {
+template <typename t, typename cmp>
+void Bounds(const std::set<t, cmp> &st, t val) {
   std::cout << std::endl;
-  std::cout << "value = " << val << std::endl;
-  std::cout << "lower_bound() " << *st.lower_bound(val) << std::endl;
-  std::cout << "upper_bound() " << *st.upper_bound(val) << std::endl;
-  std::cout << "equal_range()  (" << *st.equal_range(val).first << ") - ("
+  std::cout << "value: " << val << std::endl;
+  std::cout << "lower_bound: " << *st.lower_bound(val) << std::endl;
+  std::cout << "upper_bound: " << *st.upper_bound(val) << std::endl;
+  std::cout << "equal_range:  (" << *st.equal_range(val).first << ") - ("
             << *st.equal_range(val).second << ")" << std::endl;
 }
 
-template <typename t, typename cmp> void print_set_info(std::set<t, cmp> &st) {
+template <typename t, typename cmp>
+void PrintSetInfo(const std::set<t, cmp> &st) {
   std::cout << std::endl;
   std::cout << "set.size()      = " << st.size() << std::endl;
   std::cout << "set.max_size()  = " << st.max_size() << std::endl;
@@ -442,7 +448,7 @@ template <typename t, typename cmp> void print_set_info(std::set<t, cmp> &st) {
 }
 
 template <typename t, typename cmp>
-void print_cmp_criteria(std::set<t, cmp> &st) {
+void PrintCmpCriteria(const std::set<t, cmp> &st) {
   std::cout << "set.key_comp()   = " << st.key_comp() << std::endl;
   std::cout << "set.value_comp() = " << st.value_comp() << std::endl;
 }
@@ -460,71 +466,78 @@ std::ostream &operator<<(std::ostream &ostr, std::greater<_Ty> &gr) {
 
 class Num {
 private:
-  int a;
+  int a_;
 
 public:
-  Num(int a) : a(a) {}
-  ~Num() {}
+  Num() = delete;
+  Num(int a) : a_(a) {}
+  ~Num() = default;
 
-  int get_a() { return a; }
-
-  bool operator<(Num b) { return this->a < b.get_a(); }
+  int GetA() { return a_; }
+  bool operator<(Num b) { return (a_ < b.GetA()); }
 };
 
 template <typename t> struct NumLess {
-  bool operator()(t a, t b) const { return a < b; }
+  bool operator()(t a, t b) const { return (a < b); }
 };
 
 std::ostream &operator<<(std::ostream &os, Num &num);
 
-void test_sets();
+void TestSets();
 
 //------------------------------------------------------------------------------
 // тестирование мультимножеств  std::multiset<>
 //------------------------------------------------------------------------------
 
 template <typename t, typename cmp>
-void print_multiset(std::multiset<t, cmp> &mset) {
+void PrintMultiset(const std::multiset<t, cmp> &mset) {
   std::cout << std::endl;
-  if (!mset.empty()) {
-    for (t x : mset)
-      std::cout << "x = " << x << std::endl;
-  } else
+  if (mset.empty()) {
     std::cout << "Multiset is empty" << std::endl;
+  } else {
+    std::cout << "multiset: ";
+    for (t x : mset)
+      std::cout << x << " ";
+    std::cout << std::endl;
+  }
 }
 
-void test_multisets();
+void TestMultisets();
 
 //------------------------------------------------------------------------------
 // тестирование отображений  std::map<>
 //------------------------------------------------------------------------------
 template <typename Key, typename Val, typename Cmp>
-void print_map(std::map<Key, Val, Cmp> &mp) {
+void PrintMap(const std::map<Key, Val, Cmp> &mp) {
   std::cout << std::endl;
-  if (!mp.empty()) {
-    for (auto x : mp)
-      std::cout << x << std::endl;
-  } else
+  if (mp.empty()) {
     std::cout << "Map is empty" << std::endl;
+  } else {
+    std::cout << "map: ";
+    for (auto x : mp)
+      std::cout << x << " ";
+    std::cout << std::endl;
+  }
 }
 
 template <typename Key, typename Val, typename Cmp>
 void mapbounds(std::map<Key, Val, Cmp> &mp, Key val) {
   std::cout << "Map bounds for "
-            << "Val = " << val << std::endl;
+            << "Val: " << val << std::endl;
 
   std::pair<Key, Val> lower_element, upper_element;
 
   lower_element = *mp.lower_bound(val);
-  std::cout << "map.lower_bound() key1 = " << lower_element.first << std::endl;
+  std::cout << "map.lower_bound() key1: " << lower_element.first << std::endl;
 
   upper_element = *mp.upper_bound(val);
-  std::cout << "map.upper_bound() key2 = " << upper_element.first << std::endl;
+  std::cout << "map.upper_bound() key2: " << upper_element.first << std::endl;
 
+  //функция возвращает пару итераторов std::pair<it1,it2>
   std::pair<typename std::map<Key, Val, Cmp>::iterator,
             typename std::map<Key, Val, Cmp>::iterator>
-      para_its = mp.equal_range(
-          val); //функция возвращает пару итераторов std::pair<it1,it2>
+      para_its = mp.equal_range(val);
+
   lower_element = *para_its.first;
   upper_element = *para_its.second;
 
@@ -540,42 +553,44 @@ inline bool replace_key(Container &c, typename Container::key_type &old_key,
   typename Container::iterator pos;
 
   pos = c.find(old_key); //ищем элемент со старым ключом
-  if (pos != c.end()) {
-    c.insert(std::make_pair(
-        new_key,
-        pos->second)); //вставляем пару из нового ключа и старого значения
-    c.erase(pos);      //удаляем старый элемент
-    return true;
-  } else
+  if (pos == c.end()) {
     return false;
+  }
+  //вставляем пару из нового ключа и старого значения
+  c.insert(std::make_pair(new_key, pos->second));
+  //удаляем старый элемент
+  c.erase(pos);
+
+  return true;
 }
 
 class RealTimeCmp {
 public:
-  enum cmp_mode { normal, nocase };
-  RealTimeCmp(cmp_mode m = normal) : mode(m) {}
+  enum CmpMode { normal, nocase };
+  RealTimeCmp(CmpMode mode = normal) : mode_(mode) {}
 
   static bool nocase_compare(char c1, char c2) {
-    return toupper(c1) < toupper(c2);
+    return (toupper(c1) < toupper(c2));
   }
 
   bool operator()(const std::string &s1, const std::string &s2) const {
-    if (mode == normal)
-      return s1 < s2;
+    if (mode_ == normal)
+      return (s1 < s2);
     else
       return std::lexicographical_compare(s1.begin(), s1.end(), s2.begin(),
                                           s2.end(), nocase_compare);
   }
 
 private:
-  cmp_mode mode;
+  CmpMode mode_;
 };
 
-void test_maps();
+void TestMaps();
 
-//тестирование неупорядоченных множеств и мультимножеств
+//------------------------------------------------------------------------------
+// тестирование неупорядоченных множеств и мультимножеств
 // std::unorderd_set<> and std::unordered_multiset<>
-
+//------------------------------------------------------------------------------
 template <typename t, typename hf, typename cmp>
 void print_unordered_set(std::unordered_set<t, hf, cmp> &uset) {
   std::cout << std::endl;

@@ -14,11 +14,12 @@ int main() {
   // TestDeque();
   // TestList();
   // TestListSpecial();
+  // TestForwardList();
+  // TestSets();
+  // TestMultisets();
+  // TestMaps();
 
-   TestForwardList();
-  // test_sets();
-  // test_multisets();
-  // test_maps();
+
   // test_unordered_sets();
 
   return 0;

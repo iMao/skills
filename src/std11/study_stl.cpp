@@ -1125,34 +1125,33 @@ void TestForwardList() {
 //------------------------------------------------------------------------------
 
 std::ostream &operator<<(std::ostream &os, Num &num) {
-  return os << "[ 0x" << std::hex << num.get_a() << " ]";
+  return os << "[ 0x" << std::hex << num.GetA() << " ]";
 }
 
-void test_sets() {
+void TestSets() {
   //методы создания и инициализации
-  std::set<int> set1; //пустое множество элементов типа int, с критерием
-                      //сортировки заданным по умолчанию std::less<>
-  std::set<int, std::less<int>> set2;
+  //пустое множество элементов типа int, с критерием
+  //сортировки заданным по умолчанию std::less<>
+  std::set<int> set1;
+
   //пустое множество элементов типа int, с явно заданным критерием  сортировки
+  std::set<int, std::less<int>> set2;
+  std::set<int, std::greater<int>> set3;
 
-  std::set<int, std::greater<int>> set3; //пустое множество элементов типа  int,
-                                         //с явно заданным критерием сортировки
-
-  //
-
-  std::set<int> set4(std::less<int>());
   //пустое множество элементов типа int, но критерий сортировки задан как
   //параметр  в конструкторе
+  std::set<int> set4(std::less<int>());
 
   std::initializer_list<int> ilst{9, 3, 10, 2, 5, 1, 0, 7};
 
   //множество элементов типа int c заданным критерием сортровки,
-  ////инициализированное списком инициализации
-
+  //инициализированное списком инициализации
   std::set<int, std::less<int>> set5(ilst);
 
-  std::set<int> set6(set5); //множество созданное конструктором копирования
-                            //множество созданное конструктором перемещения
+  //множество созданное конструктором копирования
+  std::set<int> set6(set5);
+
+  //множество созданное конструктором перемещения
   std::set<int> set7(std::move(set5));
 
   std::list<int> list0{8, 5, 6, 1, 4, 2, 9, 0};
@@ -1160,13 +1159,10 @@ void test_sets() {
   //итераторами, с критерием сортировки по умолчанию
   std::set<int> set8(list0.begin(), list0.end());
 
-  std::set<int, std::greater<int>> set9(
-      set8.begin(), set8.end(),
-      std::greater<int>()); //множество созданное на основе элементов
-                            //из
-  //интервала другого множества но с другим
-  //критерием
-  //сортировки
+  //множество созданное на основе элементов из интервала другого множества но с
+  //другим критерием сортировки
+  std::set<int, std::greater<int>> set9(set8.begin(), set8.end(),
+                                        std::greater<int>());
 
   //методы присваивания
   std::set<int> set10 = set8;
@@ -1174,12 +1170,12 @@ void test_sets() {
   std::set<int> set12 = {9, 7, 1, 3, 2, 5, 6};
   std::set<int> set13 = ilst;
 
-  print_set(set7);
-  print_set_info(set7);
+  PrintSet(set7);
+  PrintSetInfo(set7);
   // print_cmp_criteria(set7);
 
-  print_set(set9);
-  print_set_info(set9);
+  PrintSet(set9);
+  PrintSetInfo(set9);
   // print_cmp_criteria(set9);
 
   //специальные операции поиска элемента во множестве std::set<>
@@ -1191,14 +1187,14 @@ void test_sets() {
 
   print_set_beg_end(pos1, pos2, set01);
 
-  print_set(set01);
-  bounds(set01, 4);
-  bounds(set01, 7);
+  PrintSet(set01);
+  Bounds(set01, 4);
+  Bounds(set01, 7);
 
   //вставка и удаление элементов
   auto result = set01.insert(9);
   if (result.second)
-    print_set(set01);
+    PrintSet(set01);
 
   //  auto result2 = set01.insert(set01.find(10), 11);
   //  print_set(set01);
@@ -1208,44 +1204,46 @@ void test_sets() {
 
   set01.insert(l.begin(), l.end());
   set01.insert(intlist);
-  print_set(set01);
+  PrintSet(set01);
 
   std::set<Num, NumLess<Num>> numbers{Num(8), Num(10), Num(11), Num(7)};
-  print_set(numbers);
+  PrintSet(numbers);
 
   numbers.emplace(15);
   numbers.emplace_hint(numbers.find(Num(7)), 3);
-  print_set(numbers);
+  PrintSet(numbers);
 
   numbers.erase(Num(7));
-  print_set(numbers);
+  PrintSet(numbers);
 
   numbers.erase(numbers.find(Num(0xF)));
-  print_set(numbers);
+  PrintSet(numbers);
 
   numbers.erase(++numbers.begin(), --numbers.end());
-  print_set(numbers);
+  PrintSet(numbers);
 
   numbers.clear();
-  print_set_info(numbers);
+  PrintSetInfo(numbers);
 }
 
 //------------------------------------------------------------------------------
 // тестирование мультимножеств  std::multiset<>
 //------------------------------------------------------------------------------
-void test_multisets() {
+void TestMultisets() {
   //методы создания
   std::multiset<int> mset0;
   std::multiset<int, std::greater<int>> mset1;
-  // std::multiset<int, std::greater<int>> mset3(std::greater<int>);
+  std::multiset<int, std::greater<int>> mset3(std::greater<int>);
   std::multiset<int> mset4{5, 6, 1, 0, 2, 5};
 
   std::initializer_list<int> ls{9, 2, 1, 7, 5, 3, 4, 7};
+
   std::multiset<int, std::greater<int>> mset5(ls);
   std::multiset<int, std::greater<int>> mset6(mset5);
   std::multiset<int> mset7(std::move(mset4));
 
   std::vector<int> vec{0, 5, 3, 2, 7, 8, 8, 9, 9};
+
   std::multiset<int> mset8(vec.begin(), vec.end());
   std::multiset<int, std::greater<int>> mset9(vec.begin(), vec.end(),
                                               std::greater<int>());
@@ -1273,40 +1271,41 @@ void test_multisets() {
   //методы модификации множества
   mset14.insert(1);
   std::cout << std::endl << "insert 1 " << std::endl;
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   mset14.insert(mset14.find(4), 5);
   std::cout << std::endl << "insert 5 " << std::endl;
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   mset14.insert(mset12.begin(), mset12.end());
   std::cout << std::endl << "insert [beg, end) " << std::endl;
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   mset14.insert(ls);
   std::cout << std::endl << "insert (initlist) " << std::endl;
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   mset14.emplace(-1);
   mset14.emplace_hint(mset14.find(-1), 0);
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   std::cout << std::endl << "erase all numbers 7 " << std::endl;
   mset14.erase(7);
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   mset14.erase(mset14.find(8));
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 
   mset14.erase(++mset14.begin(), --mset14.end());
-  print_multiset(mset14);
+  PrintMultiset(mset14);
 }
 
 //------------------------------------------------------------------------------
 // тестирование отображений  std::map<>
 //------------------------------------------------------------------------------
-void test_maps() {
+void TestMaps() {
   //методы создания
+
   //пустое отображение с элементами std::pair<int, string> и критерием
   //упорядочивания по умолчанию std::less<>
   std::map<int, std::string> mp0;
@@ -1316,6 +1315,7 @@ void test_maps() {
   std::map<int, std::string> mp2{
       std::make_pair(5, "Tom"), std::make_pair(8, "Jack"),
       std::make_pair(1, "Kate"), std::make_pair(7, "Tim")};
+
   std::map<int, std::string> mp02{{22, "Pico"}, {55, "Sergo"}, {90, "Siri"}};
   std::map<int, std::string> mp3(mp2);
   std::map<int, std::string> mp4(std::move(mp2));
@@ -1325,6 +1325,7 @@ void test_maps() {
       std::make_pair(9, std::string("Timur")),
       std::make_pair(2, std::string("Nico")),
       std::make_pair(6, std::string("Peter"))};
+
   std::initializer_list<std::pair<const int, std::string>> ls{{77, "Valio"},
                                                               {97, "Julio"}};
 
@@ -1339,14 +1340,14 @@ void test_maps() {
   std::map<int, std::string, std::greater<int>> mp6(dq.begin(), dq.end(),
                                                     std::greater<int>());
 
-  print_map(mp3);
-  print_map(mp02);
-  print_map(mp4);
+  PrintMap(mp3);
+  PrintMap(mp02);
+  PrintMap(mp4);
 
-  print_map(mp7);
-  print_map(mp8);
-  print_map(mp5);
-  print_map(mp6);
+  PrintMap(mp7);
+  PrintMap(mp8);
+  PrintMap(mp5);
+  PrintMap(mp6);
 
   //операции присваивания
   std::map<int, std::string> mp9 = mp5;
@@ -1356,18 +1357,18 @@ void test_maps() {
       {3, "Hello"}, {9, "Bay"}, {5, "Afternoon"}};
 
   std::cout << std::endl << "maps after operation = " << std::endl;
-  print_map(mp9);
-  print_map(mp10);
-  print_map(mp11);
-  print_map(mp12);
+  PrintMap(mp9);
+  PrintMap(mp10);
+  PrintMap(mp11);
+  PrintMap(mp12);
 
   //операции поиска
   mapbounds(mp12, 5);
 
   std::cout << std::endl
-            << "Number elements with key 3 = " << mp12.count(3) << std::endl;
+            << "Number elements with key 3: " << mp12.count(3) << std::endl;
   std::cout << std::endl
-            << "Find element wih key 3, val = " << (*mp12.find(3)).second
+            << "Find element wih key 3, val: " << (*mp12.find(3)).second
             << std::endl;
 
   //итераторы
@@ -1379,7 +1380,7 @@ void test_maps() {
   for (i = mp12.begin(); i != mp12.end(); ++i)
     i->second = i->second.append(" word");
 
-  print_map(mp12);
+  PrintMap(mp12);
 
   std::cout << std::endl;
   for (ci = mp12.cbegin(); ci != mp12.cend(); ++ci)
@@ -1388,7 +1389,7 @@ void test_maps() {
   for (ri = mp12.rbegin(); ri != mp12.rend(); ++ri)
     ri->second.insert(ri->second.begin(), '-');
 
-  print_map(mp12);
+  PrintMap(mp12);
 
   for (cri = mp12.crbegin(); cri != mp12.crend(); ++cri)
     std::cout << (*cri).first << std::endl;
@@ -1407,7 +1408,7 @@ void test_maps() {
   dictionary.insert(
       std::pair<const std::string, std::string>("green", "зеленый"));
 
-  print_map(dictionary);
+  PrintMap(dictionary);
 
   dictionary.insert(dictionary.find("black"), std::make_pair("be", "быть"));
 
@@ -1421,15 +1422,15 @@ void test_maps() {
   dictionary.insert(vec.begin(), vec.end());
   dictionary.insert(words);
 
-  print_map(dictionary);
+  PrintMap(dictionary);
 
   dictionary.emplace("house", "дом");
   dictionary.emplace_hint(dictionary.find("green"), "good", "хороший");
 
-  print_map(dictionary);
+  PrintMap(dictionary);
 
   dictionary.erase("hello");
-  print_map(dictionary);
+  PrintMap(dictionary);
 
   // dictionary.erase(dictionary.find("green"));
   // print_map(dictionary);
@@ -1443,21 +1444,21 @@ void test_maps() {
   dictionary["sex"] = "пол";
   dictionary["family"] = "семья";
 
-  print_map(dictionary);
+  PrintMap(dictionary);
 
   std::cout << std::endl << dictionary.at("sex") << std::endl;
   std::cout << std::endl << dictionary.at("name") << std::endl;
   std::cout << std::endl << dictionary.at("family") << std::endl;
 
   // replace_key(dictionary, string("make"), string("produce"));
-  print_map(dictionary);
+  PrintMap(dictionary);
 
   //применение алгоритмов
 
   std::map<std::string, float> pp;
   pp["BASF"] = 70.3f;
   pp["TSL"] = 90.9f;
-  pp["NVDIA"] = 100.0f;
+  pp["NVIDIA"] = 100.0f;
   pp["UBS"] = 78.2f;
   pp["VW"] = 45.7f;
 
@@ -1507,13 +1508,12 @@ void test_maps() {
   currencies["swichss"] = 150;
   currencies["rubles"] = 20;
 
-  print_map(currencies);
+  PrintMap(currencies);
 
   RealTimeCmp nocase_cmp(RealTimeCmp::nocase);
 
-  std::map<std::string, int, RealTimeCmp> dng(
-      nocase_cmp); //создание контейнера с тем же типом но другим критерием
-                   //сравнения
+  //создание контейнера с тем же типом но другим критерием сравнения
+  std::map<std::string, int, RealTimeCmp> dng(nocase_cmp);
 
   dng["DOL"] = 100;
   dng["EUR"] = 50;
@@ -1527,7 +1527,7 @@ void test_maps() {
   dng["swichss"] = 150;
   dng["rubles"] = 20;
 
-  print_map(dng);
+  PrintMap(dng);
 }
 
 //тестирование неупорядоченных множеств и мультимножеств
