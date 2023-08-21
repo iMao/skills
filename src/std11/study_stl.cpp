@@ -1530,67 +1530,76 @@ void TestMaps() {
   PrintMap(dng);
 }
 
-//тестирование неупорядоченных множеств и мультимножеств
-// std::unordered_set<> and std::unordered_multiset<>
-std::ostream &operator<<(std::ostream &ostr, const Customer &c) {
-  return ostr << "Customer: [" << std::setw(10) << std::left << c.get_name()
-              << " - " << c.get_check_sum() << "]";
-}
-
 //------------------------------------------------------------------------------
 // Тестирование неупорядоченных множеств
+// std::unordered_set<> and std::unordered_multiset<>
 //------------------------------------------------------------------------------
-void test_unordered_sets() {
+std::ostream &operator<<(std::ostream &ostr, const Customer &c) {
+  return ostr << "Customer: [" << std::setw(10) << std::left << c.GetName()
+              << " - " << c.GetCheckSum() << "]";
+}
+
+void TestUnorderedSets() {
   //методы создания и инициализации
-  std::unordered_set<int>
-      uset0; //создание пустой hash таблицы для элементов типа int, с hash
-             //функцией std::hash() и критерием эквивалентности equal_to()
-  std::unordered_set<int> uset1(
-      10); //создание пустой hash таблицы для элементов типа int, и с заданным
-           //количеством сегментов
+
+  // создание пустой hash таблицы для элементов типа int, с hash функцией
+  // std::hash() и критерием эквивалентности equal_to()
+  std::unordered_set<int> uset0;
+
+  //создание пустой hash таблицы для элементов типа int, и с заданным
+  //количеством сегментов
+  std::unordered_set<int> uset1(10);
+
+  // hash таблица со своей hash-функцией
   std::unordered_set<int, std::size_t (*)(int)> uset01(10, hashf<int>);
 
   std::initializer_list<int> intlist{9, 3, 1, 7, 5, 4, 2, 8};
 
-  std::unordered_set<int> uset2{
-      7, 4, 1, 8,
-      9}; //создание неупорядоченного контейнера на основе списка инициализации
-  std::unordered_set<int> uset3(intlist); //
+  //создание неупорядоченного контейнера на основе списка инициализации
+  std::unordered_set<int> uset2{7, 4, 1, 8, 9};
+  std::unordered_set<int> uset3(intlist);
 
-  std::unordered_set<int> uset4(uset2); //с помощью конструктора  копирования
-  std::unordered_set<int> uset5(
-      std::move(uset2)); //использование конструктора перемещения
+  //с помощью конструктора  копирования
+  std::unordered_set<int> uset4(uset2);
 
-  std::unordered_set<int, std::hash<int>, std::equal_to<int>> uset6{
-      8, 12, 4,
-      5}; //явное указание функции хеширования и проверки на эквивалентность
+  //использование конструктора перемещения
+  std::unordered_set<int> uset5(std::move(uset2));
+
+  //явное указание функции хеширования и проверки на эквивалентность
+  std::unordered_set<int, std::hash<int>, std::equal_to<int>> uset6{8, 12, 4,
+                                                                    5};
 
   std::forward_list<int> flist{89, 34, 12, 35, 56, 78, 87};
 
   std::unordered_set<int> uset7(flist.begin(), flist.end());
   std::unordered_set<int> uset8(flist.begin(), flist.end(), 10);
 
-  print_unordered_set(uset4);
-  print_unordered_set_info(uset4);
+  PrintUnorderedSet(uset4);
+  PrintUnorderedSetInfo(uset4);
 
-  print_unordered_set(uset8);
-  print_unordered_set_info(uset8);
+  PrintUnorderedSet(uset8);
+  PrintUnorderedSetInfo(uset8);
 
   std::unordered_set<int, std::size_t (*)(int)> uset9(
       flist.begin(), flist.end(), 10, hashf<int>);
-  print_unordered_set(uset9);
-  print_unordered_set_info(uset9);
+  PrintUnorderedSet(uset9);
+  PrintUnorderedSetInfo(uset9);
 
-  std::unordered_set<Customer, CustomerHash, CustomerEqual> restoran{
+  std::unordered_set<Customer, CustomerHash, CustomerEqual> restorant{
       Customer("Jack", 50), Customer("Jon", 70), Customer("Tim", 89),
       Customer()};
-  print_unordered_set(restoran);
-  print_unordered_set_info(restoran);
+  PrintUnorderedSet(restorant);
+  PrintUnorderedSetInfo(restorant);
 
   std::unordered_set<Customer, CustomerHash> bar{
       Customer("Nico", 50), Customer("Linda", 70), Customer("Jim", 89),
       Customer("Silver", 90)};
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
+
+  std::unordered_set<Customer, CustomerHash, CustomerEqual> caffe{
+      {"Andrew", 100}, {"Simon", 20}, {"Kira", 20}};
+
+  PrintUnorderedSet(caffe);
 
   //операторы присваивания
   uset0 = uset3;
@@ -1600,7 +1609,7 @@ void test_unordered_sets() {
   std::unordered_set<int> uset11 = {45, 12, 46};
 
   //специальные операции поиска
-  print_unordered_set(uset1);
+  PrintUnorderedSet(uset1);
   std::cout << std::endl
             << "Сколько элементов со значением " << 8 << "  " << uset1.count(8)
             << std::endl;
@@ -1631,41 +1640,41 @@ void test_unordered_sets() {
 
   //модифицирующие операции
   uset12.insert(100);
-  print_unordered_set(uset12);
+  PrintUnorderedSet(uset12);
 
   uset12.insert(uset12.find(100), 101);
-  print_unordered_set(uset12);
+  PrintUnorderedSet(uset12);
 
   uset12.insert(uset11.begin(), uset11.end());
-  print_unordered_set(uset12);
+  PrintUnorderedSet(uset12);
 
   uset12.insert({200, 230});
-  print_unordered_set(uset12);
+  PrintUnorderedSet(uset12);
 
   bar.emplace("Edvard", 345);
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
 
   bar.emplace_hint(bar.find(Customer("Edvard", 345)), "Donn Diego", 300);
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
 
   bar.erase(Customer("Edvard", 345));
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
 
   bar.erase(bar.find(Customer("Nico", 50)));
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
 
   bar.erase(++bar.begin(), bar.end());
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
 
   bar.clear();
-  print_unordered_set(bar);
+  PrintUnorderedSet(bar);
 }
 
 //------------------------------------------------------------------------------
 //тестирование потоков ввода вывода
 //------------------------------------------------------------------------------
 
-void cin_properties(std::istream &cin_) {
+void cin_properties(const std::istream &cin_) {
   std::ios::iostate cin_state = cin_.rdstate(); //запрос флагов состояния потока
 
   std::cout << "-------------------------------------------------------";
@@ -1723,8 +1732,8 @@ void cin_properties(std::istream &cin_) {
             << "Проверка битов состояний которые генерируют исключения"
             << std::endl;
 
-  int flags =
-      cin_.exceptions(); //получаем флаги установка которых вызывает исключения
+  //получаем флаги установка которых вызывает исключения
+  int flags = cin_.exceptions();
 
   if (flags & std::ios::goodbit)
     std::cout << "cin не генерирует исключений" << std::endl;
@@ -1742,7 +1751,7 @@ void cin_properties(std::istream &cin_) {
               << std::endl;
 }
 
-void set_locale(LANG lang) {
+void SetLocale(LANG lang) {
   switch (lang) {
   case C:
     setlocale(LC_ALL, "C");
@@ -1769,7 +1778,6 @@ void set_locale(LANG lang) {
     setlocale(LC_ALL, "fr-FR");
     break;
   default:
-    std::cout << "You chosed wrong language. Reset locale." << std::endl;
     break;
   }
 
@@ -1779,15 +1787,17 @@ void set_locale(LANG lang) {
 //------------------------------------------------------------------------------
 // Тестирование потоков ввода
 //------------------------------------------------------------------------------
-void test_ithreads() {
+void TestCinCout() {
   //проверка свойств потока ввода std:cin
   cin_properties(std::cin);
-  std::cin.exceptions(std::ios::badbit | std::ios::failbit | std::ios::eofbit);
+
   //установка бит состояний в которых будут генерироваться исключения
+  std::cin.exceptions(std::ios::badbit | std::ios::failbit | std::ios::eofbit);
 
   cin_properties(std::cin);
-  std::cin.exceptions(std::ios::goodbit);
+
   //сброс всех флагов
+  std::cin.exceptions(std::ios::goodbit);
 
   cin_properties(std::cin);
 
@@ -1795,27 +1805,26 @@ void test_ithreads() {
   char c;
   wchar_t wc;
 
-  std::cout << "input char - ";
-  std::cin.get(c);
+  std::cout << "input char: ";
   //функция istream & istream::get(char & c) срабатывает по событию  ввода
   //<Enter>
-  std::cout << std::endl << "You input " << c << std::endl;
+  std::cin.get(c);
+  std::cout << std::endl << "You input: " << c << std::endl;
 
-  std::cout << "input char - ";
+  std::cout << "input char: ";
   c = std::cin.get();
   //функция int istream::get() просто возвращает следующий символ из  потока
   //ввода
-  std::cout << "char - " << c << std::endl;
+  std::cout << "char: " << c << std::endl;
 
   //нужно использовать либо cin либо wcin
-
-  std::wcout << "input wchar_t - ";
+  std::wcout << "input wchar_t: ";
   std::wcin.get(wc);
-  std::wcout << std::endl << "You input " << wc << std::endl;
+  std::wcout << std::endl << "You input: " << wc << std::endl;
 
-  std::wcout << "input wchar_t - ";
+  std::wcout << "input wchar_t: ";
   wc = std::wcin.get();
-  std::wcout << "wchar - " << wc << std::endl;
+  std::wcout << "wchar: " << wc << std::endl;
 
   const int N{10};
   char buffer[N]{'\0'};
@@ -1824,59 +1833,61 @@ void test_ithreads() {
   char buffer4[N]{'\0'};
 
   std::cout << std::endl << "input string - ";
-  std::cin.get(buffer, 10);
   //функция istream & istream::get(char*, streamsize n) считывает n-1 символов,
   //\n - оставляет в потоке
+  std::cin.get(buffer, 10);
   std::cout << std::endl << "You input: " << buffer << std::endl;
 
   std::cout << std::endl << "input string - ";
-  std::cin.get(buffer, 9, '-');
   //функция istream & istream::get(char*, streamsize n, char delim)
+  std::cin.get(buffer, 9, '-');
   std::cout << std::endl << "You input: " << buffer << std::endl;
 
   memset(buffer, '\0', N);
   std::cout << std::endl << "Input string - ";
-  std::cin.getline(buffer, 6);
   //функция istream& istream::getline(char*, streamsize n) символ \n -
   //извлекается из потока но не вставляется в буфер
+  std::cin.getline(buffer, 6);
   std::cout << std::endl << "You  input:   " << buffer << std::endl;
 
   memset(buffer, '\0', N);
   std::cout << std::endl << "Input string - ";
-  std::cin.getline(buffer, 6, '\\');
   //функция istream& istream::getline(char*, streamsize n, char delim)
+  std::cin.getline(buffer, 6, '\\');
   std::cout << std::endl << "You input: " << buffer << std::endl;
 
   memset(buffer, '\0', N);
   std::cout << std::endl << "Input string - ";
-  std::cin.read(buffer, 9);
   //считывает указанное колличество не добавляя \0 в конце
+  std::cin.read(buffer, 9);
   std::cout << "You   input: " << buffer << std::endl;
 
   memset(buffer, '\0', N);
   std::cout << std::endl << "Input string - ";
   std::cin.get(c);
-  int countchar = std::cin.readsome(buffer, 5);
   //считывает указанное колличество не добавляя \0 в конце, возвращает
   //количество прочитанных символов
+  int countchar = std::cin.readsome(buffer, 5);
   std::cout << "You input: " << countchar << "  chars   " << buffer
             << std::endl;
 
-  int gc = std::cin.gcount();
   //возвращает количество символов считанных в последнии раз
+  int gc = std::cin.gcount();
+
   std::cout << "gcount() = " << gc << std::endl;
 
   //игнорирование символов с извлечением из потока cin.ignore()
   // 123456789123*5678
   memset(buffer, '\0', N);
-  std::cin.get(buffer, 4);
-  //считываем 123 cin.ignore();
-  //игнорируем 4 cin.ignore(6);
-  //игнорируем 567891 cin.ignore(4, '*');
-  //игнорируем 4 пока не встретится '*' cin.get(c);
-  //потом считываем один символ
-  char next_char = std::cin.peek();
+
+  std::cin.get(buffer, 4); //считываем 123
+  std::cin.ignore();       //игнорируем 4
+  std::cin.ignore(6);      //игнорируем 567891
+  std::cin.ignore(4, '*'); //игнорируем 4 пока не встретится '*'
+  std::cin.get(c); //потом считываем один символ
+
   //возвращаем следующий символ без его извлечения
+  char next_char = std::cin.peek();
 
   std::cout << "You input: " << buffer << " " << c << " nextchar - "
             << next_char << std::endl;
@@ -1885,25 +1896,32 @@ void test_ithreads() {
   std::cin.get(c);
   std::cout << "Last readed char: " << c << std::endl;
 
-  cin_properties(std::cin.putback('9'));
   //пытаемся вернуть назад в поток символ, который не считывали
+  cin_properties(std::cin.putback('9'));
 
   std::cin.get(c);
   std::cout << "Last returned char: " << c << std::endl;
 
   //манипуляторы ввода-вывода
-  memset(buffer, '\0', N);
+  memset(buffer, '\0', N);//добавляем символ \0 в конец вывода
 
   std::cout << "Input char chain with \' \'" << std::ends;
-  //добавляем символ \0 в конец вывода cin >> std::noskipws;
-  //отключаем игнорирование пробельных символов при вводе >>123 234 356  ->123
-  // 234 356
+
+  //отключаем игнорирование пробельных символов при вводе
+  // >>123 234 356  ->123 234 356
+  std::cin >> std::noskipws;
+
+
   std::cin.get(buffer, 10);
   std::cout << "You input: " << buffer << std::endl;
 
   std::cout << "Input char chain with \' \'" << std::ends;
-  //добавляем символ \0 в конец вывода cin >> std::ws;
-  //включаем игнорирование пробельных символов cin.get(buffer2, 10);
+  //добавляем символ \0 в конец вывода
+  memset(buffer2, '\0', N);
+
+  //включаем игнорирование пробельных символов
+  std::cin >> std::ws;
+  std::cin.get(buffer2, 10);
   std::cout << "You input: " << buffer2 << std::endl;
 
   //манипуляторы для вывода вещественных чисел
@@ -1969,7 +1987,7 @@ void test_ithreads() {
             << std::right << intnum << '|' << std::endl;
 
   //установка кодировки символов
-  set_locale(RUS);
+  SetLocale(RUS);
 
   std::cout << myendl;
   std::cout << "Hello ostream" << myendl << "I am glad to see You again"
@@ -1980,7 +1998,7 @@ void test_ithreads() {
   //игнорирование строк при вводе
   std::string instr;
 
-  std::cout << "Input n - strings:" << std::endl;
+  std::cout << "Input n - strings: " << std::endl;
   std::cin >> ignoreLine(3) >> instr;
   std::cout << "You have input: " << instr << std::endl;
 }
@@ -1988,8 +2006,8 @@ void test_ithreads() {
 //------------------------------------------------------------------------------
 // тестирование файловых потоков
 //------------------------------------------------------------------------------
-void test_fstreams() {
-  set_locale(RUS);
+void TestFstreams() {
+  SetLocale(RUS);
 
   std::cout << "Работа с файловыми потоками вывода" << std::endl;
 
@@ -2007,7 +2025,7 @@ void test_fstreams() {
   //вывод текста в файл
   std::cout << "вывод текста в файл" << std::endl;
 
-  char text[]{"hello C++11, \n I am glad to see new C++ standart* - \n I hope "
+  char text[]{"hello C++11, \n I am glad to see new C++ standard* - \n I hope "
               "that \n + I can find new excelent job with big salary, "};
 
   ofs.open("text.txt", std::ios::out | std::ios::trunc);
@@ -2138,7 +2156,7 @@ void test_fstreams() {
 //------------------------------------------------------------------------------
 // тестирование строковыых потоков
 //------------------------------------------------------------------------------
-void test_string_streams() {
+void TestStringStreams() {
   //вывод в строковой поток
   std::ostringstream oss;
   oss << std::setw(5) << std::right << std::showpos << 53;

@@ -591,30 +591,33 @@ void TestMaps();
 // тестирование неупорядоченных множеств и мультимножеств
 // std::unorderd_set<> and std::unordered_multiset<>
 //------------------------------------------------------------------------------
-template <typename t, typename hf, typename cmp>
-void print_unordered_set(std::unordered_set<t, hf, cmp> &uset) {
+template <typename t, typename hashfunc, typename cmp>
+void PrintUnorderedSet(const std::unordered_set<t, hashfunc, cmp> &uset) {
   std::cout << std::endl;
-  if (!uset.empty()) {
-    for (t x : uset)
-      std::cout << "x = " << x << std::endl;
-  } else
+  if (uset.empty()) {
     std::cout << "Unordered_set<t,hf,cmp> is empty" << std::endl;
+  } else {
+    std::cout << "uset: ";
+    for (t x : uset)
+      std::cout << x << " ";
+    std::cout << std::endl;
+  }
 }
 
-template <typename t, typename hf, typename cmp>
-void print_unordered_set_info(std::unordered_set<t, hf, cmp> &uset) {
+template <typename t, typename hashfunc, typename cmp>
+void PrintUnorderedSetInfo(const std::unordered_set<t, hashfunc, cmp> &uset) {
   std::cout << std::endl;
-  std::cout << "Количество сегментов                       - "
+  std::cout << "                      Количество сегментов: "
             << uset.bucket_count() << std::endl;
-  std::cout << "Максимальное количество сегментов          - "
+  std::cout << "         Максимальное количество сегментов: "
             << uset.max_bucket_count() << std::endl;
-  std::cout << "Количество элементов                       - " << uset.size()
+  std::cout << "                      Количество элементов: " << uset.size()
             << std::endl;
-  std::cout << "Максимально возможное количество элементов - "
-            << uset.max_size() << std::endl;
-  std::cout << "Текущий коэффициент заполнения             - "
+  std::cout << "Максимально возможное количество элементов: " << uset.max_size()
+            << std::endl;
+  std::cout << "            Текущий коэффициент заполнения: "
             << uset.load_factor() << std::endl;
-  std::cout << "Максимальный коэффициент заполнения        - "
+  std::cout << "       Максимальный коэффициент заполнения: "
             << uset.max_load_factor() << std::endl;
 }
 
@@ -624,18 +627,20 @@ template <typename t> std::size_t hashf(t val) {
 
 class Customer {
 private:
-  std::string name;
-  unsigned int check_sum;
+  std::string name_;
+  unsigned int check_sum_;
 
 public:
-  Customer(std::string name = "Tom", unsigned int check_sum = 55)
-      : name(name), check_sum(check_sum) {}
-  std::string get_name() const { return name; }
-  unsigned int get_check_sum() const { return check_sum; }
+  Customer(const std::string &name = "Tom", unsigned int check_sum = 55)
+      : name_(name), check_sum_(check_sum) {}
+  ~Customer() = default;
+
+  std::string GetName() const { return name_; }
+  unsigned int GetCheckSum() const { return check_sum_; }
 
   bool operator==(const Customer &c1) const {
-    return (this->check_sum == c1.get_check_sum()) &&
-           (this->name.compare(c1.get_name()) == 0);
+    return (check_sum_ == c1.GetCheckSum()) &&
+           (name_.compare(c1.GetName()) == 0);
   }
 };
 
@@ -644,26 +649,27 @@ std::ostream &operator<<(std::ostream &ostr, const Customer &c);
 class CustomerHash {
 public:
   std::size_t operator()(const Customer &c) const {
-    return std::hash<unsigned int>()(c.get_check_sum()) +
-           std::hash<std::string>()(c.get_name());
+    return std::hash<unsigned int>()(c.GetCheckSum()) +
+           std::hash<std::string>()(c.GetName());
   }
 };
 
 class CustomerEqual {
 public:
   bool operator()(const Customer &c1, const Customer &c2) const {
-    return (c1.get_name().compare(c2.get_name()) == 0);
+    return (c1.GetName().compare(c2.GetName()) == 0);
   }
 };
 
-void test_unordered_sets();
+void TestUnorderedSets();
 
 //------------------------------------------------------------------------------
 //тестирование потоков ввода вывода
 //------------------------------------------------------------------------------
 
-void cin_properties(std::istream &cinth);
+void cin_properties(const std::istream &cinth);
 
+// пользовательские манипуляторы потока вывода
 template <typename charT, typename traits>
 inline std::basic_ostream<charT, traits> &
 myendl(std::basic_ostream<charT, traits> &ostr) {
@@ -694,20 +700,20 @@ RUB(std::basic_ostream<charT, traits> &ostr) {
 
 enum LANG { C, RUS, RUS_UTF8, ENG, ENG_UTF8, DE, DE_UTF8, FR };
 
-void set_locale(LANG lang);
+void SetLocale(LANG lang);
 
-//пользовательский модификатор для игнорирования n-строк
+//пользовательский модификатор для игнорирования num-строк
 class ignoreLine {
 private:
-  int num;
+  int num_;
 
 public:
-  explicit ignoreLine(int n = 1) : num(n) {}
+  explicit ignoreLine(int num = 1) : num_(num) {}
 
   template <typename _char, typename _traits>
   friend std::basic_istream<_char, _traits> &
   operator>>(std::basic_istream<_char, _traits> &istr, const ignoreLine &ign) {
-    for (int i = 0; i < ign.num; i++) {
+    for (int i = 0; i < ign.num_; i++) {
       istr.ignore(std::numeric_limits<std::streamsize>::max(),
                   istr.widen('\n'));
     }
@@ -715,17 +721,17 @@ public:
   }
 };
 
-void test_ithreads();
+void TestCinCout();
 
 //------------------------------------------------------------------------------
 //тестирование файловых потоков
 //------------------------------------------------------------------------------
-void test_fstreams();
+void TestFstreams();
 
 //------------------------------------------------------------------------------
 //тестирование строковыых потоков
 //------------------------------------------------------------------------------
 
-void test_string_streams();
+void TestStringStreams();
 
 #endif

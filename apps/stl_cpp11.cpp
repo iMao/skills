@@ -18,9 +18,10 @@ int main() {
   // TestSets();
   // TestMultisets();
   // TestMaps();
-
-
-  // test_unordered_sets();
+  // TestUnorderedSets();
+  // TestCinCout();
+  // TestFstreams();
+  // TestStringStreams();
 
   return 0;
 }
