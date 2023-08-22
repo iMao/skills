@@ -1,27 +1,29 @@
 #ifndef SRC_CPP11_MULTITHREADING_TOOLS_H_
 #define SRC_CPP11_MULTITHREADING_TOOLS_H_
 
-#include <stdint.h>
+#include <fstream>
+#include <iostream>
 
 #include <algorithm>
+#include <functional>
+#include <initializer_list>
+#include <queue>
+#include <ratio>
+#include <string>
+#include <vector>
+
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <thread>
+
 #include <ctime>
 #include <exception>
-#include <fstream>
-#include <functional>
 #include <future>
-#include <initializer_list>
-#include <iostream>
 #include <memory>
 #include <mutex>
-#include <queue>
 #include <random>
-#include <ratio>
-#include <string>
-#include <thread>
-#include <vector>
+#include <stdint.h>
 
 using std::cin;
 using std::cout;
@@ -254,7 +256,7 @@ public:
   ~B() = default;
   void Print() override { std::cout << "class B\n"; }
   int Sum() override { return 0; };
-  void Avg() override { std::cout <<"avg\n";}
+  void Avg() override { std::cout << "avg\n"; }
 };
 
 class C : public A {
@@ -273,22 +275,20 @@ public:
     }
     return s;
   };
-  void Avg() override { std::cout <<"avg\n";}
+  void Avg() override { std::cout << "avg\n"; }
 
 private:
   double c[64];
 };
 
-struct DataStruct{
+struct DataStruct {
   int a;
   double b;
   char c;
 };
 
-struct NextDataStruct : public DataStruct{
-  void Hello(){
-    std::cout <<"Hello\n";
-  }
+struct NextDataStruct : public DataStruct {
+  void Hello() { std::cout << "Hello\n"; }
 };
 
 void TestPointersSize();
@@ -297,11 +297,13 @@ void TestPointersSize();
 //тестирование атомарных операций
 //------------------------------------------------------------------------------
 
-template <typename atomic_type> void get_atomic_info(std::atomic<atomic_type> &atom_var) {
+template <typename atomic_type>
+void get_atomic_info(std::atomic<atomic_type> &atom_var) {
   cout << "atomic variable information: " << endl;
   cout << "is_lock_free(): " << std::boolalpha << atom_var.is_lock_free()
        << endl;
-  cout << "atomic value:   " << static_cast<atomic_type>(atom_var.load()) << endl;
+  cout << "atomic value:   " << static_cast<atomic_type>(atom_var.load())
+       << endl;
   cout << endl;
 }
 

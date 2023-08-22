@@ -11,10 +11,5 @@ set(SRC_SYSTEM
     )
 
 
-add_library(system STATIC
-    ${HDR_SYSTEM}
-    ${SRC_SYSTEM}
-    )
-target_link_libraries(system
-    -lrt
-    )
+add_library( system STATIC ${HDR_SYSTEM} ${SRC_SYSTEM} )
+target_link_libraries( system -lrt )

@@ -1,4 +1,4 @@
-#include "src/patterns/pattern_strategy.h"
+#include "../patterns/pattern_strategy.h"
 
 int main() {
   patterns::RedHeadDuck red_head_duck("FlyWithWings", "Quack");

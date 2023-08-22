@@ -13,10 +13,5 @@ set(SRC_STD11
     )
 
 
-add_library(std11
-    ${HDR_STD11}
-    ${SRC_STD11}
-    )
-target_link_libraries(std11
-
-    )
+add_library(std11 ${HDR_STD11} ${SRC_STD11} )
+target_link_libraries( std11 )

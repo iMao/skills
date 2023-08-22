@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
 
-#include "src/system/rwlock.h"
+#include "../system/rwlock.h"
 
 class ThreadSafeCounter {
  public:

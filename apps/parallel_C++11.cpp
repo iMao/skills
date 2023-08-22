@@ -1,10 +1,11 @@
+/*
+ * Проект тестирования возможностей параллельного программирования
+ * в стандарте С++ 11
+ * автор Андрей Макаров
+ */
 
-//#include "src/algo/algo.h"
-//#include "src/oop/oop.h"
-#include "../src/std11/study_stl.h"
+
 #include "../src/std11/tools.h"
-
-#include <iostream>
 
 int main() {
   std::cout << "Hello C++11" << std::endl;

@@ -2,7 +2,7 @@
 #include <memory>
 #include <thread>
 
-#include "src/patterns/pattern_observer.h"
+#include "../patterns/pattern_observer.h"
 
 int main() {
   std::shared_ptr<patterns::WeatherStation> weather_station(
