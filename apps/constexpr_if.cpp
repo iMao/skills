@@ -9,27 +9,21 @@
 #include <memory>
 #include <optional>
 
-template <typename _Tp>
-constexpr _Tp pow(_Tp base, _Tp exp) {
+template <typename _Tp> constexpr _Tp pow(_Tp base, _Tp exp) {
   return (exp == 0 ? 1 : base * pow(base, exp - 1));
 }
 
-template <typename _Tp>
-constexpr bool is_power2(const _Tp& value) {
+template <typename _Tp> constexpr bool is_power2(const _Tp &value) {
   static_assert(std::is_same<_Tp, uint64_t>::value ||
                     std::is_same<_Tp, uint32_t>::value ||
                     std::is_same<_Tp, uint16_t>::value ||
                     std::is_same<_Tp, uint8_t>::value,
                 "value is not unsigned");
 
-  if ((value != 0) && ((value & (value - 1)) == 0)) {
-    return true;
-  }
-  return false;
+  return ((value != 0) && ((value & (value - 1)) == 0));
 }
 
-template <typename _Tp>
-constexpr _Tp ReturnNearestPow2(const _Tp& value) {
+template <typename _Tp> constexpr _Tp ReturnNearestPow2(const _Tp &value) {
   if (is_power2(value)) {
     return value;
   }
@@ -47,8 +41,7 @@ constexpr _Tp ReturnNearestPow2(const _Tp& value) {
 }
 
 //--------------- if costexpr (const bool value){}----------------
-template <typename _Tp>
-auto value_of(_Tp value) {
+template <typename _Tp> auto value_of(_Tp value) {
   if constexpr (std::is_pointer_v<_Tp>) {
     return *value;
   } else {
@@ -56,8 +49,7 @@ auto value_of(_Tp value) {
   }
 }
 
-template <typename _Tp>
-void CheckValue(const _Tp& value) {
+template <typename _Tp> void CheckValue(const _Tp &value) {
   if constexpr (std::is_arithmetic_v<_Tp>) {
     std::cout << "value is arithmetic type\n";
   }
@@ -89,8 +81,7 @@ struct Book {
   float price;
 };
 
-template <std::size_t I>
-auto get(const Book& book) {
+template <std::size_t I> auto get(const Book &book) {
   if constexpr (I == 0) {
     return book.header;
   } else if constexpr (I == 1) {
@@ -104,6 +95,19 @@ auto get(const Book& book) {
   }
 }
 
+template <typename T> void HexPrint(const T val) {
+  if constexpr (std::is_floating_point_v<T>) {
+    std::cout << std::hexfloat << val << std::endl;
+  } else if constexpr (std::is_same_v<T, int> || std::is_same_v<T, short> ||
+                       std::is_same_v<T, long> ||
+                       std::is_same_v<T, unsigned int> ||
+                       std::is_same_v<T, unsigned short> ||
+                       std::is_same_v<T, unsigned long>) {
+
+    std::cout << std::hex << val << std::endl;
+  }
+}
+
 constexpr uint32_t num = 25;
 
 float fnum{3.14f};
@@ -111,13 +115,13 @@ float fnum{3.14f};
 int main() {
   int a = 5;
 
-  typedef int* intptr;
+  typedef int *intptr;
   intptr p = &a;
 
   std::cout << "value_of(" << value_of(a) << ") :" << a << std::endl;
   std::cout << "value_of(" << value_of(p) << ") :" << a << std::endl;
 
-  std::cout << "Nearest pow2: \n";
+  std::cout << "Nearest pow2: ";
   std::cout << num << " nearest pow2: " << ReturnNearestPow2(num) << std::endl;
 
   std::array<int, ReturnNearestPow2(num)> arr;
@@ -140,6 +144,9 @@ int main() {
             << "author:     " << get<2>(book) << '\n'
             << "pages:      " << get<3>(book) << '\n'
             << "price:      " << get<4>(book) << '\n';
+
+  HexPrint(3.14);
+  HexPrint(100);
 
   return 0;
 }
