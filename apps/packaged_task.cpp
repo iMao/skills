@@ -5,7 +5,7 @@
 
 using packaged_func = std::packaged_task<std::string(std::string)>;
 using reversed_str = std::future<std::string>;
-using worker = std::thread;
+
 
 constexpr int NUMBER_TASKS{10};
 
@@ -15,7 +15,7 @@ int main() {
 
   std::vector<packaged_func> funcs;
   std::vector<reversed_str> result_strs;
-  std::vector<worker> threads;
+  std::vector<std::thread> threads;
   std::vector<std::string> original_strs{"Hello", "{(^&",  "memory", "library",
                                          "force", "ship",  "juice",  "kiss",
                                          "12345", "signal"};
