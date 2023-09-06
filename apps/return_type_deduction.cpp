@@ -2,6 +2,7 @@
  * C++14 feature: return type deduction for functions
  */
 
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -22,8 +23,7 @@ auto CalcValue(int i) {
   }
 }
 
-template <typename _Tp>
-auto GenerateNumber(int n_times, _Tp min, _Tp max) {
+template <typename _Tp> auto GenerateNumber(int n_times, _Tp min, _Tp max) {
   std::vector<_Tp> rnd_numbers;
 
   if (std::is_same<_Tp, int>::value) {
@@ -49,7 +49,7 @@ auto GenerateNumber(int n_times, _Tp min, _Tp max) {
     }
   }
 
-  auto rnd_index = std::rand() % (n_times + 1);
+  auto rnd_index = rnd_numbers.size() / 2;
 
   return rnd_numbers.at(rnd_index);
 }

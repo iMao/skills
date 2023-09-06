@@ -10,13 +10,13 @@
 constexpr int SIZE{5};
 
 template <typename Array, std::size_t... I>
-auto ArrayToTupleImpl(Array& ar, std::index_sequence<I...>) {
+auto ArrayToTupleImpl(Array &ar, std::index_sequence<I...>) {
   return std::make_tuple(ar[I]...);
 }
 
 template <typename _Tp, std::size_t Num,
           typename Indices = std::make_index_sequence<Num>>
-auto ArrayToTuple(const std::array<_Tp, Num>& ar) {
+auto ArrayToTuple(const std::array<_Tp, Num> &ar) {
   return ArrayToTupleImpl(ar, Indices{});
 }
 

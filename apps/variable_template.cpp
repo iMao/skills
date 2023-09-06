@@ -5,33 +5,28 @@
 #include <iomanip>
 #include <iostream>
 
-template <typename _Tp>
-constexpr _Tp pi = (_Tp)3.1415926535897932385;
+template <typename _Tp> constexpr _Tp pi = (_Tp)3.1415926535897932385;
 
-template <typename _Tp>
-_Tp CircleSquare(_Tp radius) {
+template <typename _Tp> _Tp CircleSquare(_Tp radius) {
   return (pi<_Tp> * radius * radius);
 }
 
-template <typename _Tp>
-void Print(_Tp radius, _Tp circle_square) {
+template <typename _Tp> void Print(_Tp radius, _Tp circle_square) {
   std::cout << typeid(_Tp).name() << " radius: " << radius
             << " CircleSquare: " << circle_square << std::endl;
 }
 
 struct Limits {
-  template <typename _Tp>
-  static const _Tp min;
+  template <typename _Tp> static const _Tp min;
 
-  template <typename _Tp>
-  static const _Tp max;
+  template <typename _Tp> static const _Tp max;
 };
 
-template <typename _Tp>
-const _Tp Limits::min = _Tp(0.0);
+template <typename _Tp> const _Tp Limits::min = _Tp(0.0);
 
-template <typename _Tp>
-const _Tp Limits::max = _Tp(10.123452100210023002334);
+template <typename _Tp> const _Tp Limits::max = _Tp(10.123452100210023002334);
+
+template <typename _Tp> _Tp e = (_Tp)2.718281828;
 
 int main() {
   float float_radius = 2.0f;
@@ -66,6 +61,12 @@ int main() {
 
   std::cout << typeid(Limits::max<int>).name() << " " << std::setw(10)
             << Limits::max<int> << std::endl;
+
+  std::cout << typeid(e<float>).name() << " " << std::setw(25)
+            << std::setprecision(20) << e<float> << std::endl;
+
+  std::cout << typeid(e<double>).name() << " " << std::setw(25)
+            << std::setprecision(20) << e<double> << std::endl;
 
   return 0;
 }

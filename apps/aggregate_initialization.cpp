@@ -11,7 +11,7 @@ struct Widget {
   int y{0};
   int width{50};
   int height{20};
-  Color color{Color::yellow};
+  Color color{yellow};
 };
 
 struct Circle {
@@ -21,25 +21,25 @@ struct Circle {
 };
 
 struct CircleWidget {
-  Widget w;
-  Circle c;
+  Widget widget;
+  Circle circle;
 };
 
-std::ostream& operator<<(std::ostream& os, const Widget& widget) {
-  return os << "Widget: x = " << widget.x << " y = " << widget.y
-            << " width = " << widget.width << " height = " << widget.height;
+std::ostream &operator<<(std::ostream &os, const Widget &widget) {
+  return os << "Widget[ x: " << widget.x << " y: " << widget.y
+            << " width: " << widget.width << " height: " << widget.height
+            << " ]";
 }
 
-std::ostream& operator<<(std::ostream& os, const Circle& c) {
-  return os << "Circle: x = " << c.x << " y = " << c.y << " r = " << c.r;
+std::ostream &operator<<(std::ostream &os, const Circle &c) {
+  return os << "Circle[ x: " << c.x << " y: " << c.y << " r: " << c.r << " ]";
 }
 
 int main() {
   Widget widget;
-  Widget button{
-      .x = 10, .y = 10, .width = 40, .height = 10, .color = Color::red};
+  Widget button{.x = 10, .y = 10, .width = 40, .height = 10, .color = red};
 
-  Widget w{100, 100, 50, 10, Color::blue};
+  Widget w{100, 100, 50, 10, blue};
 
   std::cout << '\n';
   std::cout << widget << std::endl;
@@ -58,11 +58,11 @@ int main() {
   std::cout << bcc << std::endl;
 
   CircleWidget cw;
-  CircleWidget ccw{{-1, -1, 20, 20, Color::green}, {-5, -5, 90}};
+  CircleWidget ccw{{-1, -1, 20, 20, green}, {-5, -5, 90}};
 
   std::cout << '\n';
-  std::cout << cw.w << " " << cw.c << std::endl;
-  std::cout << ccw.w << " " << ccw.c << std::endl;
+  std::cout << cw.widget << " " << cw.circle << std::endl;
+  std::cout << ccw.widget << " " << ccw.circle << std::endl;
 
   return 0;
 }

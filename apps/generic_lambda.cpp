@@ -50,13 +50,13 @@ int main() {
   diff(3.14, 3);
 
   //--------------rvalue type: [](auto&& x){}---------------------
-  auto x = std::make_unique<double>(45.9);
+  auto x_unique_ptr = std::make_unique<double>(45.9);
   auto rvalue_x = [](auto&& x) -> auto {
     (*x) += 0.1;
     return std::move(x);
   };
 
-  std::cout << "x: " << (*x) << " " << *(rvalue_x(x)) << std::endl;
+  std::cout << "x: " << (*x_unique_ptr) << " " << *(rvalue_x(x_unique_ptr)) << std::endl;
 
   // -------------capture by reference---------------------------
   std::unique_ptr<int> int_ptr(new int(10));
