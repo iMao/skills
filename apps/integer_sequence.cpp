@@ -1,5 +1,6 @@
 /**
- * C++14 std::integer_sequence
+ * C++14 std::integer_sequence - содержит индексы для нетиповых параметров
+ * шаблона
  */
 
 #include <array>
@@ -37,7 +38,7 @@ int main() {
   std::cout << "int_sequence:   " << int_sequence.size() << std::endl;
   std::cout << "num_sequence:   " << num_sequence.size() << std::endl;
 
-  if (std::is_same<decltype(num_sequence)::value_type, uint8_t>::value) {
+  if (std::is_same_v<decltype(num_sequence), uint8_t>) {
     std::cout << "type: uint8_t\n";
   }
 
